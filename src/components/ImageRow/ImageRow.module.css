@@ -1,0 +1,29 @@
+.root.theme {
+  background-color: var(--color-bg-dark);
+  color: var(--color-white);
+  padding-block: var(--space-2xl);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gutter);
+}
+
+.figure {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: var(--color-gray-dark);
+}
+
+.img {
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

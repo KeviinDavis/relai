@@ -1,0 +1,67 @@
+/* Dark section — doubled class beats Section's .default background. */
+.root.theme {
+  background-color: var(--color-bg-dark);
+  color: var(--color-white);
+  padding-block: var(--space-8xl);
+}
+
+.heading {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: var(--weight-bold);
+  font-size: clamp(2.5rem, 1rem + 7vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: var(--tracking-display);
+  margin-bottom: var(--space-8xl);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-m);
+  padding-block: var(--space-2xl);
+  border-top: 1px solid var(--color-stroke-light);
+}
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.value {
+  font-size: clamp(2rem, 1rem + 3.5vw, 3rem);
+  font-weight: var(--weight-bold);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.label {
+  font-size: var(--font-body);
+  color: var(--color-white);
+}
+
+.description {
+  font-size: var(--font-body-sm);
+  line-height: 1.5;
+  color: var(--color-gray);
+  max-width: 34rem;
+}
+
+@media (min-width: 1024px) {
+  .row {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+    gap: var(--gutter);
+    padding-block: var(--space-4xl);
+  }
+
+  .description {
+    padding-top: var(--space-2xs);
+  }
+}

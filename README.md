@@ -56,6 +56,88 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — New `/arsenal-1` page (Anduril Arsenal-1 rebuild) + reusable dark hero
+
+Rebuilt Anduril's full **Arsenal-1** page as a new route, composed entirely from the
+project's primitives and tokens. Same convention as the `Capabilities` work: a
+structural reconstruction re-themed onto the system (black/white/green tokens +
+ABCFavorit), keeping the source copy. New route only — the Korr home and all other
+routes are untouched.
+
+- **Route:** `app/arsenal-1/page.js` (server component) — Hero → `StatList` →
+  `ImageRow` → `Explore` → `CtaBanner` → `TalentSection`, each non-hero section
+  wrapped in `Reveal` for the scroll-in motion used elsewhere.
+- **Shared `Hero` extended, not forked.** Per the brief ("rebuild the current hero to
+  match the reference"), the one shared `Hero` gained **opt-in** props — `meta` (label
+  lines), `tag` (`[A-1]`), `scrollIndicator` (down arrow → `scrollTo`), `mediaAspect`
+  (desktop ratio override via a `--hero-media-pb-lg` custom prop), and `tone="dark"`.
+  Defaults reproduce the old behavior exactly, so home/about/product/mission render
+  unchanged (verified). The giant display title is scoped to `.dark .title` (a
+  clamp() display size, à la `Capabilities`' numerals) so only the dark hero grows;
+  the Korr `--font-h1` heroes are unaffected.
+- **New section components** (all `Section`+`Container`, dark via the `.root.theme`
+  doubled-class trick): `StatList` (centered statement + hairline-separated stat rows,
+  value/label left · description right), `ImageRow` (two-up gallery), `Explore`
+  (heading + QR on the left, isometric site map right; QR swaps to an "Explore ↗" link
+  on mobile), `CtaBanner` (two-column closing statement + action), `TalentSection`
+  (the light "Stay On Our Radar" band + numbered roles list).
+- **QR code generated locally** (`public/images/arsenal-qr.svg`, white modules) and
+  served via `next/image unoptimized` — the optimizer was caching a stale copy and
+  `next/image`'s SVG path adds CSP/`Content-Disposition: attachment` friction for a
+  trivial first-party vector, so bypassing it is simpler and reliable.
+- **Token mapping / no invention:** dark surfaces `--color-bg-dark`/`--color-white`,
+  green stays the accent, faint rules `--color-stroke-light` (dark) and
+  `--color-stroke-muted` (light). The "Stay On Our Radar" band has no exact warm-sand
+  token in the system, so it uses `--color-bg-secondary` (see Open Items).
+- **Verification:** `next build` (7 routes, `/arsenal-1` static) + ESLint clean.
+  Headless-Chrome + CDP self-QA at 1280 desktop and a true 390px mobile
+  (`scrollWidth == clientWidth`, zero overflowing elements); confirmed the home hero
+  is visually identical to before the `Hero` change.
+
+#### Decisions / assumptions
+- **Placeholder imagery.** No Arsenal-1 photos exist in the repo, so existing assets
+  stand in (hero → `product-architecture`, gallery → `concrete` + `about-why`,
+  site map → `mission-globe`). Swap by replacing the files / `src` props.
+- **Header/Footer left as the global Korr chrome** (out of scope — the brief only
+  asked to rebuild the hero). The page is dark; the shared nav/footer stay Korr's.
+- **CTA/role links are placeholders** (`href="#"`); wire to real destinations later.
+- Copy is the source's verbatim Anduril Arsenal-1 text, kept for parity.
+
+### 2026-06-28 — New `Capabilities` tabbed-pane section (Anduril `ProductQualitiesSlice` rebuild)
+
+Replicated Anduril's "Capabilities" tabbed pane as a token-driven section and mounted
+it on the home page. Controlled reconstruction of the structure + mechanics, not a
+visual copy of the Anduril brand — it re-themes automatically when the project tokens
+are swapped.
+
+- **New component** `components/Capabilities/` (`index.jsx` + `Capabilities.module.css`),
+  a `"use client"` section. One `activeIndex` drives everything. Wrapped in the
+  existing `Section` + `Container` primitives; images via `next/image` (`fill`).
+- **Full-fidelity animation suite** (GSAP via `useGSAP`, all behind
+  `prefers-reduced-motion`): sliding tab underline (`scaleX`+`translateX`, expo ease),
+  odometer counters — small `01–04` and the giant `1–4` roll one slot in the travel
+  direction incl. wrap — a left-to-right title wipe, per-word description stagger
+  (each word clipped in its own mask box), and an image crossfade/slide between panels.
+- **Title wipe technique:** the source applies an SVG `<mask>` to the title; that
+  fragment-referenced mask is unreliable on HTML elements in Blink/WebKit, so the same
+  left-to-right reveal is done with an animated CSS gradient `mask-image` (`--reveal`
+  tweened 0→120%) — identical visual, cross-browser safe.
+- **Token mapping (no hardcoded hex, no new tokens):** dark section `--color-black` /
+  `--color-white`; light card `--color-gray-light` / `--color-text-primary`; faint tab
+  rule `--color-stroke-light`; active underline `--color-white`. The dark-section bg
+  beats `Section`'s `.default` via a doubled-class selector (`.root.theme`).
+- **Layout:** desktop = left rail (counter top / numeral bottom) · body (title +
+  description) · image right, with panels grid-stacked so the card sizes to the tallest.
+  Mobile (≤768px) = horizontal-scroll tab bar + a single stacked column
+  (counter → title → description → numeral → image) via `display: contents` + `order`.
+- **Mobile fix found in verification:** the image column collapsed to 0×0 on mobile
+  because `align-self: start` (a desktop grid rule) controls the *cross axis* in the
+  mobile flex column; added `align-self: stretch; width: 100%` for `.media` at ≤768px.
+- **Assets:** the 4 source diagrams were downloaded (cropped to 16:9) into
+  `/public/images/capability-*.{jpg,png}` — no remote image host added.
+- **Content:** the real 4-tab capability copy is the component's default `items` prop
+  (kept for screenshot parity); swap via props.
+
 ### 2026-06-23 — Fidelity tweaks: capsule sizing, mobile hero bleed, product line spacing
 
 Iteration pass against side-by-side screenshots of the live site (home + product):
@@ -270,6 +352,13 @@ images, SVGs, fonts, and videos all serve 200.
 
 ## 4. Open Items
 
+- **Arsenal-1 imagery is placeholder.** `/arsenal-1` reuses existing repo photos as
+  stand-ins (and a generated QR). Drop real assets into `public/images/` and update the
+  `src` props in `app/arsenal-1/page.js` for the hero, the two-up gallery, and the
+  isometric site map.
+- **No warm-sand surface token.** The reference's "Stay On Our Radar" band is a warm
+  sand tone; the system has no equivalent, so `TalentSection` uses
+  `--color-bg-secondary` (light gray). Add a token + swap if exact match is wanted.
 - **Font licensing.** ABCFavorit is a commercial typeface (ABC Dinamo) self-hosted
   from the live site's public files to achieve exact visual match. Before any
   production/public deployment, obtain a proper web license or substitute a

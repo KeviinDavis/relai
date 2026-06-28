@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import Capabilities from "@/components/Capabilities";
 import Intro from "@/components/Intro";
 import Stepper from "@/components/Stepper";
 import Testimonials from "@/components/Testimonials";
@@ -30,6 +31,7 @@ export default function Home() {
         ]}
       />
       </Reveal>
+      <Capabilities />
 
       <Stepper
         capsule="Product"
