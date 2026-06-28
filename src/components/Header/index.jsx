@@ -30,13 +30,13 @@ export default function Header() {
   return (
     <>
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
-        <Link href="/" className={styles.logo} aria-label="Korr — home">
+        <Link href="/" className={styles.logo} aria-label="Relai — home">
           <Logo height={28} />
         </Link>
 
         <div className={styles.navGroup}>
           <Link href="/" className={styles.homePill}>
-            korr
+            relai
           </Link>
           <ul className={styles.list}>
             {NAV_LINKS.map((link) => (

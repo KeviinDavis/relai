@@ -1,0 +1,195 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1880" viewBox="0 0 1000 1880" font-family="Helvetica, Arial, sans-serif">
+  <style>
+    .frame { fill:#ffffff; stroke:#cfcfcf; stroke-width:1; }
+    .surface { fill:#f3f2ee; stroke:#cfcfcf; stroke-width:1; }
+    .light { fill:#ffffff; stroke:#bdbdbd; stroke-width:1.5; }
+    .ph { fill:#dcdcdc; }
+    .line { fill:#e4e4e4; }
+    .btn { fill:#ffffff; stroke:#9a9a9a; stroke-width:1; }
+    .img { fill:#ececec; }
+    .hatch { stroke:#d2d2d2; stroke-width:1; }
+    .tab { fill:#111111; }
+    .tabtxt { fill:#ffffff; font-size:12px; font-weight:bold; letter-spacing:1px; font-family:monospace; }
+    .chip { fill:none; stroke:#9a9a9a; stroke-width:1; }
+    .chiptxt { fill:#555; font-size:10px; letter-spacing:1px; font-family:monospace; }
+    .rail { fill:#e8e8e8; font-size:30px; font-weight:bold; }
+    .mono { font-family:monospace; fill:#777; font-size:11px; }
+    .lbl { fill:#666; font-size:11px; }
+    .imglbl { fill:#8a8a8a; font-size:11px; letter-spacing:1px; }
+    .anh { fill:#1a1a1a; font-size:12px; font-weight:bold; }
+    .an { fill:#5a5a5a; font-size:12px; }
+    .sub { fill:#9a9a9a; font-size:11px; }
+    .title { fill:#111; font-size:22px; font-weight:bold; }
+    .wm { fill:#888; font-size:13px; font-weight:bold; }
+    .flag { fill:#9a6a1a; font-size:11px; font-style:italic; }
+  </style>
+
+  <!-- HEADER -->
+  <text class="title" x="40" y="40">RELAI — PRODUCT</text>
+  <text class="sub" x="40" y="62">Section-stack wireframe · neutral by design (tokens carry the style)</text>
+  <rect class="chip" x="330" y="26" width="118" height="22"/>
+  <text class="chiptxt" x="342" y="41">PAGE THEME · BLACK</text>
+  <line x1="40" y1="86" x2="985" y2="86" stroke="#e0e0e0" stroke-width="1"/>
+
+  <!-- ============ 01 HERO ============ -->
+  <text class="rail" x="34" y="138">01</text>
+  <rect class="frame" x="80" y="110" width="540" height="360"/>
+  <rect class="tab" x="80" y="110" width="132" height="22"/>
+  <text class="tabtxt" x="90" y="125">01 · HERO</text>
+  <text class="mono" x="100" y="158">RELAI</text>
+  <text class="mono" x="560" y="158">Menu</text>
+  <rect class="ph" x="100" y="232" width="220" height="60"/>
+  <text class="wm" x="112" y="268">WORDMARK · "Platform"</text>
+  <rect class="btn" x="100" y="304" width="98" height="28"/>
+  <text class="lbl" x="114" y="322">Book a demo</text>
+  <text class="mono" x="100" y="362">[ PLATFORM ]</text>
+  <rect class="line" x="260" y="350" width="200" height="6"/>
+  <rect class="line" x="260" y="362" width="170" height="6"/>
+  <text class="lbl" x="596" y="364">↓</text>
+  <line x1="80" y1="378" x2="620" y2="378" stroke="#bdbdbd" stroke-width="2"/>
+  <rect class="img" x="80" y="378" width="540" height="92"/>
+  <line class="hatch" x1="80" y1="378" x2="620" y2="470"/>
+  <line class="hatch" x1="620" y1="378" x2="80" y2="470"/>
+  <text class="imglbl" x="350" y="428" text-anchor="middle">MEDIA · image — terminal / architecture</text>
+  <text class="anh" x="650" y="124">Hero (dynamic component)</text>
+  <text class="an" x="650" y="146">Oversized wordmark — "Platform"</text>
+  <text class="an" x="650" y="164">goes BIG (this is the Anduril</text>
+  <text class="an" x="650" y="182">/space equivalent). One CTA.</text>
+  <text class="mono" x="650" y="208">tag: [ PLATFORM ] · media: image</text>
+  <text class="an" x="650" y="234">Copy: H1 + platform intro (deck)</text>
+
+  <!-- ============ 02 PLATFORM INTRO ============ -->
+  <text class="rail" x="34" y="522">02</text>
+  <rect class="frame" x="80" y="494" width="540" height="126"/>
+  <rect class="tab" x="80" y="494" width="184" height="22"/>
+  <text class="tabtxt" x="90" y="509">02 · PLATFORM INTRO</text>
+  <text class="mono" x="100" y="542">PLATFORM</text>
+  <rect class="line" x="100" y="558" width="450" height="6"/>
+  <rect class="line" x="100" y="574" width="470" height="6"/>
+  <rect class="line" x="100" y="590" width="380" height="6"/>
+  <text class="anh" x="650" y="522">Platform intro (inherited)</text>
+  <text class="an" x="650" y="544">Copy swap only.</text>
+  <text class="sub" x="650" y="568">THEME · black</text>
+
+  <!-- ============ 03 STEPPER ============ -->
+  <text class="rail" x="34" y="672">03</text>
+  <rect class="frame" x="80" y="644" width="540" height="300"/>
+  <rect class="tab" x="80" y="644" width="232" height="22"/>
+  <text class="tabtxt" x="90" y="659">03 · STEPPER (moved from Home)</text>
+  <!-- step list left -->
+  <line x1="120" y1="686" x2="380" y2="686" stroke="#111" stroke-width="2"/>
+  <text class="mono" x="120" y="704">01 · VESSEL INTELLIGENCE</text>
+  <rect class="line" x="120" y="712" width="240" height="6"/>
+  <rect class="line" x="120" y="724" width="210" height="6"/>
+  <text class="mono" x="120" y="752" fill="#bbb">02 · TERMINAL ORCHESTRATION</text>
+  <line x1="120" y1="762" x2="380" y2="762" stroke="#e6e6e6" stroke-width="1"/>
+  <text class="mono" x="120" y="790" fill="#bbb">03 · DRAYAGE &amp; HANDOFF</text>
+  <line x1="120" y1="800" x2="380" y2="800" stroke="#e6e6e6" stroke-width="1"/>
+  <text class="mono" x="120" y="828" fill="#bbb">04 · EMISSIONS &amp; IDLE</text>
+  <line x1="120" y1="838" x2="380" y2="838" stroke="#e6e6e6" stroke-width="1"/>
+  <text class="ph" x="120" y="912" font-size="46" font-weight="bold">1</text>
+  <!-- sticky diagram panel right -->
+  <rect class="surface" x="410" y="686" width="190" height="232"/>
+  <rect class="img" x="426" y="702" width="158" height="160"/>
+  <line class="hatch" x1="426" y1="702" x2="584" y2="862"/>
+  <line class="hatch" x1="584" y1="702" x2="426" y2="862"/>
+  <text class="imglbl" x="505" y="784" text-anchor="middle" font-size="10">STEP VISUAL</text>
+  <text class="mono" x="505" y="890" text-anchor="middle">1 / 4</text>
+  <text class="anh" x="650" y="672">Stepper — "how it works"</text>
+  <text class="an" x="650" y="694">A sequence: a container through</text>
+  <text class="an" x="650" y="712">the relay — sea → terminal →</text>
+  <text class="an" x="650" y="730">road → measure. Step list left,</text>
+  <text class="an" x="650" y="748">sticky visual panel right.</text>
+  <text class="an" x="650" y="774">Copy: 4 step paragraphs (deck)</text>
+  <text class="anh" x="650" y="800">CD ASSET → 4 operational visuals</text>
+  <text class="sub" x="650" y="822">(UI/dashboard family — distinct</text>
+  <text class="sub" x="650" y="838">from Home's tab diagrams)</text>
+
+  <!-- ============ 04 FEATURE 1 ============ -->
+  <text class="rail" x="34" y="996">04</text>
+  <rect class="frame" x="80" y="968" width="540" height="170"/>
+  <rect class="tab" x="80" y="968" width="156" height="22"/>
+  <text class="tabtxt" x="90" y="983">04 · FEATURE BLOCK</text>
+  <text class="mono" x="100" y="1010">FEATURE</text>
+  <rect class="ph" x="100" y="1020" width="220" height="20"/>
+  <rect class="line" x="100" y="1052" width="220" height="6"/>
+  <rect class="line" x="100" y="1066" width="200" height="6"/>
+  <rect class="line" x="100" y="1080" width="170" height="6"/>
+  <rect class="img" x="360" y="1000" width="240" height="118"/>
+  <line class="hatch" x1="360" y1="1000" x2="600" y2="1118"/>
+  <line class="hatch" x1="600" y1="1000" x2="360" y2="1118"/>
+  <text class="imglbl" x="480" y="1062" text-anchor="middle" font-size="10">IMAGE</text>
+  <text class="anh" x="650" y="996">Feature block 1 (kept)</text>
+  <text class="an" x="650" y="1018">Text-left / image-right. Recommend</text>
+  <text class="an" x="650" y="1036">"Designed to deploy fast" — carries</text>
+  <text class="an" x="650" y="1054">the go-live stat pull-quote.</text>
+  <text class="flag" x="650" y="1078">confirm which 2 of 3 features stay</text>
+
+  <!-- ============ 05 FEATURE 2 ============ -->
+  <text class="rail" x="34" y="1190">05</text>
+  <rect class="frame" x="80" y="1162" width="540" height="170"/>
+  <rect class="tab" x="80" y="1162" width="156" height="22"/>
+  <text class="tabtxt" x="90" y="1177">05 · FEATURE BLOCK</text>
+  <rect class="img" x="100" y="1194" width="240" height="118"/>
+  <line class="hatch" x1="100" y1="1194" x2="340" y2="1312"/>
+  <line class="hatch" x1="340" y1="1194" x2="100" y2="1312"/>
+  <text class="imglbl" x="220" y="1256" text-anchor="middle" font-size="10">IMAGE</text>
+  <text class="mono" x="380" y="1204">FEATURE</text>
+  <rect class="ph" x="380" y="1214" width="200" height="20"/>
+  <rect class="line" x="380" y="1246" width="210" height="6"/>
+  <rect class="line" x="380" y="1260" width="190" height="6"/>
+  <rect class="line" x="380" y="1274" width="160" height="6"/>
+  <text class="anh" x="650" y="1190">Feature block 2 (kept)</text>
+  <text class="an" x="650" y="1212">Recommend "Real-time by design".</text>
+  <text class="flag" x="650" y="1236">image-left here — alternate sides</text>
+  <text class="flag" x="650" y="1252">to break the stacked-block rhythm</text>
+  <text class="sub" x="650" y="1278">(blocks 3 &amp; 4 removed)</text>
+
+  <!-- ============ 06 FAQ ============ -->
+  <text class="rail" x="34" y="1384">06</text>
+  <rect class="light" x="80" y="1356" width="540" height="240"/>
+  <rect class="tab" x="80" y="1356" width="100" height="22"/>
+  <text class="tabtxt" x="90" y="1371">06 · FAQ</text>
+  <rect class="chip" x="470" y="1364" width="138" height="20"/>
+  <text class="chiptxt" x="480" y="1378">THEME-LIGHT · WHITE</text>
+  <rect class="ph" x="100" y="1396" width="280" height="22"/>
+  <text class="wm" x="108" y="1412">Frequently asked questions</text>
+  <!-- accordion rows -->
+  <line x1="100" y1="1440" x2="600" y2="1440" stroke="#e0e0e0"/>
+  <rect class="line" x="100" y="1452" width="300" height="7"/>
+  <text class="lbl" x="588" y="1459">+</text>
+  <line x1="100" y1="1478" x2="600" y2="1478" stroke="#e0e0e0"/>
+  <rect class="line" x="100" y="1490" width="260" height="7"/>
+  <text class="lbl" x="588" y="1497">+</text>
+  <line x1="100" y1="1516" x2="600" y2="1516" stroke="#e0e0e0"/>
+  <rect class="line" x="100" y="1528" width="320" height="7"/>
+  <text class="lbl" x="588" y="1535">+</text>
+  <line x1="100" y1="1554" x2="600" y2="1554" stroke="#e0e0e0"/>
+  <rect class="line" x="100" y="1566" width="280" height="7"/>
+  <text class="lbl" x="588" y="1573">+</text>
+  <text class="anh" x="650" y="1384">FAQ — white utility block</text>
+  <text class="an" x="650" y="1406">The hard black→white seam on this</text>
+  <text class="an" x="650" y="1424">page. Dense reading = .theme-light</text>
+  <text class="an" x="650" y="1442">per the white-as-utility rule.</text>
+  <text class="an" x="650" y="1468">Copy: 9 Q&amp;As in deck (trim if long)</text>
+
+  <!-- ============ 07 CONTACT / FOOTER ============ -->
+  <text class="rail" x="34" y="1628">07</text>
+  <rect class="frame" x="80" y="1600" width="540" height="240"/>
+  <rect class="tab" x="80" y="1600" width="252" height="22"/>
+  <text class="tabtxt" x="90" y="1615">07 · CONTACT / CTA / FOOTER</text>
+  <rect class="ph" x="100" y="1632" width="260" height="26"/>
+  <text class="wm" x="108" y="1651">The future of freight</text>
+  <rect class="line" x="100" y="1672" width="420" height="6"/>
+  <rect class="line" x="100" y="1686" width="360" height="6"/>
+  <rect class="img" x="100" y="1708" width="500" height="80"/>
+  <line class="hatch" x1="100" y1="1708" x2="600" y2="1788"/>
+  <line class="hatch" x1="600" y1="1708" x2="100" y2="1788"/>
+  <text class="imglbl" x="350" y="1752" text-anchor="middle" font-size="10">GET IN TOUCH · CTA card</text>
+  <line x1="100" y1="1808" x2="600" y2="1808" stroke="#e0e0e0"/>
+  <text class="mono" x="100" y="1828">Home · Product · FAQ · About · Contact</text>
+  <text class="mono" x="540" y="1828">© Relai</text>
+  <text class="anh" x="650" y="1628">Shared sections (all pages)</text>
+  <text class="an" x="650" y="1650">Theme inherited from page (black</text>
+  <text class="an" x="650" y="1668">here). Copy swap · © Relai.</text>
+</svg>

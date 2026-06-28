@@ -51,7 +51,7 @@ export default function Explore({
               <span className={styles.qr}>
                 <Image
                   src={qr}
-                  alt="QR code linking to the Arsenal-1 experience"
+                  alt="QR code linking to the interactive network experience"
                   width={104}
                   height={104}
                   unoptimized

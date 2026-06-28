@@ -1,25 +1,27 @@
 import Hero from "@/components/Hero";
 import TextSection from "@/components/TextSection";
+import Stepper from "@/components/Stepper";
 import SplitSection from "@/components/SplitSection";
 import Faq from "@/components/Faq";
 
 export const metadata = {
   title: "Product",
   description:
-    "Korr is a powerful, cloud-native core insurance solution—built for scalability, reliability, flexibility, and AI integration.",
+    "Vessel tracking, terminal operations, drayage, and emissions — unified into one real-time system built for global logistics.",
 };
 
 export default function ProductPage() {
   return (
     <>
       <Hero
-        eyebrow="Platform"
-        title="Finally, a core system focused on supporting your business"
+        title="Platform"
+        tag="[ PLATFORM ]"
+        text="Vessel tracking, terminal operations, drayage, and emissions — unified into one real-time system built for global logistics."
         actions={[{ label: "Book a demo", href: "/book-a-demo", variant: "solid" }]}
         media={{
           type: "image",
           src: "/images/product-architecture.webp",
-          alt: "Architecture.",
+          alt: "Relai platform architecture spanning vessel, terminal, yard, and road.",
         }}
         size="tall"
       />
@@ -27,64 +29,81 @@ export default function ProductPage() {
       <TextSection
         eyebrow="Platform"
         paragraphs={[
-          "Korr was built from the ground up as a powerful, cloud-native core insurance solution. Its intuitive design simplifies complex processes, delivering unmatched scalability, reliability, and flexibility. With built-in support for AI integration, Korr empowers modern insurers to work smarter, accelerate innovation, and confidently embrace the future.",
+          "Relai was built from the ground up as a cloud-native coordination platform for global logistics. It unifies vessel tracking, terminal operations, drayage, and emissions into one real-time system — giving operators the visibility, speed, and control the modern supply chain demands.",
         ]}
       />
 
-      <SplitSection
-        eyebrow="Why Korr"
-        title="Built for intelligence"
-        paragraphs={[
-          "Insurance runs on rules, workflows, and deep historical context—yet not a single system of record was built to support AI. Korr changes that.",
-          "By unifying policy, claims, and billing into a single, modern platform, Korr becomes the foundation for introducing AI directly into your system of record. From ingesting decades of data to powering smarter workflows, Korr gives your team the structure and flexibility to unlock AI where it matters most.",
+      <Stepper
+        capsule="How Relai works"
+        text="From sea to road, Relai coordinates every leg of the journey — then measures what it saves."
+        steps={[
+          {
+            capsule: "Vessel Intelligence",
+            image: "/images/step-concept.webp",
+            alt: "Live vessel tracking and predictive ETAs across the network.",
+            text: "It starts at sea. Relai ingests live AIS position, weather, and port-congestion data for every vessel inbound to your network, then models arrival windows continuously as conditions change. Instead of a static ETA that's wrong by the time it matters, your team works from a prediction that updates by the hour — and the rest of the operation plans against it.",
+          },
+          {
+            capsule: "Terminal Orchestration",
+            image: "/images/step-adaptability.webp",
+            alt: "Berth, crane, and yard sequenced against the live ETA.",
+            text: "As the vessel approaches, Relai sequences the terminal around it. Berth windows, crane assignments, and yard slots resolve against the live ETA, so labor and equipment are staged for the ship that's actually arriving — not the schedule from a week ago. When an arrival shifts, the plan recalculates and flags the downstream moves that need attention.",
+          },
+          {
+            capsule: "Drayage & Handoff",
+            image: "/images/step-build.webp",
+            alt: "Terminal, yard, and carrier connected on one system at the handoff.",
+            text: "The container's most fragile moment is the handoff to the road. Relai connects terminal, yard, and carrier on one system, so the moment a box is discharged it has a known location, an appointment, and a driver matched to it. No phone tag, no containers sitting idle waiting to be claimed — the relay continues without a gap.",
+          },
+          {
+            capsule: "Emissions & Idle",
+            image: "/images/step-product.webp",
+            alt: "Idle hours, fuel burn, and emissions measured across every leg.",
+            text: "Across every leg, Relai measures what the old systems couldn't see: idle hours, fuel burn, and emissions per move. Every coordination gain — a ship that didn't wait at anchor, a truck that didn't queue at the gate — becomes a quantified reduction in cost and carbon, reported in the same view your team already works from.",
+          },
         ]}
-        media={{
-          src: "/images/product-feature-1.webp",
-          alt: "AI is essential technology.",
-        }}
-        aspectRatio="4/3"
       />
 
       <SplitSection
         eyebrow="Feature"
-        title="Designed to launch fast"
+        title="Designed to deploy fast"
         paragraphs={[
-          "Korr handles the complexity—so you don’t have to. From rating logic to historical data, every piece is configurable out of the box. No custom builds. No patchwork fixes. Just one flexible platform that supports any product, any policy structure, from day one.",
+          "Relai handles the complexity — so your team doesn't have to. From terminal integrations to carrier APIs, every connection is configurable out of the box. No custom builds, no patchwork. One flexible platform that fits your network from day one.",
         ]}
         media={{
-          src: "/images/product-feature-2.webp",
-          alt: "Configurable platform.",
+          src: "/images/product-feature-1.webp",
+          alt: "Configurable integrations across terminal and carrier systems.",
+        }}
+        aspectRatio="4/3"
+      />
+
+      <TextSection
+        tone="dark"
+        lead="One of the largest terminal operators on the West Coast went live on Relai in under four months — across a single port and one carrier network."
+        paragraphs={[
+          "Your team stays lean. Your data stays clean. Your freight keeps moving.",
+        ]}
+      />
+
+      <SplitSection
+        eyebrow="Feature"
+        title="Real-time by design"
+        paragraphs={[
+          "Relai isn't just connected — it's live. The system of record is the data in your warehouse: no sync jobs, no lag, no ambiguity. Just real-time visibility ready for planning, reporting, and action.",
+          "It fits into your existing stack, so you can finally stop working around your core systems.",
+        ]}
+        media={{
+          src: "/images/product-feature-3.webp",
+          alt: "Real-time network visibility ready for planning and reporting.",
         }}
         aspectRatio="4/3"
         reverse
       />
 
-      <TextSection
-        tone="dark"
-        lead="One of the largest carriers in the US went live on Korr in just six months — through their TPA and with one line of business."
-        paragraphs={[
-          "Your team stays lean. Your system stays clean. Your business moves fast.",
-        ]}
-      />
-
-      <SplitSection
-        eyebrow="Feature"
-        title="Smarter tech, tailored for you"
-        paragraphs={[
-          "Korr isn’t just fast—it’s clean. The system of record is the version in your data warehouse. No sync jobs, no lag, no ambiguity—just real-time data that’s ready for analytics, reporting, and action.",
-          "It fits seamlessly into your enterprise stack, so you can move faster, stay accurate, and finally stop working around your core systems.",
-        ]}
-        media={{
-          src: "/images/product-feature-3.webp",
-          alt: "Real-time data platform.",
-        }}
-        aspectRatio="4/3"
-      />
-
       <Faq
         eyebrow="FAQ"
         title="Frequently asked questions"
-        text="Here are answers to a few key questions. For more in-depth or specific inquiries, we’re happy to discuss them in a meeting."
+        text="Here are answers to a few key questions. For anything more specific, we're happy to dig in on a call."
         items={FAQ_ITEMS}
       />
     </>
@@ -93,74 +112,71 @@ export default function ProductPage() {
 
 const FAQ_ITEMS = [
   {
-    question:
-      "What is Korr’s current production scale and what components are available?",
+    question: "What is Relai's current scale, and what's available?",
     area: "Platform",
     answer: [
-      "Korr is live in production, actively managing claims across 240,000+ policies for two clients, in partnership with our design partner Wellcove. We’re on track to support 500,000 policies by the end of 2025.",
-      "Today, Korr powers end-to-end claims and intake workflows. Policy administration and billing components are actively being rolled out, expanding our platform into a full-service core system designed for modern insurance operations.",
+      "Relai is live in production, coordinating freight across 14 terminals and 200,000+ container moves per month with our launch partners. We're on track to support 1 million monthly moves by the end of 2026.",
+      "Today, Relai powers live vessel tracking, terminal orchestration, and drayage coordination, with emissions analytics rolling out across the platform.",
     ],
   },
   {
-    question: "Where does AI fit within the Korr platform?",
+    question: "Where does AI fit within Relai?",
     area: "AI",
     answer: [
-      "We’re bullish on AI’s potential to transform the insurance industry — especially as enterprises modernize core business processes and the technology behind them. With Korr and AI, digitization efforts that once took months can now happen in days.",
-      "Today, our use of AI focuses on automation and decision support — not deterministic outcomes. It’s a pragmatic approach that helps carriers move fast while staying in control.",
+      "We're bullish on what machine intelligence can do for freight, especially in prediction. Relai uses AI for ETA forecasting, congestion modeling, and decision support — not to remove people from the loop.",
+      "It's a pragmatic approach that helps operators move fast while staying in control.",
     ],
   },
   {
-    question: "Is Korr a managed service?",
+    question: "Is Relai a managed service?",
     area: "Operations",
     answer: [
-      "Typically, yes. Korr is offered as a fully managed service, and we carry enterprise-grade cyber risk insurance. For customers who prefer more control, we also support hybrid deployments in customer-owned AWS environments.",
-      "Our hosting costs are the lowest in the industry—by design. Contact us to learn more.",
+      "Typically, yes. Relai is offered as a fully managed, cloud-native service with enterprise-grade security. For operators who prefer more control, we support hybrid deployments in customer-owned cloud environments.",
     ],
   },
   {
-    question: "How is Korr different?",
+    question: "How is Relai different?",
     area: "Architecture",
     answer: [
-      "We took a radical approach: instead of a traditional SQL backend, Korr uses Amazon S3 for scalable, flexible data storage. This architecture lets us move faster—pulling data from legacy mainframes with ease and supporting a wide range of insurance lines without rigid data constraints. It’s how Korr adapts to your business, not the other way around.",
+      "Most logistics software manages one leg of the journey — the terminal, the fleet, the booking. Relai is the only platform built to coordinate the handoffs between them. Instead of forcing your network onto a rigid data model, Relai adapts to how your freight actually moves.",
     ],
   },
   {
-    question: "How long does it take to convert from a legacy system to Korr?",
-    area: "Conversion",
+    question: "How long does it take to get started?",
+    area: "Onboarding",
     answer: [
-      "Transitioning from your legacy system to Korr typically takes just 3–6 months, depending on system complexity and your business needs. We partner closely with your team to ensure a smooth, efficient migration. Starting small and gradually expanding your product offerings is a proven path to success with Korr.",
+      "Onboarding typically takes 3–4 months, depending on network complexity and integrations. We work closely with your team for a smooth rollout. Starting with one corridor or terminal and expanding from there is a proven path to success with Relai.",
     ],
   },
   {
-    question: "How does Korr handle complexity?",
+    question: "How does Relai handle complexity?",
     area: "Development",
     answer: [
-      "Korr uses a flexible, rules-based configuration model powered by data—and accelerated with generative AI. You define the logic, tailor it to your needs, and evolve it as your business grows.",
+      "Relai uses a flexible, rules-based configuration model powered by your live network data. You define the logic for routing, handoffs, and exceptions, then evolve it as your operation grows.",
     ],
   },
   {
-    question: "What are Korr’s guiding design principles?",
+    question: "What are Relai's guiding design principles?",
     area: "Configuration",
     answer: [
-      "Configuration-First Approach: Korr is designed to prioritize configuration, offering powerful flexibility within the existing codebase—meeting your business needs without altering source code.",
-      "Adaptability at Speed: Korr empowers businesses to evolve rapidly by focusing on configuration, eliminating delays so your operations keep pace with market demands.",
-      "Built-In Versatility: Korr provides all the essential building blocks for any insurance project, maintained and enhanced by Korr, so your system stays robust and scalable.",
-      "Constant Innovation: Korr continuously enhances its platform, delivering new features that integrate seamlessly—keeping your operations ahead of the curve.",
+      "Coordination-first: built to manage the seams between systems, not replace the ones that work.",
+      "Real-time by default: the live state of your network is the source of truth.",
+      "Built for any network: the building blocks to model any port, fleet, or corridor.",
+      "Always improving: continuous platform updates that integrate seamlessly.",
     ],
   },
   {
-    question: "Which programming languages does Korr support?",
-    area: "Development",
+    question: "What systems does Relai integrate with?",
+    area: "Integrations",
     answer: [
-      "Korr is a no-code platform with developer power when you need it. Most configuration is done without code, but for complex rules and workflows, Korr supports JavaScript, Python, and YAML-based customization. With GitHub-integrated tooling and robust change management, Korr keeps your team agile, collaborative, and secure.",
+      "Relai connects to terminal operating systems, AIS vessel feeds, carrier and TMS platforms, and telematics through standards-based APIs. Most connections are configured without code; for complex logic, Relai supports custom rules and workflows with full change management.",
     ],
   },
   {
-    question: "What’s the first step?",
+    question: "What's the first step?",
     area: "Implementation",
     answer: [
-      "It starts with a conversation. We’ll learn about your current systems, goals, and challenges—and show you how Korr can streamline your operations. From there, we can scope a phased rollout that fits your priorities and timeline.",
-      "At Korr, we start by refactoring your data—streamlining and structuring it from day one. This accelerates implementation and creates a clean foundation for AI integration within your system of record.",
+      "It starts with a conversation. We'll map your current systems, corridors, and goals, and show you where Relai can cut idle time and emissions. From there, we scope a phased rollout that fits your priorities.",
     ],
   },
 ];

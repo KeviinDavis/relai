@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--space-m);
-  background-color: rgba(32, 35, 31, 0.55);
+  background-color: color-mix(in srgb, var(--color-surface) 55%, transparent);
   backdrop-filter: blur(4px);
 }
 

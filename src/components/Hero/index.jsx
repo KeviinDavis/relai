@@ -16,9 +16,9 @@ export default function Hero({
   text,
   actions = [],
   media,
-  // Reference (Arsenal-1) anatomy — all opt-in, so existing pages are unaffected.
-  meta = [],                 // small label lines under the title, e.g. ["Designed by Anduril", "Built in Ohio"]
-  tag,                       // code tag, e.g. "[A-1]"
+  // Optional dark-hero anatomy — all opt-in, so existing pages are unaffected.
+  meta = [],                 // small label lines under the title, e.g. ["Built at the Port of Long Beach"]
+  tag,                       // code tag, e.g. "[ MISSION ]"
   scrollIndicator = false,   // down-arrow scroll cue, aligned to the tag row
   scrollTo = "#content",     // anchor the arrow jumps to
   mediaAspect,               // desktop media ratio override (e.g. "56.25%" for 16:9)

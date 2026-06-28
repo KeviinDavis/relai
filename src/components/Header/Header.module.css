@@ -59,7 +59,7 @@
   overflow: hidden;
 }
 
-/* the "korr" text pill only shows once scrolled (SVG has faded) */
+/* the "relai" text pill only shows once scrolled (SVG has faded) */
 .homePill {
   padding: 11px 15px 9px;
   opacity: 0;

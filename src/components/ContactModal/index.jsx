@@ -25,7 +25,7 @@ export default function ContactModal({ open, onClose }) {
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
-      aria-label="Contact Korr"
+      aria-label="Contact Relai"
       onClick={onClose}
     >
       <div className={styles.dialog} onClick={(e) => e.stopPropagation()}>

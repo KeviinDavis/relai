@@ -2,8 +2,7 @@
 
   /* ============================================================
      RELAI — design tokens
-     Drop-in replacement for the Korr tokens. Same token NAMES,
-     Relai VALUES. Default theme is DARK; .theme-light flips it
+     Default theme is DARK; .theme-light flips it
      (see bottom). Built components keep working unchanged.
      ============================================================ */
 
@@ -39,7 +38,7 @@
   --color-stroke-light:   #ffffff26;
 
   /* ============================================================
-     SYSTEM TOKENS — layout/scale carried over from Korr build
+     SYSTEM TOKENS — layout/scale
      ============================================================ */
 
   /* Layout — full-bleed grid with 24/16px gutters */
@@ -54,7 +53,7 @@
   /* Breakpoints (reference): 768px (md), 1024px (lg) */
 
   /* Type scale */
-  --font-display:  clamp(2.5rem, 0rem + 14vw, 12rem);        /* NEW — oversized hero wordmark (Anduril) */
+  --font-display:  clamp(2.5rem, 0rem + 14vw, 12rem);        /* oversized hero wordmark */
   --font-h1:       clamp(2rem, 0.34rem + 7.1vw, 4.875rem);   /* 32 → 78, headings */
   --font-h2:       clamp(1.5rem, 1.07rem + 1.85vw, 2rem);    /* 24 → 32, statements */
   --font-h3:       clamp(1.25rem, 1.07rem + 0.77vw, 1.5rem); /* 20 → 24, subheads */

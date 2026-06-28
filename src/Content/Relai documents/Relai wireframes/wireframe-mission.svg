@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1940" viewBox="0 0 1000 1940" font-family="Helvetica, Arial, sans-serif">
+  <style>
+    .frame { fill:#ffffff; stroke:#cfcfcf; stroke-width:1; }
+    .surface { fill:#f3f2ee; stroke:#cfcfcf; stroke-width:1; }
+    .light { fill:#ffffff; stroke:#bdbdbd; stroke-width:1.5; }
+    .ph { fill:#dcdcdc; }
+    .line { fill:#e4e4e4; }
+    .btn { fill:#ffffff; stroke:#9a9a9a; stroke-width:1; }
+    .img { fill:#ececec; }
+    .hatch { stroke:#d2d2d2; stroke-width:1; }
+    .tab { fill:#111111; }
+    .tabtxt { fill:#ffffff; font-size:12px; font-weight:bold; letter-spacing:1px; font-family:monospace; }
+    .chip { fill:none; stroke:#9a9a9a; stroke-width:1; }
+    .chiptxt { fill:#555; font-size:10px; letter-spacing:1px; font-family:monospace; }
+    .newchip { fill:#1a1a1a; }
+    .newtxt { fill:#fff; font-size:10px; letter-spacing:1px; font-family:monospace; }
+    .rail { fill:#e8e8e8; font-size:30px; font-weight:bold; }
+    .mono { font-family:monospace; fill:#777; font-size:11px; }
+    .lbl { fill:#666; font-size:11px; }
+    .imglbl { fill:#8a8a8a; font-size:11px; letter-spacing:1px; }
+    .anh { fill:#1a1a1a; font-size:12px; font-weight:bold; }
+    .an { fill:#5a5a5a; font-size:12px; }
+    .sub { fill:#9a9a9a; font-size:11px; }
+    .title { fill:#111; font-size:22px; font-weight:bold; }
+    .wm { fill:#888; font-size:13px; font-weight:bold; }
+    .flag { fill:#9a6a1a; font-size:11px; font-style:italic; }
+    .bignum { fill:#cfcfcf; font-size:26px; font-weight:bold; }
+  </style>
+
+  <!-- HEADER -->
+  <text class="title" x="40" y="40">RELAI — MISSION</text>
+  <text class="sub" x="40" y="62">Anduril "Arsenal-1" structure, Relai-translated · neutral wireframe</text>
+  <rect class="chip" x="370" y="26" width="118" height="22"/>
+  <text class="chiptxt" x="382" y="41">PAGE THEME · BLACK</text>
+  <line x1="40" y1="86" x2="985" y2="86" stroke="#e0e0e0" stroke-width="1"/>
+
+  <!-- ============ 01 HERO ============ -->
+  <text class="rail" x="34" y="138">01</text>
+  <rect class="frame" x="80" y="110" width="540" height="360"/>
+  <rect class="tab" x="80" y="110" width="132" height="22"/>
+  <text class="tabtxt" x="90" y="125">01 · HERO</text>
+  <text class="mono" x="100" y="158">RELAI</text>
+  <text class="mono" x="560" y="158">Menu</text>
+  <rect class="ph" x="100" y="228" width="300" height="56"/>
+  <text class="wm" x="112" y="262">WORDMARK · "The Relai Mission"</text>
+  <text class="mono" x="100" y="306">BUILT AT THE PORT OF LONG BEACH</text>
+  <text class="mono" x="100" y="356">[ MISSION ]</text>
+  <rect class="line" x="250" y="344" width="200" height="6"/>
+  <rect class="line" x="250" y="356" width="160" height="6"/>
+  <text class="lbl" x="596" y="358">↓</text>
+  <line x1="80" y1="378" x2="620" y2="378" stroke="#bdbdbd" stroke-width="2"/>
+  <rect class="img" x="80" y="378" width="540" height="92"/>
+  <line class="hatch" x1="80" y1="378" x2="620" y2="470"/>
+  <line class="hatch" x1="620" y1="378" x2="80" y2="470"/>
+  <text class="imglbl" x="350" y="428" text-anchor="middle">MEDIA · video — port at dusk</text>
+  <text class="anh" x="650" y="124">Hero (dynamic component)</text>
+  <text class="an" x="650" y="146">Mono sub-label = the "Built in Ohio"</text>
+  <text class="an" x="650" y="164">slot → flagship port. No CTAs.</text>
+  <text class="mono" x="650" y="190">tag: [ MISSION ] · media: video</text>
+  <text class="flag" x="650" y="214">confirm sub-label: Long Beach vs</text>
+  <text class="flag" x="650" y="230">"Engineered in San Pedro Bay"</text>
+
+  <!-- ============ 02 STAT BAND ============ -->
+  <text class="rail" x="34" y="522">02</text>
+  <rect class="frame" x="80" y="494" width="540" height="250"/>
+  <rect class="tab" x="80" y="494" width="120" height="22"/>
+  <text class="tabtxt" x="90" y="509">02 · STAT BAND</text>
+  <rect class="newchip" x="206" y="494" width="40" height="22"/>
+  <text class="newtxt" x="213" y="509">NEW</text>
+  <rect class="ph" x="190" y="528" width="320" height="26"/>
+  <text class="wm" x="200" y="547">THE MISSION IN NUMBERS</text>
+  <!-- stat rows -->
+  <line x1="100" y1="572" x2="600" y2="572" stroke="#ddd"/>
+  <text class="bignum" x="100" y="600">‹920 hrs›</text>
+  <text class="sub" x="100" y="616">idle / waiting</text>
+  <rect class="line" x="360" y="588" width="230" height="6"/>
+  <rect class="line" x="360" y="600" width="200" height="6"/>
+  <line x1="100" y1="630" x2="600" y2="630" stroke="#ddd"/>
+  <text class="bignum" x="100" y="658">‹68%›</text>
+  <text class="sub" x="100" y="674">on legacy systems</text>
+  <rect class="line" x="360" y="646" width="220" height="6"/>
+  <rect class="line" x="360" y="658" width="190" height="6"/>
+  <line x1="100" y1="688" x2="600" y2="688" stroke="#ddd"/>
+  <text class="bignum" x="100" y="716">‹1.2M›</text>
+  <text class="sub" x="100" y="732">containers / yr</text>
+  <rect class="line" x="360" y="704" width="210" height="6"/>
+  <rect class="line" x="360" y="716" width="180" height="6"/>
+  <text class="anh" x="650" y="522">Stat band — mission in numbers</text>
+  <text class="an" x="650" y="544">Arsenal-1's stat rows. Big number +</text>
+  <text class="an" x="650" y="562">label left, paragraph right, hairline</text>
+  <text class="an" x="650" y="580">divided. The "drama" beat Mission</text>
+  <text class="an" x="650" y="598">was missing.</text>
+  <text class="flag" x="650" y="624">all numbers placeholder ‹ › — write</text>
+  <text class="flag" x="650" y="640">the real stat copy (deck TODO)</text>
+
+  <!-- ============ 03 IMAGE PAIR ============ -->
+  <text class="rail" x="34" y="796">03</text>
+  <rect class="frame" x="80" y="768" width="540" height="170"/>
+  <rect class="tab" x="80" y="768" width="138" height="22"/>
+  <text class="tabtxt" x="90" y="783">03 · IMAGE PAIR</text>
+  <rect class="img" x="100" y="800" width="240" height="120"/>
+  <line class="hatch" x1="100" y1="800" x2="340" y2="920"/>
+  <line class="hatch" x1="340" y1="800" x2="100" y2="920"/>
+  <text class="imglbl" x="220" y="862" text-anchor="middle" font-size="10">IMAGE</text>
+  <rect class="img" x="360" y="800" width="240" height="120"/>
+  <line class="hatch" x1="360" y1="800" x2="600" y2="920"/>
+  <line class="hatch" x1="600" y1="800" x2="360" y2="920"/>
+  <text class="imglbl" x="480" y="862" text-anchor="middle" font-size="10">IMAGE</text>
+  <text class="anh" x="650" y="796">Image pair (Arsenal-1)</text>
+  <text class="an" x="650" y="818">Two full-bleed port/terminal</text>
+  <text class="an" x="650" y="836">photos. Sourced, dusk register.</text>
+
+  <!-- ============ 04 EXPLORE NETWORK ============ -->
+  <text class="rail" x="34" y="990">04</text>
+  <rect class="frame" x="80" y="962" width="540" height="220"/>
+  <rect class="tab" x="80" y="962" width="206" height="22"/>
+  <text class="tabtxt" x="90" y="977">04 · EXPLORE THE NETWORK</text>
+  <rect class="newchip" x="292" y="962" width="40" height="22"/>
+  <text class="newtxt" x="299" y="977">NEW</text>
+  <rect class="ph" x="100" y="998" width="220" height="24"/>
+  <text class="wm" x="108" y="1016">Explore the Network</text>
+  <text class="mono" x="100" y="1070">Explore ↗</text>
+  <!-- iso map placeholder (diamond) -->
+  <polygon points="490,1010 600,1070 490,1130 380,1070" fill="#ececec" stroke="#d2d2d2"/>
+  <line class="hatch" x1="380" y1="1070" x2="600" y2="1070"/>
+  <line class="hatch" x1="490" y1="1010" x2="490" y2="1130"/>
+  <text class="imglbl" x="490" y="1074" text-anchor="middle" font-size="10">ISO PORT-MAP</text>
+  <text class="anh" x="650" y="990">Explore the Network</text>
+  <text class="an" x="650" y="1012">Arsenal-1's iso site-map → the live</text>
+  <text class="an" x="650" y="1030">port-map / tracking globe. Heading +</text>
+  <text class="an" x="650" y="1048">iso render + "Explore ↗" link.</text>
+  <text class="flag" x="650" y="1074">QR code removed (was Arsenal-1)</text>
+  <text class="anh" x="650" y="1100">CD ASSET → iso port-map / globe</text>
+  <text class="sub" x="650" y="1122">(the site's single best visual)</text>
+
+  <!-- ============ 05 PARTNER CTA ============ -->
+  <text class="rail" x="34" y="1234">05</text>
+  <rect class="frame" x="80" y="1206" width="540" height="160"/>
+  <rect class="tab" x="80" y="1206" width="158" height="22"/>
+  <text class="tabtxt" x="90" y="1221">05 · PARTNER CTA</text>
+  <rect class="ph" x="100" y="1242" width="340" height="44"/>
+  <text class="wm" x="108" y="1269">Shape the future of global freight</text>
+  <rect class="line" x="100" y="1302" width="380" height="6"/>
+  <rect class="line" x="100" y="1316" width="320" height="6"/>
+  <rect class="btn" x="100" y="1330" width="128" height="28"/>
+  <text class="lbl" x="114" y="1348">Partner With Relai</text>
+  <text class="anh" x="650" y="1234">Partner CTA (Arsenal-1)</text>
+  <text class="an" x="650" y="1256">Large heading + paragraph + button.</text>
+  <text class="an" x="650" y="1274">Black block. Copy swap.</text>
+
+  <!-- ============ 06 CAREERS (light) ============ -->
+  <text class="rail" x="34" y="1418">06</text>
+  <rect class="light" x="80" y="1390" width="540" height="270"/>
+  <rect class="tab" x="80" y="1390" width="190" height="22"/>
+  <text class="tabtxt" x="90" y="1405">06 · CAREERS BLOCK</text>
+  <rect class="chip" x="470" y="1398" width="138" height="20"/>
+  <text class="chiptxt" x="480" y="1412">THEME-LIGHT · WHITE</text>
+  <rect class="ph" x="100" y="1430" width="260" height="26"/>
+  <text class="wm" x="108" y="1449">Stay On Our Radar</text>
+  <rect class="line" x="100" y="1470" width="360" height="6"/>
+  <rect class="btn" x="100" y="1484" width="160" height="26"/>
+  <text class="lbl" x="114" y="1501">Join Our Talent Network</text>
+  <text class="mono" x="100" y="1534">WE ARE HIRING — ROLES</text>
+  <!-- role rows -->
+  <line x1="100" y1="1546" x2="600" y2="1546" stroke="#e0e0e0"/>
+  <text class="mono" x="100" y="1566">01</text><rect class="line" x="150" y="1558" width="200" height="6"/>
+  <line x1="100" y1="1578" x2="600" y2="1578" stroke="#e0e0e0"/>
+  <text class="mono" x="100" y="1598">02</text><rect class="line" x="150" y="1590" width="220" height="6"/>
+  <line x1="100" y1="1610" x2="600" y2="1610" stroke="#e0e0e0"/>
+  <text class="mono" x="100" y="1630">03</text><rect class="line" x="150" y="1622" width="180" height="6"/>
+  <line x1="100" y1="1642" x2="600" y2="1642" stroke="#e0e0e0"/>
+  <text class="anh" x="650" y="1418">Careers block (Arsenal-1)</text>
+  <text class="an" x="650" y="1440">"Stay On Our Radar" + talent CTA +</text>
+  <text class="an" x="650" y="1458">numbered roles 01–06. The page's</text>
+  <text class="an" x="650" y="1476">hard black→white seam.</text>
+  <text class="flag" x="650" y="1502">invent 6 logistics/eng roles (TODO)</text>
+  <text class="flag" x="650" y="1518">or drop if Relai isn't "hiring"</text>
+
+  <!-- ============ 07 CONTACT / FOOTER ============ -->
+  <text class="rail" x="34" y="1688">07</text>
+  <rect class="frame" x="80" y="1660" width="540" height="240"/>
+  <rect class="tab" x="80" y="1660" width="252" height="22"/>
+  <text class="tabtxt" x="90" y="1675">07 · CONTACT / CTA / FOOTER</text>
+  <rect class="ph" x="100" y="1692" width="260" height="26"/>
+  <text class="wm" x="108" y="1711">The future of freight</text>
+  <rect class="line" x="100" y="1732" width="420" height="6"/>
+  <rect class="img" x="100" y="1752" width="500" height="76"/>
+  <line class="hatch" x1="100" y1="1752" x2="600" y2="1828"/>
+  <line class="hatch" x1="600" y1="1752" x2="100" y2="1828"/>
+  <text class="imglbl" x="350" y="1794" text-anchor="middle" font-size="10">GET IN TOUCH · CTA card</text>
+  <line x1="100" y1="1848" x2="600" y2="1848" stroke="#e0e0e0"/>
+  <text class="mono" x="100" y="1868">Home · Product · FAQ · About · Contact</text>
+  <text class="mono" x="540" y="1868">© Relai</text>
+  <text class="anh" x="650" y="1688">Shared sections (all pages)</text>
+  <text class="an" x="650" y="1710">Theme inherited (black here).</text>
+</svg>

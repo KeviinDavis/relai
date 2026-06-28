@@ -6,7 +6,7 @@ import Button from "@/components/Button";
 import styles from "./ContactForm.module.css";
 
 export default function ContactForm({
-  heading = "We’d like to talk about partnering with Korr",
+  heading = "We’d like to talk about partnering with Relai",
   showAltLink = true,
   onSubmitted,
 }) {
@@ -28,7 +28,7 @@ export default function ContactForm({
       <div className={styles.success} role="status">
         <p className={styles.successTitle}>Thanks — we’ll be in touch.</p>
         <p className={styles.successText}>
-          Your message has been received. A member of the Korr team will reach
+          Your message has been received. A member of the Relai team will reach
           out shortly.
         </p>
       </div>
@@ -90,7 +90,7 @@ export default function ContactForm({
 
       {showAltLink && (
         <p className={styles.alt}>
-          Looking to get acquainted with Korr? Drop us a{" "}
+          Looking to get acquainted with Relai? Drop us a{" "}
           <Link href="/book-a-demo" className={styles.altLink}>
             demo request
           </Link>{" "}

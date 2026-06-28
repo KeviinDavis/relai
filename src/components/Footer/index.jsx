@@ -27,12 +27,13 @@ export default function Footer() {
             <Eyebrow variant="dark">Contact</Eyebrow>
           </div>
           <div className={styles.introBody}>
-            <h2 className={styles.heading}>The future of insurance</h2>
+            <h2 className={styles.heading}>The future of freight</h2>
             <p className={styles.subheading}>
-              <strong>Korr</strong> is a cloud-based insurance management platform
-              built specifically for carriers, agents, and TPAs. With a minimalist
-              UI and highly adaptable tools, Korr offers the fastest path to AI
-              enablement—empowering your company to lead, not follow.
+              <strong>Relai</strong> is a cloud-native coordination platform built
+              for terminals, carriers, and freight operators. With a unified,
+              real-time interface and tools that adapt to any network, Relai gives
+              the supply chain the visibility and control to move faster — and
+              cleaner.
             </p>
           </div>
         </div>
@@ -42,7 +43,7 @@ export default function Footer() {
             <div className={styles.cardImg}>
               <Image
                 src="/images/concrete.webp"
-                alt="Architectural forms in concrete."
+                alt="A container terminal at the waterfront."
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className={styles.cardImgInner}
@@ -51,8 +52,8 @@ export default function Footer() {
             <div className={styles.cardData}>
               <Eyebrow>Get in touch</Eyebrow>
               <p className={styles.cardText}>
-                Ready to replace your outdated insurance software with a platform
-                you’ll be excited to use every day? Schedule a demo today.
+                Ready to replace the disconnected systems slowing your freight with
+                one platform built to coordinate it all? Schedule a demo today.
               </p>
             </div>
           </Link>
@@ -81,11 +82,11 @@ export default function Footer() {
         </ul>
 
         <div className={styles.bottomRight}>
-          <p className={styles.copyright}>© 2026 Korr</p>
+          <p className={styles.copyright}>© 2026 Relai</p>
           <ul>
             <li>
               <a
-                href="https://www.linkedin.com/company/korr-inc/"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
               >

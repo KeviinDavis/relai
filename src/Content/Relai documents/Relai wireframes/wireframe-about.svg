@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1520" viewBox="0 0 1000 1520" font-family="Helvetica, Arial, sans-serif">
+  <style>
+    .frame { fill:#ffffff; stroke:#cfcfcf; stroke-width:1; }
+    .light { fill:#ffffff; stroke:#bdbdbd; stroke-width:1.5; }
+    .card { fill:#fafafa; stroke:#d6d6d6; stroke-width:1; }
+    .ph { fill:#dcdcdc; }
+    .line { fill:#e4e4e4; }
+    .btn { fill:#ffffff; stroke:#9a9a9a; stroke-width:1; }
+    .img { fill:#ececec; }
+    .hatch { stroke:#d2d2d2; stroke-width:1; }
+    .tab { fill:#111111; }
+    .tabtxt { fill:#ffffff; font-size:12px; font-weight:bold; letter-spacing:1px; font-family:monospace; }
+    .chip { fill:none; stroke:#9a9a9a; stroke-width:1; }
+    .chiptxt { fill:#555; font-size:10px; letter-spacing:1px; font-family:monospace; }
+    .newchip { fill:#1a1a1a; }
+    .newtxt { fill:#fff; font-size:10px; letter-spacing:1px; font-family:monospace; }
+    .rail { fill:#e8e8e8; font-size:30px; font-weight:bold; }
+    .mono { font-family:monospace; fill:#777; font-size:11px; }
+    .lbl { fill:#666; font-size:11px; }
+    .imglbl { fill:#8a8a8a; font-size:11px; letter-spacing:1px; }
+    .anh { fill:#1a1a1a; font-size:12px; font-weight:bold; }
+    .an { fill:#5a5a5a; font-size:12px; }
+    .sub { fill:#9a9a9a; font-size:11px; }
+    .title { fill:#111; font-size:22px; font-weight:bold; }
+    .wm { fill:#888; font-size:13px; font-weight:bold; }
+    .flag { fill:#9a6a1a; font-size:11px; font-style:italic; }
+  </style>
+
+  <!-- HEADER -->
+  <text class="title" x="40" y="40">RELAI — ABOUT</text>
+  <text class="sub" x="40" y="62">White page · opts out of the dynamic hero · includes new leadership component</text>
+  <rect class="chip" x="470" y="26" width="118" height="22"/>
+  <text class="chiptxt" x="482" y="41">PAGE THEME · WHITE</text>
+  <line x1="40" y1="86" x2="985" y2="86" stroke="#e0e0e0" stroke-width="1"/>
+
+  <!-- ============ 01 HERO (own) ============ -->
+  <text class="rail" x="34" y="138">01</text>
+  <rect class="frame" x="80" y="110" width="540" height="310"/>
+  <rect class="tab" x="80" y="110" width="178" height="22"/>
+  <text class="tabtxt" x="90" y="125">01 · HERO (template own)</text>
+  <text class="mono" x="100" y="158">RELAI</text>
+  <text class="mono" x="560" y="158">Menu</text>
+  <text class="mono" x="100" y="190">ABOUT</text>
+  <rect class="ph" x="100" y="200" width="380" height="44"/>
+  <text class="wm" x="108" y="227">Building the platform we wished we had</text>
+  <rect class="img" x="100" y="262" width="500" height="138"/>
+  <line class="hatch" x1="100" y1="262" x2="600" y2="400"/>
+  <line class="hatch" x1="600" y1="262" x2="100" y2="400"/>
+  <text class="imglbl" x="350" y="335" text-anchor="middle">IMAGE · architecture / port (full-bleed)</text>
+  <text class="anh" x="650" y="124">Hero — template's OWN</text>
+  <text class="an" x="650" y="146">NOT the dynamic component.</text>
+  <text class="an" x="650" y="164">About opts out — standard heading</text>
+  <text class="an" x="650" y="182">+ full-bleed image, no wordmark/tag.</text>
+  <text class="an" x="650" y="208">Copy: About H1 (deck)</text>
+
+  <!-- ============ 02 HERO BODY ============ -->
+  <text class="rail" x="34" y="472">02</text>
+  <rect class="frame" x="80" y="444" width="540" height="126"/>
+  <rect class="tab" x="80" y="444" width="148" height="22"/>
+  <text class="tabtxt" x="90" y="459">02 · HERO BODY</text>
+  <rect class="line" x="100" y="486" width="460" height="6"/>
+  <rect class="line" x="100" y="502" width="430" height="6"/>
+  <rect class="line" x="100" y="524" width="450" height="6"/>
+  <rect class="line" x="100" y="540" width="380" height="6"/>
+  <text class="anh" x="650" y="472">Hero body (inherited)</text>
+  <text class="an" x="650" y="494">Two-paragraph block. Copy swap.</text>
+
+  <!-- ============ 03 WHY RELAI / FOUNDING ============ -->
+  <text class="rail" x="34" y="622">03</text>
+  <rect class="frame" x="80" y="594" width="540" height="170"/>
+  <rect class="tab" x="80" y="594" width="206" height="22"/>
+  <text class="tabtxt" x="90" y="609">03 · WHY RELAI / FOUNDING</text>
+  <rect class="ph" x="100" y="626" width="220" height="20"/>
+  <rect class="line" x="100" y="658" width="220" height="6"/>
+  <rect class="line" x="100" y="672" width="200" height="6"/>
+  <rect class="line" x="100" y="686" width="180" height="6"/>
+  <rect class="img" x="360" y="626" width="240" height="118"/>
+  <line class="hatch" x1="360" y1="626" x2="600" y2="744"/>
+  <line class="hatch" x1="600" y1="626" x2="360" y2="744"/>
+  <text class="imglbl" x="480" y="688" text-anchor="middle" font-size="10">IMAGE</text>
+  <text class="anh" x="650" y="622">Founding story (inherited)</text>
+  <text class="an" x="650" y="644">"Bridging the supply chain…" —</text>
+  <text class="an" x="650" y="662">2022, Port of Long Beach anchor.</text>
+  <text class="an" x="650" y="680">Copy swap + image.</text>
+
+  <!-- ============ 04 LEADERSHIP (NEW) ============ -->
+  <text class="rail" x="34" y="816">04</text>
+  <rect class="frame" x="80" y="788" width="540" height="240"/>
+  <rect class="tab" x="80" y="788" width="148" height="22"/>
+  <text class="tabtxt" x="90" y="803">04 · LEADERSHIP</text>
+  <rect class="newchip" x="234" y="788" width="40" height="22"/>
+  <text class="newtxt" x="241" y="803">NEW</text>
+  <rect class="ph" x="100" y="822" width="160" height="22"/>
+  <text class="wm" x="108" y="838">Leadership</text>
+  <!-- 4 cards -->
+  <rect class="card" x="100" y="858" width="110" height="150"/>
+  <rect class="img" x="110" y="868" width="90" height="90"/>
+  <line class="hatch" x1="110" y1="868" x2="200" y2="958"/>
+  <line class="hatch" x1="200" y1="868" x2="110" y2="958"/>
+  <rect class="line" x="110" y="970" width="80" height="6"/>
+  <rect class="line" x="110" y="984" width="60" height="5"/>
+  <rect class="card" x="230" y="858" width="110" height="150"/>
+  <rect class="img" x="240" y="868" width="90" height="90"/>
+  <line class="hatch" x1="240" y1="868" x2="330" y2="958"/>
+  <line class="hatch" x1="330" y1="868" x2="240" y2="958"/>
+  <rect class="line" x="240" y="970" width="80" height="6"/>
+  <rect class="line" x="240" y="984" width="60" height="5"/>
+  <rect class="card" x="360" y="858" width="110" height="150"/>
+  <rect class="img" x="370" y="868" width="90" height="90"/>
+  <line class="hatch" x1="370" y1="868" x2="460" y2="958"/>
+  <line class="hatch" x1="460" y1="868" x2="370" y2="958"/>
+  <rect class="line" x="370" y="970" width="80" height="6"/>
+  <rect class="line" x="370" y="984" width="60" height="5"/>
+  <rect class="card" x="490" y="858" width="110" height="150"/>
+  <rect class="img" x="500" y="868" width="90" height="90"/>
+  <line class="hatch" x1="500" y1="868" x2="590" y2="958"/>
+  <line class="hatch" x1="590" y1="868" x2="500" y2="958"/>
+  <rect class="line" x="500" y="970" width="80" height="6"/>
+  <rect class="line" x="500" y="984" width="60" height="5"/>
+  <text class="anh" x="650" y="816">Leadership (NEW component)</text>
+  <text class="an" x="650" y="838">4 cards: portrait + name + role.</text>
+  <text class="an" x="650" y="856">Placed after founding, before</text>
+  <text class="an" x="650" y="874">mission teaser. Light cards (page</text>
+  <text class="an" x="650" y="892">is white — inverted from surface).</text>
+  <text class="anh" x="650" y="918">CD ASSET → 4 portraits</text>
+  <text class="flag" x="650" y="940">treatment TBD: stylized / placeholder</text>
+  <text class="flag" x="650" y="956">/ AI — avoid raw stock faces</text>
+  <text class="flag" x="650" y="978">invent 4 names + roles (TODO)</text>
+
+  <!-- ============ 05 MISSION TEASER ============ -->
+  <text class="rail" x="34" y="1080">05</text>
+  <rect class="frame" x="80" y="1052" width="540" height="170"/>
+  <rect class="tab" x="80" y="1052" width="172" height="22"/>
+  <text class="tabtxt" x="90" y="1067">05 · MISSION TEASER</text>
+  <rect class="ph" x="100" y="1084" width="320" height="24"/>
+  <text class="wm" x="108" y="1102">A total transformation of freight</text>
+  <rect class="line" x="100" y="1126" width="380" height="6"/>
+  <rect class="line" x="100" y="1140" width="320" height="6"/>
+  <text class="mono" x="100" y="1170">Read our mission →</text>
+  <rect class="img" x="380" y="1084" width="220" height="120"/>
+  <line class="hatch" x1="380" y1="1084" x2="600" y2="1204"/>
+  <line class="hatch" x1="600" y1="1084" x2="380" y2="1204"/>
+  <text class="imglbl" x="490" y="1146" text-anchor="middle" font-size="10">IMAGE</text>
+  <text class="anh" x="650" y="1080">Mission teaser (inherited)</text>
+  <text class="an" x="650" y="1102">Heading + para + "Read our</text>
+  <text class="an" x="650" y="1120">mission →" link. Copy swap.</text>
+
+  <!-- ============ 06 CONTACT / FOOTER ============ -->
+  <text class="rail" x="34" y="1274">06</text>
+  <rect class="light" x="80" y="1246" width="540" height="240"/>
+  <rect class="tab" x="80" y="1246" width="252" height="22"/>
+  <text class="tabtxt" x="90" y="1261">06 · CONTACT / CTA / FOOTER</text>
+  <rect class="chip" x="470" y="1254" width="138" height="20"/>
+  <text class="chiptxt" x="480" y="1268">THEME-LIGHT · WHITE</text>
+  <rect class="ph" x="100" y="1286" width="260" height="26"/>
+  <text class="wm" x="108" y="1305">The future of freight</text>
+  <rect class="line" x="100" y="1326" width="420" height="6"/>
+  <rect class="img" x="100" y="1346" width="500" height="76"/>
+  <line class="hatch" x1="100" y1="1346" x2="600" y2="1422"/>
+  <line class="hatch" x1="600" y1="1346" x2="100" y2="1422"/>
+  <text class="imglbl" x="350" y="1388" text-anchor="middle" font-size="10">GET IN TOUCH · CTA card</text>
+  <line x1="100" y1="1442" x2="600" y2="1442" stroke="#e0e0e0"/>
+  <text class="mono" x="100" y="1462">Home · Product · FAQ · About · Contact</text>
+  <text class="mono" x="540" y="1462">© Relai</text>
+  <text class="anh" x="650" y="1274">Shared sections (all pages)</text>
+  <text class="an" x="650" y="1296">Theme inherited — WHITE here, so</text>
+  <text class="an" x="650" y="1314">these render light on About.</text>
+</svg>

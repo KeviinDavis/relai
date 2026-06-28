@@ -2,7 +2,7 @@
   margin-bottom: var(--gutter);
 }
 
-/* Dark tone — black canvas, white type (Arsenal-1 reference). */
+/* Dark tone — black canvas, white type (used by the dark hero pages). */
 .dark {
   margin-bottom: 0;
   background-color: var(--color-bg-dark);
@@ -38,8 +38,8 @@
 
 .dark .title {
   color: var(--color-white);
-  /* Reference hero title is the dominant display element — larger than the
-     shared --font-h1 token, scoped to the dark hero so Korr pages are unaffected. */
+  /* The dark hero title is the dominant display element — larger than the
+     shared --font-h1 token, scoped to the dark hero so light pages are unaffected. */
   font-size: clamp(2.5rem, 0.5rem + 8vw, 8rem);
   font-weight: var(--weight-bold);
 }

@@ -7,12 +7,11 @@ import Container from "@/components/Container";
 import ContactModal from "@/components/ContactModal";
 import styles from "./SiteNav.module.css";
 
-// Center bar links — remapped from Anduril's domains to relai's real routes.
+// Center bar links — the project's real routes.
 const NAV_LINKS = [
   { label: "Product", href: "/product" },
   { label: "About", href: "/about" },
   { label: "Mission", href: "/mission" },
-  { label: "Arsenal-1", href: "/arsenal-1" },
 ];
 
 // Mobile drawer — the full menu (adds Home + the Book a Demo CTA).
@@ -25,7 +24,7 @@ const DRAWER_LINKS = [
 const SOCIAL_LINKS = [
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/company/korr-inc/",
+    href: "#", // placeholder — no Relai LinkedIn yet
   },
 ];
 
@@ -75,7 +74,7 @@ export default function SiteNav({ theme = "dark" }) {
             <Link
               href="/"
               className={styles.logo}
-              aria-label="Korr — home"
+              aria-label="Relai — home"
               onClick={closeMenu}
             >
               <Logo height={26} />
@@ -154,7 +153,7 @@ export default function SiteNav({ theme = "dark" }) {
                 className={styles.metaLink}
                 onClick={openContact}
               >
-                Contact Korr
+                Contact Relai
               </button>
             </div>
 

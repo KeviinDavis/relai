@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="970" viewBox="0 0 1000 970" font-family="Helvetica, Arial, sans-serif">
+  <style>
+    .frame { fill:#ffffff; stroke:#cfcfcf; stroke-width:1; }
+    .light { fill:#ffffff; stroke:#bdbdbd; stroke-width:1.5; }
+    .ph { fill:#dcdcdc; }
+    .line { fill:#e4e4e4; }
+    .btn { fill:#ffffff; stroke:#9a9a9a; stroke-width:1; }
+    .field { fill:#ffffff; stroke:#c4c4c4; stroke-width:1; }
+    .submit { fill:#1a1a1a; }
+    .submittxt { fill:#fff; font-size:11px; }
+    .img { fill:#ececec; }
+    .hatch { stroke:#d2d2d2; stroke-width:1; }
+    .tab { fill:#111111; }
+    .tabtxt { fill:#ffffff; font-size:12px; font-weight:bold; letter-spacing:1px; font-family:monospace; }
+    .chip { fill:none; stroke:#9a9a9a; stroke-width:1; }
+    .chiptxt { fill:#555; font-size:10px; letter-spacing:1px; font-family:monospace; }
+    .rail { fill:#e8e8e8; font-size:30px; font-weight:bold; }
+    .mono { font-family:monospace; fill:#777; font-size:11px; }
+    .lbl { fill:#666; font-size:11px; }
+    .imglbl { fill:#8a8a8a; font-size:11px; letter-spacing:1px; }
+    .anh { fill:#1a1a1a; font-size:12px; font-weight:bold; }
+    .an { fill:#5a5a5a; font-size:12px; }
+    .sub { fill:#9a9a9a; font-size:11px; }
+    .title { fill:#111; font-size:22px; font-weight:bold; }
+    .wm { fill:#888; font-size:13px; font-weight:bold; }
+    .fieldlbl { fill:#999; font-size:10px; }
+  </style>
+
+  <!-- HEADER -->
+  <text class="title" x="40" y="40">RELAI — BOOK A DEMO</text>
+  <text class="sub" x="40" y="62">White page · the form page · simplest of the five</text>
+  <rect class="chip" x="420" y="26" width="118" height="22"/>
+  <text class="chiptxt" x="432" y="41">PAGE THEME · WHITE</text>
+  <line x1="40" y1="86" x2="985" y2="86" stroke="#e0e0e0" stroke-width="1"/>
+
+  <!-- ============ 01 HERO ============ -->
+  <text class="rail" x="34" y="138">01</text>
+  <rect class="frame" x="80" y="110" width="540" height="230"/>
+  <rect class="tab" x="80" y="110" width="132" height="22"/>
+  <text class="tabtxt" x="90" y="125">01 · HERO</text>
+  <text class="mono" x="100" y="158">RELAI</text>
+  <text class="mono" x="560" y="158">Menu</text>
+  <rect class="ph" x="100" y="208" width="320" height="48"/>
+  <text class="wm" x="108" y="237">WORDMARK · "Get a closer look at Relai"</text>
+  <text class="mono" x="100" y="290">[ DEMO ]</text>
+  <rect class="line" x="220" y="278" width="200" height="6"/>
+  <rect class="line" x="220" y="290" width="170" height="6"/>
+  <text class="anh" x="650" y="124">Hero (dynamic component)</text>
+  <text class="an" x="650" y="146">Light theme. No CTAs, no media —</text>
+  <text class="an" x="650" y="164">compact text hero before the form.</text>
+  <text class="mono" x="650" y="190">tag: [ DEMO ] · theme: light</text>
+  <text class="an" x="650" y="216">Copy: H1 + demo intro (deck)</text>
+
+  <!-- ============ 02 FORM ============ -->
+  <text class="rail" x="34" y="392">02</text>
+  <rect class="frame" x="80" y="364" width="540" height="300"/>
+  <rect class="tab" x="80" y="364" width="190" height="22"/>
+  <text class="tabtxt" x="90" y="379">02 · REQUEST A DEMO</text>
+  <rect class="ph" x="100" y="398" width="260" height="24"/>
+  <text class="wm" x="108" y="416">Let's find a time to talk</text>
+  <rect class="line" x="100" y="436" width="260" height="6"/>
+  <rect class="line" x="100" y="450" width="220" height="6"/>
+  <!-- form fields (left) -->
+  <text class="fieldlbl" x="100" y="486">Full Name</text>
+  <rect class="field" x="100" y="492" width="230" height="30"/>
+  <text class="fieldlbl" x="100" y="544">Email</text>
+  <rect class="field" x="100" y="550" width="230" height="30"/>
+  <text class="fieldlbl" x="100" y="602">Message</text>
+  <rect class="field" x="100" y="608" width="230" height="56"/>
+  <rect class="submit" x="100" y="632" width="90" height="0"/>
+  <!-- submit sits below message; place properly -->
+  <rect class="submit" x="340" y="634" width="90" height="28"/>
+  <text class="submittxt" x="356" y="652">Submit</text>
+  <text class="mono" x="100" y="478" font-size="10">We'd like to talk about partnering with Relai</text>
+  <!-- illustration (right) -->
+  <rect class="img" x="360" y="486" width="240" height="130"/>
+  <line class="hatch" x1="360" y1="486" x2="600" y2="616"/>
+  <line class="hatch" x1="600" y1="486" x2="360" y2="616"/>
+  <text class="imglbl" x="480" y="545" text-anchor="middle" font-size="10">DEMO ILLUSTRATION</text>
+  <text class="imglbl" x="480" y="562" text-anchor="middle" font-size="10">(abstract product UI)</text>
+  <text class="anh" x="650" y="392">Request a demo (inherited)</text>
+  <text class="an" x="650" y="414">Form: Full Name · Email · Message</text>
+  <text class="an" x="650" y="432">· Submit. Consent line above.</text>
+  <text class="an" x="650" y="450">Fields unchanged — copy swap.</text>
+  <text class="anh" x="650" y="478">Optional CD asset → demo</text>
+  <text class="sub" x="650" y="496">illustration (abstract product UI)</text>
+  <text class="flag" x="650" y="522">Note: form submit is an irreversible</text>
+  <text class="flag" x="650" y="538">action — wire to your own handler</text>
+
+  <!-- ============ 03 CONTACT / FOOTER ============ -->
+  <text class="rail" x="34" y="716">03</text>
+  <rect class="light" x="80" y="688" width="540" height="240"/>
+  <rect class="tab" x="80" y="688" width="252" height="22"/>
+  <text class="tabtxt" x="90" y="703">03 · CONTACT / CTA / FOOTER</text>
+  <rect class="chip" x="470" y="696" width="138" height="20"/>
+  <text class="chiptxt" x="480" y="710">THEME-LIGHT · WHITE</text>
+  <rect class="ph" x="100" y="728" width="260" height="26"/>
+  <text class="wm" x="108" y="747">The future of freight</text>
+  <rect class="line" x="100" y="768" width="420" height="6"/>
+  <rect class="img" x="100" y="788" width="500" height="76"/>
+  <line class="hatch" x1="100" y1="788" x2="600" y2="864"/>
+  <line class="hatch" x1="600" y1="788" x2="100" y2="864"/>
+  <text class="imglbl" x="350" y="830" text-anchor="middle" font-size="10">GET IN TOUCH · CTA card</text>
+  <line x1="100" y1="884" x2="600" y2="884" stroke="#e0e0e0"/>
+  <text class="mono" x="100" y="904">Home · Product · FAQ · About · Contact</text>
+  <text class="mono" x="540" y="904">© Relai</text>
+  <text class="anh" x="650" y="716">Shared sections (all pages)</text>
+  <text class="an" x="650" y="738">Theme inherited — WHITE here.</text>
+</svg>

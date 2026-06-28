@@ -10,7 +10,7 @@ import SiteNav from "@/components/SiteNav";
 // adopts a .theme-light hero. Every other route keeps the existing Header.
 const NAV_ROUTES = {
   "/": "dark",
-  "/arsenal-1": "dark",
+  "/mission": "dark",
 };
 
 export default function SiteHeader() {

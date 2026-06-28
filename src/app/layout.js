@@ -5,17 +5,17 @@ import SmoothScroll from "@/components/SmoothScroll";
 
 // ─── METADATA ───────────────────────────────────────────────
 export const metadata = {
-  metadataBase: new URL("https://www.gokorr.com"),
+  // metadataBase intentionally omitted until the Relai domain is live.
   title: {
-    default: "Korr — Redefining Insurance",
-    template: "%s — Korr",
+    default: "Relai — Redefining Freight",
+    template: "%s — Relai",
   },
   description:
-    "Korr is the first truly versatile insurance platform—streamlining claims, simplifying policy administration, and accelerating new product development.",
+    "Relai is the first unified platform for port and freight logistics—connecting vessel, terminal, yard, and truck into a single, real-time system.",
   openGraph: {
-    title: "Korr — Redefining Insurance",
+    title: "Relai — Redefining Freight",
     description:
-      "A modern, cloud-native core insurance platform built for speed, flexibility, and intelligence.",
+      "A modern, cloud-native freight-logistics coordination platform built for speed, visibility, and coordination.",
     type: "website",
     locale: "en_US",
   },

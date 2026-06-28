@@ -22,39 +22,39 @@ const prefersReduce = () =>
 
 const DEFAULT_ITEMS = [
   {
-    title: "Rendezvous and Proximity Operations",
+    title: "Vessel Intelligence",
     description:
-      "Combining software-defined payloads with autonomous systems to unlock faster, more cost-effective, and more accessible RPO missions in high-energy orbits like GEO.",
+      "Live tracking and predictive ETAs across every vessel in your network — so the dock is ready before the ship is.",
     image: {
-      src: "/images/capability-rpo.jpg",
-      alt: "Spacecraft conducting a rendezvous and proximity operations mission in geosynchronous orbit using autonomous systems.",
+      src: "/images/capability-vessel-intelligence.svg",
+      alt: "Diagram of live vessel tracking and predictive ETAs across a port network.",
     },
   },
   {
-    title: "Battle Management",
+    title: "Terminal Orchestration",
     description:
-      "Connecting ground and space-based sensors, data repositories, and C2 nodes via a low-latency, resilient mesh communications architecture to provide comprehensive situational awareness of the space domain.",
+      "Berth, crane, and yard coordinated from one view, sequenced around real arrival times instead of guesswork.",
     image: {
-      src: "/images/capability-battle-management.png",
-      alt: "Battle management architecture diagram connecting ground and space-based sensors and C2 nodes via resilient mesh communications.",
+      src: "/images/capability-terminal-orchestration.svg",
+      alt: "Diagram of berth, crane, and yard sequenced from a single terminal view.",
     },
   },
   {
-    title: "Modular Mission Payloads",
+    title: "Drayage & Handoff",
     description:
-      "Applying extensive expertise in imaging, compute, C2, and mission autonomy to design, manufacture, and integrate modular mission payloads that enable critical NSS missions.",
+      "The port-to-truck seam, closed — every container with a known location, a next move, and a driver ready for it.",
     image: {
-      src: "/images/capability-modular-payloads.jpg",
-      alt: "Modular mission payload being integrated onto a spacecraft for national security space missions.",
+      src: "/images/capability-drayage-handoff.svg",
+      alt: "Diagram of the port-to-truck handoff with every container tracked to a driver.",
     },
   },
   {
-    title: "Mesh Communications",
+    title: "Emissions & Idle",
     description:
-      "Resilient mesh communications architecture that networks sensors, data repositories, and command and control nodes with low-latency, high-bandwidth connections in support of critical space protection missions.",
+      "Fuel burn and emissions measured across every leg, turning coordination gains into a cut you can prove.",
     image: {
-      src: "/images/capability-mesh-comms.png",
-      alt: "Diagram showing a mesh communications architecture networking space sensors and C2 nodes with low-latency, high-bandwidth connections.",
+      src: "/images/capability-emissions-idle.svg",
+      alt: "Diagram of fuel burn and emissions measured across every leg of the journey.",
     },
   },
 ];

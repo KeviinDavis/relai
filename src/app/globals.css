@@ -106,7 +106,7 @@ p {
   line-height: 1.6;
 }
 
-/* Utility: oversized hero wordmark (Anduril-style display) */
+/* Utility: oversized hero wordmark (display) */
 .text-display {
   font-size: var(--font-display);
   line-height: var(--leading-display);

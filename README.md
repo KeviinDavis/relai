@@ -56,6 +56,60 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — Korr→Relai scrub: brand, copy, structure to the CD copy doc
+
+Converted the inherited Korr (insurance) template into **Relai** (freight logistics),
+driven by `src/Content/Relai documents/copy/relai-cd-copy.md`. This followed an audit
+(`audit-report.md`) of every Korr/insurance/Anduril/ABCFavorit/legacy reference.
+
+**Brand & metadata**
+- All visible brand strings → **Relai** (Header pill, SiteNav, Footer `© 2026 Relai`,
+  ContactModal/ContactForm, drawer "Contact Relai"). LinkedIn `korr-inc` URLs → `#`
+  placeholder (no Relai LinkedIn yet).
+- `Logo` now renders a placeholder **"RELAI"** text wordmark (Helvetica, `currentColor`,
+  sized by `height`) instead of the literal Korr K-O-R-R glyph path. **needs-real-asset.**
+- `layout.js` metadata → "Relai — Redefining Freight" / "%s — Relai" + freight description
+  & OG; `metadataBase` (gokorr.com) dropped until a real domain exists. `package.json`
+  name → `relai`. `favicon.ico` → neutral placeholder square. **needs-real-asset.**
+
+**Structure (followed the copy doc's section order, not a 1:1 string swap)**
+- **`/arsenal-1` became `/mission`.** The dark Hero → StatList → ImageRow → Explore →
+  CtaBanner → TalentSection structure maps exactly onto the doc's MISSION page, refilled
+  with Relai copy (stat band, "Explore the Network", Partner CTA, careers/roles).
+- The **previous `/mission`** page is parked verbatim at `app/_mission-legacy/` — an
+  underscore-prefixed **private folder** (not routed, not linked, kept for later use).
+- **Home:** Stepper removed (the doc has no stepper on Home); Hero gains a `[ FREIGHT ]`
+  tag; Why Relai / Capabilities / single Testimonial / Learn More refilled.
+- **Product:** the 4-step **Stepper moved here** (Vessel Intelligence → Terminal
+  Orchestration → Drayage & Handoff → Emissions & Idle), plus a 9-item FAQ.
+- **About:** added a new **`Leadership`** content component (the one section with no
+  existing pattern — built from Section/Container + tokens only).
+
+**Content & components**
+- `Capabilities` default items repointed to the 4 Relai capabilities (defense imagery →
+  labeled DIAGRAM placeholders).
+- Single **Testimonial** (Marcus Vance, Pacific Gateway Lines) replaces the Tokio
+  Marine / Chad Hersh / Wellcove carousel.
+- `ContactModal` scrim `rgba(32,35,31,.55)` → `color-mix(... var(--color-surface) 55%)`
+  (token, not raw legacy hex).
+
+**Deletions** (all confirmed unreferenced by the audit)
+- 10 licensed `ABCFavorit*` font files; brand/reference images (carousel-tokio/chad/
+  wellcove, 4 defense capability images, arsenal-qr, demo-illustration); orphans
+  (product-ai, carousel-concept, mission-hero); `hero.mp4` / `mission.mp4`.
+- The `/arsenal-1` route folder (its content lives on at `/mission`).
+
+**Placeholders generated** (surface bg, mono caption, matched aspect ratios): `media-hero`,
+`media-mission`, `testimonial-portrait`, and 4 `capability-*` SVGs. Hero background
+**videos are now image placeholders** (no mp4 tooling available) — **needs-real-asset.**
+
+**Comments** mentioning Korr/Anduril/Arsenal-1 reworded across `Hero`, `globals.css`,
+`tokens.css`, `Explore`, `Header`/`Footer` CSS (token *values* untouched).
+
+> Note: `README.md`, `audit-report.md`, the copy doc, and the parked `_mission-legacy/`
+> page intentionally still reference the old names (history / source / parked work).
+> Visual theming (black vs. white pages) and asset realism are a follow-up pass.
+
 ### 2026-06-28 — Motion pass on `/arsenal-1` (Lenis smooth scroll + GSAP reveals)
 
 Mirrored the reference's on-scroll motion. What was shared earlier was the rendered
