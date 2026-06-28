@@ -1,6 +1,10 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
 import Section from "@/components/Section";
 import Container from "@/components/Container";
+import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./Explore.module.css";
 
 // Explore band: heading + QR (desktop) on the left, isometric site map on the right.
@@ -13,13 +17,18 @@ export default function Explore({
   href = "#",
   linkLabel = "Explore",
 }) {
+  const scope = useRef(null);
+  useReveal(scope);
+
   return (
     <Section variant="default" className={`${styles.root} ${styles.theme}`}>
       <Container>
-        <div className={styles.grid}>
-          <h2 className={styles.heading}>{heading}</h2>
+        <div className={styles.grid} ref={scope}>
+          <h2 className={styles.heading} data-reveal-mask>
+            {heading}
+          </h2>
 
-          <figure className={styles.map}>
+          <figure className={styles.map} data-reveal-image>
             <Image
               src={map.src}
               alt={map.alt || ""}
@@ -29,7 +38,7 @@ export default function Explore({
             />
           </figure>
 
-          <a className={styles.exploreLink} href={href}>
+          <a className={styles.exploreLink} href={href} data-reveal>
             {linkLabel}
             <svg className={styles.arrow} viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.5" />
@@ -37,7 +46,7 @@ export default function Explore({
           </a>
 
           {qr && (
-            <div className={styles.qrBlock}>
+            <div className={styles.qrBlock} data-reveal>
               <span className={styles.qrLabel}>{qrLabel}</span>
               <span className={styles.qr}>
                 <Image

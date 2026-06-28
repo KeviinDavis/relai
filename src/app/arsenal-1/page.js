@@ -4,7 +4,6 @@ import ImageRow from "@/components/ImageRow";
 import Explore from "@/components/Explore";
 import CtaBanner from "@/components/CtaBanner";
 import TalentSection from "@/components/TalentSection";
-import Reveal from "@/components/Reveal";
 
 export const metadata = {
   title: "Arsenal-1",
@@ -22,6 +21,7 @@ export default function Arsenal1Page() {
         scrollIndicator
         scrollTo="#content"
         tone="dark"
+        animate
         mediaAspect="56.25%"
         media={{
           type: "image",
@@ -61,59 +61,51 @@ export default function Arsenal1Page() {
         ]}
       />
 
-      <Reveal>
-        <ImageRow
-          images={[
-            {
-              src: "/images/concrete.webp",
-              alt: "Precast concrete wall panels being raised by crane during Arsenal-1 construction.",
-            },
-            {
-              src: "/images/about-why.webp",
-              alt: "Interior steel structure of the Arsenal-1 manufacturing facility.",
-            },
-          ]}
-        />
-      </Reveal>
+      <ImageRow
+        images={[
+          {
+            src: "/images/concrete.webp",
+            alt: "Precast concrete wall panels being raised by crane during Arsenal-1 construction.",
+          },
+          {
+            src: "/images/about-why.webp",
+            alt: "Interior steel structure of the Arsenal-1 manufacturing facility.",
+          },
+        ]}
+      />
 
-      <Reveal>
-        <Explore
-          heading="Explore Arsenal-1"
-          qr="/images/arsenal-qr.svg"
-          map={{
-            src: "/images/mission-globe.webp",
-            alt: "Isometric satellite map of the Arsenal-1 site and surrounding airfield.",
-          }}
-          href="#"
-        />
-      </Reveal>
+      <Explore
+        heading="Explore Arsenal-1"
+        qr="/images/arsenal-qr.svg"
+        map={{
+          src: "/images/mission-globe.webp",
+          alt: "Isometric satellite map of the Arsenal-1 site and surrounding airfield.",
+        }}
+        href="#"
+      />
 
-      <Reveal>
-        <CtaBanner
-          title="Shape The Future Of American Defense In Ohio"
-          text="Rebuilding the arsenal of democracy is a shared responsibility that will require our brightest innovators to contribute. Complete this form if your company is ready to partner with Anduril."
-          actions={[{ label: "Partner With Us", href: "#", variant: "light" }]}
-        />
-      </Reveal>
+      <CtaBanner
+        title="Shape The Future Of American Defense In Ohio"
+        text="Rebuilding the arsenal of democracy is a shared responsibility that will require our brightest innovators to contribute. Complete this form if your company is ready to partner with Anduril."
+        actions={[{ label: "Partner With Us", href: "#", variant: "light" }]}
+      />
 
-      <Reveal>
-        <TalentSection
-          heading="Stay On Our Radar"
-          text="Be the first to know when new Anduril roles open locally in Ohio. Submit your information to express your interest."
-          cta={{ label: "Join Our Talent Network", href: "#" }}
-          rolesHeading="We Are Hiring For The Following Roles"
-          rolesText="Find your future at Anduril."
-          rolesCta={{ label: "Explore Open Roles", href: "#" }}
-          roles={[
-            "Manufacturing Engineering",
-            "Manufacturing Operations",
-            "Materials & Support",
-            "Quality & Compliance",
-            "Technicians",
-            "Production Test",
-          ]}
-        />
-      </Reveal>
+      <TalentSection
+        heading="Stay On Our Radar"
+        text="Be the first to know when new Anduril roles open locally in Ohio. Submit your information to express your interest."
+        cta={{ label: "Join Our Talent Network", href: "#" }}
+        rolesHeading="We Are Hiring For The Following Roles"
+        rolesText="Find your future at Anduril."
+        rolesCta={{ label: "Explore Open Roles", href: "#" }}
+        roles={[
+          "Manufacturing Engineering",
+          "Manufacturing Operations",
+          "Materials & Support",
+          "Quality & Compliance",
+          "Technicians",
+          "Production Test",
+        ]}
+      />
     </>
   );
 }

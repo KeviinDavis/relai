@@ -1,19 +1,26 @@
+"use client";
+
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Eyebrow from "@/components/Eyebrow";
+import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./Shortcuts.module.css";
 
 export default function Shortcuts({ capsule, text, cards = [] }) {
+  const scope = useRef(null);
+  useReveal(scope, [cards.length]);
+
   return (
-    <section className={styles.section}>
+    <section className={styles.section} ref={scope}>
       <div className={styles.intro}>
-        <div className={styles.introTag}>
+        <div className={styles.introTag} data-reveal>
           <Eyebrow>{capsule}</Eyebrow>
         </div>
-        <p className={styles.introText}>{text}</p>
+        <p className={styles.introText} data-reveal-mask>{text}</p>
       </div>
 
-      <div className={styles.grid}>
+      <div className={styles.grid} data-reveal data-reveal-stagger>
         {cards.map((card) => (
           <article key={card.title} className={styles.card}>
             <Link href={card.href} className={styles.cardLink}>

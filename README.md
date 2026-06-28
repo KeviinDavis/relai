@@ -56,6 +56,98 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — Motion pass on `/arsenal-1` (Lenis smooth scroll + GSAP reveals)
+
+Mirrored the reference's on-scroll motion. What was shared earlier was the rendered
+DOM + asset manifest, not the animation source (the live site drives it with
+Theatre.js + bespoke WebGL + Lenis, compiled into `app.js`), so this reproduces the
+visible behaviour with the project's existing GSAP rather than copying code.
+
+- **Lenis smooth scroll, global.** New dep `lenis` (the same lib the reference uses).
+  `components/SmoothScroll/` (`"use client"`, mounted once in `layout.js`) runs Lenis
+  on the document and feeds GSAP's ticker so `ScrollTrigger` stays in sync; the minimal
+  Lenis CSS lives in `globals.css`. No-op under `prefers-reduced-motion` (Lenis never
+  initialises). Applies site-wide — the idiomatic single-instance pattern, and it
+  smooths the home page's existing reveals too.
+- **Reusable reveal hook** `components/Reveal/useReveal.js` — a `ScrollTrigger`/`useGSAP`
+  hook that wires motion from data-attributes so each section stays declarative:
+  `data-reveal` (fade+rise, `data-reveal-stagger` to stagger a parent's children),
+  `data-reveal-mask` (heading clip-path wipe-up), `data-reveal-image` (media clip +
+  slow scale-settle). `once`, reduced-motion-guarded.
+- **Section components → client + tagged:** `StatList` / `ImageRow` / `Explore` /
+  `CtaBanner` / `TalentSection` now call `useReveal` and tag their headings (mask),
+  media (clip), stat rows & role items (staggered rise). Replaced the page's coarse
+  `<Reveal>` section-wrappers with this element-level motion.
+- **Hero entrance.** `Hero` is now `"use client"` with an opt-in `animate` prop: an
+  on-load timeline (title wipe-up + rise, meta stagger, banner clip+scale reveal) and a
+  CSS looped bob on the scroll arrow. `animate` defaults off, so home/about/product/
+  mission heroes are unchanged.
+- **Token fix from the rebrand:** two `--color-gray` refs (dropped in the Relai token
+  swap) updated to `--color-text-muted` so the stat/QR captions stay muted, not white.
+- **Verification:** `next build` (7 routes static) + ESLint clean. Raw-CDP self-QA on
+  `next start`: `html.lenis` present (off under reduced motion); hero title settles at
+  `opacity:1`; after scripted scroll-through **all 15 reveal targets end visible (0
+  stuck hidden)**; reduced-motion shows everything at load with no animation; the home
+  page still renders with the client `Hero` + global `SmoothScroll`.
+
+#### Decisions / assumptions
+- **Smooth scroll is global, not page-scoped** — Lenis owns the document scroller, so a
+  single layout-level instance is the correct integration (and the reference applies it
+  site-wide). Flip to a page-scoped mount if only `/arsenal-1` should smooth-scroll.
+- **The WebGL/Theatre.js bits aren't reproduced** — those are bespoke and compiled; the
+  reproducible scroll/reveal/parallax feel is mirrored with GSAP.
+
+### 2026-06-28 — New `SiteNav` (Anduril-style top nav), page-scoped on `/` + `/arsenal-1`
+
+Rebuilt Anduril's primary header as a Relai-themed top nav — a full-bleed bar that's
+transparent over the hero and fills to a solid surface on scroll, plus a full-screen
+mobile drawer. Structural reconstruction of the source anatomy (logo left · centered
+links · right utility cluster · hamburger → drawer with CONTACT/SOCIAL), not a visual
+copy. Scope was confirmed up front: **bar + mobile drawer only** (no desktop mega-menu
+panels), **page-scoped** (not a global swap), **project tokens** (no Anduril red), and
+links **remapped to real routes**.
+
+- **New `components/SiteNav/`** (`"use client"`): fixed bar wrapped in the existing
+  `Container`; absolutely-centered links (`Product / About / Mission / Arsenal-1`);
+  right cluster = **Contact** (reuses the existing `ContactModal`) + **Book a Demo**
+  (`/book-a-demo`); logo reuses the shared `Logo`. Below 1024px the links/cluster
+  collapse to a hamburger that opens a full-screen drawer (`Home` + the routes +
+  Book a Demo, then `CONTACT` → Contact modal and `SOCIAL` → LinkedIn, mirroring the
+  source). Scroll→fill uses the same `scrollY > 40` listener pattern as `Header`; the
+  drawer reuses `ContactModal`'s body-scroll-lock + Escape handling.
+- **New `components/SiteHeader/`** — a thin `"use client"` switch: renders `SiteNav`
+  on `/` and `/arsenal-1`, the existing `Header` everywhere else. `layout.js` renders
+  `<SiteHeader />` in place of `<Header />` (one-line swap; other routes unchanged).
+- **Themed via the project's own `.theme-*` system, not a private prop.** The nav
+  takes a `theme` prop that applies the global `.theme-dark` / `.theme-light` class on
+  the header; all colors read semantic tokens (`--color-text-primary`,
+  `--color-bg-primary`, `--color-stroke-muted`), so the bar/drawer match whatever hero
+  they overlay with zero hardcoded values. Both mounted routes currently render on the
+  dark default, so both pass `theme="dark"` (transparent white-on-dark bar → solid
+  black on scroll; black drawer). Flip a route to `"light"` in `SiteHeader` if it
+  adopts a `.theme-light` hero.
+- **Built across the Korr→Relai token rebrand.** Mid-build, `tokens.css` was swapped to
+  the dark-default Relai palette (`.theme-light`/`.theme-dark` scopes, mono accent,
+  sharp radii). An initial pass that hardcoded the old light tokens via a `tone` prop
+  rendered inverted once the new tokens landed; reworking it onto the `.theme-*`
+  mechanism + semantic tokens fixed it and made it rebrand-proof. Hovers moved from the
+  (now mono) accent color to a `0.6` opacity dim.
+- **Verification:** `next build` (7 routes static) + ESLint clean. Headless-Chrome + a
+  raw-CDP driver self-QA against `next start`: confirmed computed `color`/`background`
+  per state (transparent → `--color-bg-primary` on scroll), the hamburger renders below
+  1024px, and captured the top / scrolled / open-drawer states on `/` and `/arsenal-1`
+  at desktop and mobile.
+
+#### Decisions / assumptions
+- **Korr `Logo` kept** (not an Anduril mark): the nav routes point at real Relai pages,
+  so a Korr/Relai wordmark is the coherent choice — and reusing the shared `Logo` means
+  it updates automatically when the rebrand swaps that component.
+- **`Search` and the `Company` mega-panel were dropped** (no search backend / company
+  route); the right cluster maps to the real Contact + Book-a-Demo actions instead.
+- **Drawer is opaque**, not translucent-frosted — a deliberate token-only choice
+  (`color-mix` of a nested var mis-compiled in this toolchain; a solid themed surface is
+  robust across dev/prod and fully tokenized).
+
 ### 2026-06-28 — New `/arsenal-1` page (Anduril Arsenal-1 rebuild) + reusable dark hero
 
 Rebuilt Anduril's full **Arsenal-1** page as a new route, composed entirely from the
@@ -91,8 +183,20 @@ routes are untouched.
   token in the system, so it uses `--color-bg-secondary` (see Open Items).
 - **Verification:** `next build` (7 routes, `/arsenal-1` static) + ESLint clean.
   Headless-Chrome + CDP self-QA at 1280 desktop and a true 390px mobile
-  (`scrollWidth == clientWidth`, zero overflowing elements); confirmed the home hero
-  is visually identical to before the `Hero` change.
+  (`scrollWidth == clientWidth`, zero overflowing page elements); confirmed the home
+  hero is visually identical to before the `Hero` change.
+- **Fidelity pass (vs side-by-side reference).** Type sizes/borders tuned to the
+  source by measuring rendered widths over CDP: dark hero title scoped down to ~90px
+  at 1024 (`clamp(2.5rem, .5rem + 8vw, 8rem)`); stat values enlarged to
+  `clamp(2.5rem, 1rem + 4vw, 4rem)` with the desktop value column pinned to `18rem`
+  (between `$2 Billion`'s 241px and `$900 Million+`'s 348px) so the long values wrap
+  to two lines exactly like the source while `4000+`/`$2 Billion` stay single-line
+  (mobile keeps them all one line); CtaBanner title down to ~34px so "Shape The
+  Future…" sets in two lines; `TalentSection` subheading `--font-h2 → --font-h3` so
+  "We Are Hiring…" fits one line; role numerals to `--font-tagline`. **Removed the
+  hero `[A-1]`-row hairline** — the source has no border there. Audited every rule:
+  borders now appear only where the reference has them (stat-row separators, the
+  talent band divider, role separators).
 
 #### Decisions / assumptions
 - **Placeholder imagery.** No Arsenal-1 photos exist in the repo, so existing assets

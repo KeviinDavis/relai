@@ -50,7 +50,7 @@
 
 .qrLabel {
   font-size: var(--font-body-sm);
-  color: var(--color-gray);
+  color: var(--color-text-muted);
 }
 
 .qr {

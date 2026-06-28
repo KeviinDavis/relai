@@ -1,68 +1,78 @@
 :root {
 
   /* ============================================================
-     CUSTOMIZE PER PROJECT — fill these in when starting
+     RELAI — design tokens
+     Drop-in replacement for the Korr tokens. Same token NAMES,
+     Relai VALUES. Default theme is DARK; .theme-light flips it
+     (see bottom). Built components keep working unchanged.
      ============================================================ */
 
-  /* Primary font — self-hosted ABCFavorit, declared via @font-face in globals.css */
-  --font-primary:   "ABCFavorit", Helvetica, Arial, sans-serif;
+  /* Primary font — Helvetica (system). No @font-face needed.
+     For a public portfolio, swap to a licensed webfont
+     (Helvetica Now or Inter) here if real Helvetica is a question. */
+  --font-primary:   "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  /* Secondary / display font — ABCFavorit Mono, used for eyebrows/labels */
-  --font-secondary: "ABCFavoritMono", "Courier New", monospace;
+  /* Secondary / label font — SAME Helvetica (no mono typeface).
+     Eyebrows/labels get their look from uppercase + --tracking-label
+     at the component level, not from a mono font. */
+  --font-secondary: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  /* Raw color values — Korr brand */
-  --color-black:         #20231f;
+  /* Raw color values — Relai palette (monochrome; photos carry all color) */
+  --color-black:         #000000;   /* true black — dark page bg            */
+  --color-surface:       #20231f;   /* warm near-black — ALL lifted panels  */
   --color-white:         #ffffff;
-  --color-green:         #34d601;
-  --color-gray:          #8f908e;
-  --color-gray-dark:     #484b47;
+  --color-muted:         #737373;   /* labels, captions, secondary text     */
+  --color-gray-dark:     #484b47;   /* secondary text on light pages        */
   --color-gray-light:    #e9e9e9;
+  /* No brand accent. UI chrome stays mono; any color lives inside diagrams. */
 
-  /* Semantic colors — reference raw values */
-  --color-bg-primary:    var(--color-white);
-  --color-bg-secondary:  #f6f6f6;
-  --color-bg-dark:       var(--color-black);
-  --color-text-primary:  var(--color-black);
-  --color-text-secondary: var(--color-gray-dark);
-  --color-text-muted:    var(--color-gray);
-  --color-accent:        var(--color-green);
-  --color-stroke:        var(--color-black);
-  --color-stroke-muted:  #20231f1a;
-  --color-stroke-light:  #ffffff26;
+  /* ---- Semantic colors — DARK is the default theme ---- */
+  --color-bg-primary:     var(--color-black);    /* page background          */
+  --color-bg-secondary:   var(--color-surface);  /* component/card panels    */
+  --color-bg-dark:        var(--color-black);
+  --color-text-primary:   var(--color-white);
+  --color-text-secondary: #b3b3b3;
+  --color-text-muted:     var(--color-muted);
+  --color-accent:         var(--color-white);     /* mono — focus rings, etc. */
+  --color-stroke:         var(--color-white);
+  --color-stroke-muted:   #ffffff1a;
+  --color-stroke-light:   #ffffff26;
 
   /* ============================================================
-     SYSTEM TOKENS — tuned to the Korr (gokorr.com) design system
+     SYSTEM TOKENS — layout/scale carried over from Korr build
      ============================================================ */
 
-  /* Layout — full-bleed grid with 24/16px gutters (source: px--container) */
+  /* Layout — full-bleed grid with 24/16px gutters */
   --container-max:     120rem;  /* 1920px — effectively full-bleed  */
   --container-content: 64rem;   /* 1024px — readable inner column   */
   --container-narrow:  52rem;   /* 832px  — prose                   */
-  --gutter:            1.5rem;  /* 24px — --gutterLg                */
-  --gutter-sm:         1rem;    /* 16px — --gutterSm                */
+  --gutter:            1.5rem;  /* 24px                             */
+  --gutter-sm:         1rem;    /* 16px                             */
   --grid-columns:      12;
-  --nav-height:        4.25rem; /* 68px — NavBar_container          */
+  --nav-height:        4.25rem; /* 68px                             */
 
   /* Breakpoints (reference): 768px (md), 1024px (lg) */
 
-  /* Type scale — endpoints match source px scale (mobile → desktop) */
-  --font-h1:       clamp(2rem, 0.34rem + 7.1vw, 4.875rem);    /* 32 → 78, hero display */
-  --font-h2:       clamp(1.5rem, 1.07rem + 1.85vw, 2rem);     /* 24 → 32, statements/headings */
-  --font-h3:       clamp(1.25rem, 1.07rem + 0.77vw, 1.5rem);  /* 20 → 24, subheads */
+  /* Type scale */
+  --font-display:  clamp(2.5rem, 0rem + 14vw, 12rem);        /* NEW — oversized hero wordmark (Anduril) */
+  --font-h1:       clamp(2rem, 0.34rem + 7.1vw, 4.875rem);   /* 32 → 78, headings */
+  --font-h2:       clamp(1.5rem, 1.07rem + 1.85vw, 2rem);    /* 24 → 32, statements */
+  --font-h3:       clamp(1.25rem, 1.07rem + 0.77vw, 1.5rem); /* 20 → 24, subheads */
   --font-h4:       1.25rem;     /* 20 */
   --font-h5:       1.125rem;    /* 18 */
   --font-h6:       1.25rem;     /* 20 — large body / lead */
   --font-body-lg:  1.25rem;     /* 20 */
   --font-body:     1rem;        /* 16 */
   --font-body-sm:  0.875rem;    /* 14 */
-  --font-tagline:  0.75rem;     /* 12 — mono eyebrow */
+  --font-tagline:  0.75rem;     /* 12 — uppercase label */
   --font-btn:      0.875rem;    /* 14 */
 
-  /* Display line-height / tracking (source: lh 1.0, tight tracking) */
+  /* Display line-height / tracking */
   --leading-display:  1;
   --leading-heading:  1.08;
-  --tracking-display: -0.03em;
+  --tracking-display: -0.04em;  /* tightened for the oversized wordmark   */
   --tracking-tight:   -0.01em;
+  --tracking-label:    0.08em;  /* NEW — positive tracking for UPPERCASE labels */
 
   /* Weights */
   --weight-normal:   400;
@@ -85,11 +95,11 @@
   --space-7xl:   4.5rem;
   --space-8xl:   5rem;
 
-  /* Border radius — source: 4 / 8 / 16px */
-  --radius-sm:      0.25rem;
-  --radius-md:      0.5rem;
-  --radius-lg:      1rem;
-  --radius-default: var(--radius-md);
+  /* Border radius — SHARP system. 0 everywhere except inputs/menu (2px). */
+  --radius-sm:      0.125rem;   /* 2px — inputs + menu panel ONLY */
+  --radius-md:      0;          /* sharp — cards, images, panels  */
+  --radius-lg:      0;          /* sharp                          */
+  --radius-default: 0;
 
   /* Focus */
   --focus-ring: 2px solid var(--color-accent);
@@ -103,4 +113,39 @@
 
   /* Transitions */
   --transition-base: 200ms ease;
+}
+
+/* ============================================================
+   THEME SCOPING — put on a page wrapper OR a section wrapper.
+   Default :root is dark. .theme-light flips a page/section to
+   white; .theme-dark re-asserts dark inside a light page.
+   This is what lets the shared Contact/Footer render dark on
+   Home/Product/Mission and light on About/Book-a-Demo, and lets
+   a white FAQ or form panel sit inside a black page.
+   ============================================================ */
+
+.theme-light {
+  --color-bg-primary:     var(--color-white);
+  --color-bg-secondary:   #f3f2ee;            /* light surface for panels */
+  --color-bg-dark:        var(--color-black);
+  --color-text-primary:   var(--color-black);
+  --color-text-secondary: var(--color-gray-dark);
+  --color-text-muted:     var(--color-muted);
+  --color-accent:         var(--color-black);
+  --color-stroke:         var(--color-black);
+  --color-stroke-muted:   #0000001a;
+  --color-stroke-light:   #0000000d;
+}
+
+.theme-dark {
+  --color-bg-primary:     var(--color-black);
+  --color-bg-secondary:   var(--color-surface);
+  --color-bg-dark:        var(--color-black);
+  --color-text-primary:   var(--color-white);
+  --color-text-secondary: #b3b3b3;
+  --color-text-muted:     var(--color-muted);
+  --color-accent:         var(--color-white);
+  --color-stroke:         var(--color-white);
+  --color-stroke-muted:   #ffffff1a;
+  --color-stroke-light:   #ffffff26;
 }

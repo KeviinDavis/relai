@@ -1,6 +1,7 @@
 import "./globals.css";
-import Header from "@/components/Header";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
 
 // ─── METADATA ───────────────────────────────────────────────
 export const metadata = {
@@ -24,10 +25,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <SmoothScroll />
         <a href="#main" className="skip-link">
           Skip to content
         </a>
-        <Header />
+        <SiteHeader />
         <main id="main">{children}</main>
         <Footer />
       </body>

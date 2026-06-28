@@ -1,0 +1,223 @@
+/* ============================================================
+   Top bar — fixed, transparent over the hero, fills on scroll.
+   Theme comes from a global .theme-dark / .theme-light class set on the
+   header per route (see SiteHeader), which flips the semantic color tokens.
+   ============================================================ */
+
+.navWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: var(--z-nav);
+  /* Colors come from the project's theme tokens. The .theme-dark / .theme-light
+     global class on this header (set per route) flips the token set, so the bar
+     matches the hero it overlays without any hardcoded values. */
+  color: var(--color-text-primary);
+  background-color: transparent;
+  transition: background-color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1),
+    color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1),
+    box-shadow 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Scrolled — fills with the theme's page surface (solid, sharp, tokenized). */
+.navWrapper.frosted {
+  background-color: var(--color-bg-primary);
+  box-shadow: 0 1px 0 var(--color-stroke-muted);
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: inherit;
+}
+
+/* ---- Center links: absolutely centered, desktop only ---- */
+.links {
+  display: none;
+}
+
+.link {
+  font-size: var(--font-body);
+  color: inherit;
+  transition: color var(--transition-base), opacity var(--transition-base);
+}
+
+.link:hover {
+  opacity: 0.6;
+}
+
+/* ---- Right cluster ---- */
+.right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-l);
+}
+
+.actions {
+  display: none;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.action {
+  font-size: var(--font-body);
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--transition-base);
+}
+
+.action:hover {
+  opacity: 0.6;
+}
+
+/* ---- Hamburger (mobile only) ---- */
+.menuButton {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2xs);
+  width: 1.75rem;
+  height: 1.75rem;
+  color: inherit;
+  cursor: pointer;
+}
+
+.menuButton span {
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background-color: currentColor;
+}
+
+/* ============================================================
+   Mobile drawer — full-screen frosted overlay, slides from right.
+   ============================================================ */
+
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-l) var(--gutter-sm) var(--space-3xl);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transform: translateX(100%);
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.5s cubic-bezier(0.215, 0.61, 0.355, 1),
+    visibility 0.5s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.drawerOpen {
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+}
+
+.drawerClose {
+  font-size: var(--font-h3);
+  line-height: 1;
+  color: inherit;
+  cursor: pointer;
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  margin-top: var(--space-2xl);
+}
+
+.drawerLink {
+  font-size: var(--font-h3);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-tight);
+  color: inherit;
+  transition: opacity var(--transition-base);
+}
+
+.drawerLink:hover {
+  opacity: 0.6;
+}
+
+.drawerMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  margin-top: var(--space-7xl);
+}
+
+.metaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.metaLabel {
+  font-family: var(--font-secondary);
+  font-size: var(--font-tagline);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.metaLink {
+  align-self: flex-start;
+  font-size: var(--font-h5);
+  color: inherit;
+  cursor: pointer;
+  transition: opacity var(--transition-base);
+}
+
+.metaLink:hover {
+  opacity: 0.6;
+}
+
+.social {
+  display: flex;
+  gap: var(--space-l);
+}
+
+/* ============================================================
+   Desktop — source structural breakpoint (relai uses 1024px).
+   ============================================================ */
+
+@media (min-width: 1024px) {
+  .links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: var(--space-4xl);
+  }
+
+  .actions {
+    display: flex;
+  }
+
+  .menuButton {
+    display: none;
+  }
+
+  .drawer {
+    display: none;
+  }
+}

@@ -1,7 +1,14 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import Button from "@/components/Button";
 import Eyebrow from "@/components/Eyebrow";
 import styles from "./Hero.module.css";
+
+gsap.registerPlugin(useGSAP);
 
 export default function Hero({
   eyebrow,
@@ -16,14 +23,51 @@ export default function Hero({
   scrollTo = "#content",     // anchor the arrow jumps to
   mediaAspect,               // desktop media ratio override (e.g. "56.25%" for 16:9)
   tone = "light",            // "light" | "dark"
+  animate = true,            // play the on-load entrance timeline
 }) {
   const isDark = tone === "dark";
   const hasAside = Boolean(text || actions.length);
   const hasMeta = Boolean(meta.length || tag || scrollIndicator);
   const figureStyle = mediaAspect ? { "--hero-media-pb-lg": mediaAspect } : undefined;
 
+  const scope = useRef(null);
+
+  useGSAP(
+    () => {
+      if (!animate) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const root = scope.current;
+      const eyebrowEl = root.querySelector("." + styles.eyebrow);
+      const titleEl = root.querySelector("[data-hero-title]");
+      const asideEl = root.querySelector("[data-hero-aside]");
+      const metaItems = [...root.querySelectorAll("[data-hero-meta] > *")];
+      const mediaEl = root.querySelector("[data-hero-media]");
+      const supporting = [...metaItems, asideEl].filter(Boolean);
+
+      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+      if (eyebrowEl) tl.from(eyebrowEl, { y: 16, opacity: 0, duration: 0.6 }, 0);
+      if (titleEl)
+        tl.fromTo(
+          titleEl,
+          { yPercent: 35, opacity: 0, clipPath: "inset(0 0 100% 0)" },
+          { yPercent: 0, opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 1.1 },
+          0.1
+        );
+      if (supporting.length)
+        tl.from(supporting, { y: 20, opacity: 0, duration: 0.8, stagger: 0.12 }, 0.55);
+      if (mediaEl)
+        tl.fromTo(
+          mediaEl,
+          { clipPath: "inset(0 0 100% 0)", scale: 1.06 },
+          { clipPath: "inset(0 0 0% 0)", scale: 1, duration: 1.2 },
+          0.35
+        );
+    },
+    { scope, dependencies: [animate] }
+  );
+
   return (
-    <section className={`${styles.hero} ${isDark ? styles.dark : ""}`}>
+    <section ref={scope} className={`${styles.hero} ${isDark ? styles.dark : ""}`}>
       <div className={`${styles.header} ${hasAside ? styles.split : ""}`}>
         <div className={styles.headingCol}>
           {eyebrow && (
@@ -31,10 +75,10 @@ export default function Hero({
               {eyebrow}
             </Eyebrow>
           )}
-          <h1 className={styles.title}>{title}</h1>
+          <h1 className={styles.title} data-hero-title>{title}</h1>
 
           {hasMeta && (
-            <div className={styles.meta}>
+            <div className={styles.meta} data-hero-meta>
               {meta.length > 0 && (
                 <p className={styles.metaLines}>
                   {meta.map((line) => (
@@ -75,7 +119,7 @@ export default function Hero({
         </div>
 
         {hasAside && (
-          <div className={styles.aside}>
+          <div className={styles.aside} data-hero-aside>
             {text && <p className={styles.excerpt}>{text}</p>}
             {actions.length > 0 && (
               <div className={styles.ctas}>
@@ -92,7 +136,7 @@ export default function Hero({
 
       {media && (
         <figure className={styles.mediaContainer} style={figureStyle}>
-          <div className={styles.media}>
+          <div className={styles.media} data-hero-media>
             {media.type === "video" ? (
               <video
                 className={styles.video}
