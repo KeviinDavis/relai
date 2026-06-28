@@ -9,14 +9,15 @@ import styles from "./Explore.module.css";
 
 // Explore band: heading + QR (desktop) on the left, isometric site map on the right.
 // On mobile the QR is replaced by a tappable "Explore" link below the map.
-export default function Explore({
-  heading,
-  qrLabel = "Scan QR Code to explore",
-  qr,
-  map,
-  href = "#",
-  linkLabel = "Explore",
-}) {
+export default function Explore({ content = {} }) {
+  const {
+    heading,
+    qrLabel = "Scan QR Code to explore",
+    qr,
+    map,
+    href = "#",
+    linkLabel = "Explore",
+  } = content;
   const scope = useRef(null);
   useReveal(scope);
 

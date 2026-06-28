@@ -1,21 +1,18 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Header from "@/components/Header";
 import SiteNav from "@/components/SiteNav";
 
-// Routes that use the Relai SiteNav, and the theme of the hero the bar sits
-// over (drives the project's .theme-* token set on the nav). Both routes
-// currently render on the dark default theme; flip to "light" here if a route
-// adopts a .theme-light hero. Every other route keeps the existing Header.
-const NAV_ROUTES = {
-  "/": "dark",
-  "/mission": "dark",
-};
+// SiteNav is the universal site menu, used on every route. Its `theme` drives
+// the project's .theme-* token set on the bar so the nav stays legible over
+// each route's hero. Every current hero is dark (white type on the black
+// page), so the default is "dark"; add a route here mapped to "light" only if
+// it ever adopts a .theme-light hero.
+const NAV_THEME = {};
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const theme = NAV_ROUTES[pathname];
+  const theme = NAV_THEME[pathname] ?? "dark";
 
-  return theme ? <SiteNav theme={theme} /> : <Header />;
+  return <SiteNav theme={theme} />;
 }

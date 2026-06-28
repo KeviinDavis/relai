@@ -1,0 +1,75 @@
+// Global content shared across the whole site (chrome + metadata).
+// Data only — no JSX. Components import these and render them.
+//
+// Consumers:
+//   • app/layout.js        → meta   (Next.js metadata export)
+//   • SiteHeader → Header  → nav
+//   • SiteHeader → SiteNav → nav, social
+//   • Footer               → footer, social
+
+// Component: app/layout.js (Next metadata)
+export const meta = {
+  // metadataBase intentionally omitted until the Relai domain is live.
+  title: {
+    default: "Relai — Redefining Freight",
+    template: "%s — Relai",
+  },
+  description:
+    "Relai is the first unified platform for port and freight logistics—connecting vessel, terminal, yard, and truck into a single, real-time system.",
+  openGraph: {
+    title: "Relai — Redefining Freight",
+    description:
+      "A modern, cloud-native freight-logistics coordination platform built for speed, visibility, and coordination.",
+    type: "website",
+    locale: "en_US",
+  },
+};
+
+// Component: Header, SiteNav (shared primary navigation)
+// One canonical set drives both the solid Header and the over-hero SiteNav, so
+// the two bars can never drift. "Book a Demo" is the CTA — the right-side button
+// on SiteNav and an appended bar link on Header. "Contact" opens the modal.
+export const nav = {
+  brand: { href: "/", label: "Relai", ariaLabel: "Relai — home" },
+  primary: [
+    { label: "Product", href: "/product" },
+    { label: "About", href: "/about" },
+    { label: "Mission", href: "/mission" },
+  ],
+  cta: { label: "Book a Demo", href: "/book-a-demo" },
+  contact: { label: "Contact", drawerLabel: "Contact Relai" },
+  home: { label: "Home", href: "/" },
+};
+
+// Component: SiteNav (drawer), Footer (social row)
+export const social = [
+  { label: "LinkedIn", href: "#" }, // placeholder — no Relai LinkedIn yet
+];
+
+// Component: Footer
+export const footer = {
+  eyebrow: "Contact",
+  heading: "The future of freight",
+  lead: "Relai", // rendered <strong> ahead of the body
+  body:
+    "is a cloud-native coordination platform built for terminals, carriers, and freight operators. With a unified, real-time interface and tools that adapt to any network, Relai gives the supply chain the visibility and control to move faster — and cleaner.",
+  card: {
+    href: "/book-a-demo",
+    image: {
+      src: "/images/concrete.webp",
+      alt: "A container terminal at the waterfront.",
+    },
+    eyebrow: "Get in touch",
+    text:
+      "Ready to replace the disconnected systems slowing your freight with one platform built to coordinate it all? Schedule a demo today.",
+  },
+  links: [
+    { label: "Home", href: "/" },
+    { label: "Product", href: "/product" },
+    { label: "FAQ", href: "/product#faq" },
+    { label: "About", href: "/about" },
+    { label: "Contact", action: "contact" },
+    { label: "Careers", href: "/about" },
+  ],
+  copyright: "© 2026 Relai",
+};

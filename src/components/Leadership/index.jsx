@@ -10,7 +10,8 @@ import styles from "./Leadership.module.css";
 // NEW pattern: the copy doc's About page calls for a leadership list and no
 // existing component fit, so this is a thin content section built from the
 // shared Section/Container primitives and project tokens only.
-export default function Leadership({ title, people = [] }) {
+export default function Leadership({ content = {} }) {
+  const { title, people = [] } = content;
   const scope = useRef(null);
   useReveal(scope, [people.length]);
 

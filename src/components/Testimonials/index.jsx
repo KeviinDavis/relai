@@ -6,7 +6,8 @@ import Eyebrow from "@/components/Eyebrow";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./Testimonials.module.css";
 
-export default function Testimonials({ items = [] }) {
+export default function Testimonials({ content = {} }) {
+  const { items = [] } = content;
   const [index, setIndex] = useState(0);
   const scope = useRef(null);
   useReveal(scope);

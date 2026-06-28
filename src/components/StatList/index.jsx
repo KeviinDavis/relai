@@ -8,7 +8,8 @@ import styles from "./StatList.module.css";
 
 // Big centered statement heading over a column of stat rows.
 // items: [{ value, label, description }]
-export default function StatList({ id, heading, items = [] }) {
+export default function StatList({ content = {} }) {
+  const { id, heading, items = [] } = content;
   const scope = useRef(null);
   useReveal(scope, [items.length]);
 

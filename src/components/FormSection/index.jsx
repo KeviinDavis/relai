@@ -9,13 +9,8 @@ import ContactForm from "@/components/ContactForm";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./FormSection.module.css";
 
-export default function FormSection({
-  eyebrow,
-  title,
-  text,
-  media,
-  formHeading,
-}) {
+export default function FormSection({ content = {} }) {
+  const { eyebrow, title, text, media, formHeading } = content;
   const scope = useRef(null);
   useReveal(scope);
 

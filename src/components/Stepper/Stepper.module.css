@@ -65,7 +65,7 @@
 }
 
 .cardCounter {
-  color: var(--color-gray);
+  color: var(--color-text-muted);
 }
 
 .blocks {
@@ -95,12 +95,12 @@
 .blockText {
   font-size: var(--font-body);
   line-height: 1.375;
-  color: var(--color-gray);
+  color: var(--color-text-muted);
   transition: color 0.3s ease;
 }
 
 .active .blockText {
-  color: var(--color-black);
+  color: var(--color-text-primary);
 }
 
 /* ---- Desktop (>=1024, source bp): 12-col grid, sticky card right ---- */

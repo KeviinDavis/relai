@@ -9,16 +9,17 @@ import Eyebrow from "@/components/Eyebrow";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./SplitSection.module.css";
 
-export default function SplitSection({
-  eyebrow,
-  title,
-  paragraphs = [],
-  media,
-  actions = [],
-  reverse = false,
-  tone = "light",
-  aspectRatio = "4/5",
-}) {
+export default function SplitSection({ content = {} }) {
+  const {
+    eyebrow,
+    title,
+    paragraphs = [],
+    media,
+    actions = [],
+    reverse = false,
+    tone = "light",
+    aspectRatio = "4/5",
+  } = content;
   const isDark = tone === "dark";
   const scope = useRef(null);
   useReveal(scope, [paragraphs.length]);

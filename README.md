@@ -56,6 +56,105 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — Content layer: a local file-based "headless CMS" (`src/content/`)
+
+Introduced a hard **data ↔ render** separation so copy can change without touching a
+component, and so the data source can later be swapped for a real CMS with no component
+edits. Content files hold data only (no JSX); components render only (no copy); pages are
+thin manifests that wire one to the other. Pure structural refactor — the existing Relai
+copy was lifted verbatim, so the rendered output is unchanged (`next build` parity).
+
+**New `src/content/` (data only, named exports per section)**
+- `site.js` — global chrome + metadata: `meta` (Next metadata), `nav`, `social`, `footer`.
+- `home.js`, `about.js`, `mission.js`, `product.js`, `book-a-demo.js` — one export per
+  section, each tagged `// Component: X` with a consumers header comment (human-readable
+  schema map). Each page file also exports `meta` that drives its `export const metadata`.
+
+**Components → a single `content` object prop (16 components)**
+- `Hero`, `Intro`, `Capabilities`, `Testimonials`, `Shortcuts`, `TextSection`,
+  `SplitSection`, `Faq`, `FormSection`, `Stepper`, `StatList`, `ImageRow`, `Explore`,
+  `CtaBanner`, `TalentSection`, `Leadership` now take `({ content })` and destructure
+  internally. Everything a page used to pass — copy, media, items, **and** presentation
+  flags (`reverse`, `tone`, `aspectRatio`, dark-hero opts) — folds into `content`, so each
+  page call is exactly `<Component content={…} />`. Render bodies are otherwise untouched.
+
+**Pages are now manifests**
+- All five pages dropped their inline copy; they import from `@/content/<page>` and render
+  `<Component content={…} />` only. No page-level copy, styling, or `FAQ_ITEMS` const. This
+  is the seam where imports later become `await fetch(...)` with no component changes.
+
+**`Capabilities` — one source of truth.** The four Relai capability items moved out of the
+component (the in-component default array is gone) into `home.js`. The home page now passes
+them explicitly, so the live tabs and the content layer can't drift.
+
+**Global chrome reads `site.js`.** `Footer`, `SiteNav`, and `Header` dropped their local
+const tables and inline copy for imports from `@/content/site`; `layout.js` metadata is now
+`export const metadata = meta`. **Nav unified:** Header and SiteNav previously hardcoded two
+*different* link sets — both now source one canonical `nav.primary` (`Product / About /
+Mission`) plus the `nav.cta` (`Book a Demo`), so the two bars can no longer disagree.
+
+**Folder move (macOS case-collision).** `src/Content/` (reference wireframes/mockups/copy
+doc) was moved to repo-root **`docs/`** — on a case-insensitive filesystem it collided with
+the new lowercase `src/content/`. Nothing imports those docs, so it's a clean relocation.
+
+**Verification:** `next build` clean — all 5 routes (`/`, `/about`, `/book-a-demo`,
+`/mission`, `/product`) prerender static; no broken imports/exports.
+
+#### Decisions / assumptions
+- **One uniform `content` prop name** (not per-section names like the reference project's
+  `beliefs`/`founder`) because several components render 2–3× per page (`SplitSection`,
+  `TextSection`); a fixed key keeps those instances working with a single prop.
+- **Presentation flags live in `content`**, making pages pure single-prop manifests. Flip
+  to passing `reverse`/`tone`/etc. as direct props if layout decisions should stay visible
+  in the page rather than the data file.
+- **No collection seam built.** There's no collection content yet (no `[slug]` routes), so
+  only page singletons + `site.js` exist. A `getEntry/getAll` async loader is the single
+  spot to add when a real collection (e.g. blog, case studies) appears — components/pages
+  won't change.
+
+### 2026-06-28 — `SiteNav` is now the universal menu on every route
+
+`SiteHeader` previously rendered the new `SiteNav` only on `/` and `/mission`, and fell
+back to the legacy `Header` on every other route. Made **`SiteNav` the menu on all pages**.
+
+- `SiteHeader` now always renders `SiteNav`; the `NAV_ROUTES` allow-list became a
+  `NAV_THEME` override map that defaults to `"dark"`. Every current hero is dark (a
+  `tone="dark"` hero paints the black canvas, and a `tone="light"` hero is transparent
+  over the black `body`, so both are white-on-black), so all routes use the `"dark"` nav
+  theme; map a route to `"light"` here only if it ever adopts a `.theme-light` hero.
+- The legacy `Header` is no longer imported — it's now dead code (left in place, not
+  deleted). **Open item:** remove `components/Header/` once confirmed unneeded.
+- **Verification:** `next build` clean — all 6 routes (`/`, `/about`, `/book-a-demo`,
+  `/mission`, `/product`, `/_not-found`) prerender static.
+
+### 2026-06-28 — Fix black-on-black text left by the Relai token scrub
+
+The Relai rebrand flipped the default theme to **dark** (white-on-black) and dropped two
+Korr palette tokens (`--color-gray`, `--color-green`), but several components still carried
+light-theme assumptions, so their text rendered **invisible** (black on the black page) or
+fell back to an inherited color. All fixes are token-only — no new tokens, no markup changes.
+
+**Invisible text (black-on-black) → theme-adaptive tokens**
+- **`Eyebrow .default`** hardcoded `--color-black`. Every light-tone section (About's
+  "Why Relai"/"Mission", etc.) is transparent over the dark page, so its eyebrow label was
+  invisible → `--color-text-muted` (also unified `.dark`, which referenced the dropped
+  `--color-gray`).
+- **`Shortcuts .text`** (Home) and **`Stepper .active .blockText`** (Product) were
+  `--color-black` on the dark page → `--color-text-primary` (full-contrast, theme-adaptive).
+
+**Dangling tokens from the scrub → existing tokens**
+- `--color-gray` (deleted) in `Eyebrow .dark`, `Stepper .cardCounter`/`.blockText`,
+  `Footer .bottomRight` → `--color-text-muted`.
+- `--color-green` (deleted brand accent, palette is now mono) in `Button .primary:hover`
+  → `--color-black` fill, matching the existing `.secondary`/`.light` mono hover convention.
+
+**Left as-is:** legacy `Header` has black-on-black rules but is no longer rendered (the
+layout mounts `SiteHeader`); the remaining `--color-black` text (`Button .solid`/`.secondary:hover`,
+`Footer` demo card) sits on white surfaces and is correct.
+
+**Verification:** audit confirms all 15 referenced `--color-*` tokens now resolve in
+`tokens.css`; no remaining `var(--color-gray)`/`var(--color-green)` references.
+
 ### 2026-06-28 — Korr→Relai scrub: brand, copy, structure to the CD copy doc
 
 Converted the inherited Korr (insurance) template into **Relai** (freight logistics),

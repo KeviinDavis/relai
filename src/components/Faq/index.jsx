@@ -7,7 +7,8 @@ import Eyebrow from "@/components/Eyebrow";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./Faq.module.css";
 
-export default function Faq({ eyebrow, title, text, items = [] }) {
+export default function Faq({ content = {} }) {
+  const { eyebrow, title, text, items = [] } = content;
   const scope = useRef(null);
   useReveal(scope, [items.length]);
 

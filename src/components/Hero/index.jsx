@@ -10,21 +10,22 @@ import styles from "./Hero.module.css";
 
 gsap.registerPlugin(useGSAP);
 
-export default function Hero({
-  eyebrow,
-  title,
-  text,
-  actions = [],
-  media,
-  // Optional dark-hero anatomy — all opt-in, so existing pages are unaffected.
-  meta = [],                 // small label lines under the title, e.g. ["Built at the Port of Long Beach"]
-  tag,                       // code tag, e.g. "[ MISSION ]"
-  scrollIndicator = false,   // down-arrow scroll cue, aligned to the tag row
-  scrollTo = "#content",     // anchor the arrow jumps to
-  mediaAspect,               // desktop media ratio override (e.g. "56.25%" for 16:9)
-  tone = "light",            // "light" | "dark"
-  animate = true,            // play the on-load entrance timeline
-}) {
+export default function Hero({ content = {} }) {
+  const {
+    eyebrow,
+    title,
+    text,
+    actions = [],
+    media,
+    // Optional dark-hero anatomy — all opt-in.
+    meta = [],                 // small label lines under the title
+    tag,                       // code tag, e.g. "[ MISSION ]"
+    scrollIndicator = false,   // down-arrow scroll cue, aligned to the tag row
+    scrollTo = "#content",     // anchor the arrow jumps to
+    mediaAspect,               // desktop media ratio override (e.g. "56.25%")
+    tone = "light",            // "light" | "dark"
+    animate = true,            // play the on-load entrance timeline
+  } = content;
   const isDark = tone === "dark";
   const hasAside = Boolean(text || actions.length);
   const hasMeta = Boolean(meta.length || tag || scrollIndicator);
@@ -50,7 +51,15 @@ export default function Hero({
         tl.fromTo(
           titleEl,
           { yPercent: 35, opacity: 0, clipPath: "inset(0 0 100% 0)" },
-          { yPercent: 0, opacity: 1, clipPath: "inset(0 0 0% 0)", duration: 1.1 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            clipPath: "inset(0 0 0% 0)",
+            duration: 1.1,
+            // line-height:1 lets descenders overflow the box; drop the clip at
+            // rest so the inset() wipe doesn't keep slicing the glyphs.
+            clearProps: "clipPath",
+          },
           0.1
         );
       if (supporting.length)

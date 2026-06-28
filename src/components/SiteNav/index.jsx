@@ -5,28 +5,11 @@ import Link from "next/link";
 import Logo from "@/components/Logo";
 import Container from "@/components/Container";
 import ContactModal from "@/components/ContactModal";
+import { nav, social } from "@/content/site";
 import styles from "./SiteNav.module.css";
 
-// Center bar links — the project's real routes.
-const NAV_LINKS = [
-  { label: "Product", href: "/product" },
-  { label: "About", href: "/about" },
-  { label: "Mission", href: "/mission" },
-];
-
 // Mobile drawer — the full menu (adds Home + the Book a Demo CTA).
-const DRAWER_LINKS = [
-  { label: "Home", href: "/" },
-  ...NAV_LINKS,
-  { label: "Book a Demo", href: "/book-a-demo" },
-];
-
-const SOCIAL_LINKS = [
-  {
-    label: "LinkedIn",
-    href: "#", // placeholder — no Relai LinkedIn yet
-  },
-];
+const drawerLinks = [nav.home, ...nav.primary, nav.cta];
 
 export default function SiteNav({ theme = "dark" }) {
   const [scrolled, setScrolled] = useState(false);
@@ -72,16 +55,16 @@ export default function SiteNav({ theme = "dark" }) {
         <Container>
           <div className={styles.bar}>
             <Link
-              href="/"
+              href={nav.brand.href}
               className={styles.logo}
-              aria-label="Relai — home"
+              aria-label={nav.brand.ariaLabel}
               onClick={closeMenu}
             >
               <Logo height={26} />
             </Link>
 
             <nav className={styles.links} aria-label="Primary">
-              {NAV_LINKS.map((link) => (
+              {nav.primary.map((link) => (
                 <Link key={link.href} href={link.href} className={styles.link}>
                   {link.label}
                 </Link>
@@ -95,10 +78,10 @@ export default function SiteNav({ theme = "dark" }) {
                   className={styles.action}
                   onClick={() => setModalOpen(true)}
                 >
-                  Contact
+                  {nav.contact.label}
                 </button>
-                <Link href="/book-a-demo" className={styles.action}>
-                  Book a Demo
+                <Link href={nav.cta.href} className={styles.action}>
+                  {nav.cta.label}
                 </Link>
               </div>
 
@@ -133,7 +116,7 @@ export default function SiteNav({ theme = "dark" }) {
           </div>
 
           <nav className={styles.drawerNav} aria-label="Mobile">
-            {DRAWER_LINKS.map((link) => (
+            {drawerLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -153,22 +136,22 @@ export default function SiteNav({ theme = "dark" }) {
                 className={styles.metaLink}
                 onClick={openContact}
               >
-                Contact Relai
+                {nav.contact.drawerLabel}
               </button>
             </div>
 
             <div className={styles.metaBlock}>
               <span className={styles.metaLabel}>Social</span>
               <div className={styles.social}>
-                {SOCIAL_LINKS.map((social) => (
+                {social.map((s) => (
                   <a
-                    key={social.href}
+                    key={s.href}
                     className={styles.metaLink}
-                    href={social.href}
+                    href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {social.label}
+                    {s.label}
                   </a>
                 ))}
               </div>

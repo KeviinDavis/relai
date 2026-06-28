@@ -8,7 +8,8 @@ import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./CtaBanner.module.css";
 
 // Two-column closing statement: large title on the left, copy + actions on the right.
-export default function CtaBanner({ title, text, actions = [] }) {
+export default function CtaBanner({ content = {} }) {
+  const { title, text, actions = [] } = content;
   const scope = useRef(null);
   useReveal(scope);
 

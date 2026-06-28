@@ -4,14 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import ContactModal from "@/components/ContactModal";
+import { nav } from "@/content/site";
 import styles from "./Header.module.css";
 
-const NAV_LINKS = [
-  { label: "Product", href: "/product" },
-  { label: "Book a Demo", href: "/book-a-demo" },
-  { label: "About", href: "/about" },
-  { label: "Mission", href: "/mission" },
-];
+// Bar links: the shared primary nav plus the Book a Demo CTA.
+const navLinks = [...nav.primary, nav.cta];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,16 +27,16 @@ export default function Header() {
   return (
     <>
       <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`}>
-        <Link href="/" className={styles.logo} aria-label="Relai — home">
+        <Link href={nav.brand.href} className={styles.logo} aria-label={nav.brand.ariaLabel}>
           <Logo height={28} />
         </Link>
 
         <div className={styles.navGroup}>
-          <Link href="/" className={styles.homePill}>
+          <Link href={nav.brand.href} className={styles.homePill}>
             relai
           </Link>
           <ul className={styles.list}>
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className={styles.link}>
                   {link.label}
@@ -62,7 +59,7 @@ export default function Header() {
 
       {menuOpen && (
         <nav className={styles.mobileMenu} aria-label="Mobile">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -80,7 +77,7 @@ export default function Header() {
               setModalOpen(true);
             }}
           >
-            Contact
+            {nav.contact.label}
           </button>
         </nav>
       )}

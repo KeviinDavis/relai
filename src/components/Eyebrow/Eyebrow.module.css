@@ -13,12 +13,12 @@
 }
 
 .default {
-  color: var(--color-black);
+  color: var(--color-text-muted);
   border-color: var(--color-gray-dark);
 }
 
 .dark {
-  color: var(--color-gray);
+  color: var(--color-text-muted);
   border-color: var(--color-gray-dark);
 }
 

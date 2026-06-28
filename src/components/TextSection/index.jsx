@@ -8,16 +8,17 @@ import Eyebrow from "@/components/Eyebrow";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./TextSection.module.css";
 
-export default function TextSection({
-  eyebrow,
-  title,
-  lead,
-  paragraphs = [],
-  actions = [],
-  tone = "light",
-  align = "left",
-  narrow = true,
-}) {
+export default function TextSection({ content = {} }) {
+  const {
+    eyebrow,
+    title,
+    lead,
+    paragraphs = [],
+    actions = [],
+    tone = "light",
+    align = "left",
+    narrow = true,
+  } = content;
   const isDark = tone === "dark";
   const scope = useRef(null);
   useReveal(scope, [paragraphs.length]);

@@ -10,7 +10,8 @@ import styles from "./Stepper.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Stepper({ capsule, text, steps = [] }) {
+export default function Stepper({ content = {} }) {
+  const { capsule, text, steps = [] } = content;
   const [active, setActive] = useState(0);
   const scope = useRef(null);
   const scrollerRef = useRef(null);

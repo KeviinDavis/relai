@@ -7,7 +7,8 @@ import Eyebrow from "@/components/Eyebrow";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./Shortcuts.module.css";
 
-export default function Shortcuts({ capsule, text, cards = [] }) {
+export default function Shortcuts({ content = {} }) {
+  const { capsule, text, cards = [] } = content;
   const scope = useRef(null);
   useReveal(scope, [cards.length]);
 

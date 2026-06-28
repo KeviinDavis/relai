@@ -5,16 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Eyebrow from "@/components/Eyebrow";
 import ContactModal from "@/components/ContactModal";
+import { footer, social } from "@/content/site";
 import styles from "./Footer.module.css";
-
-const BOTTOM_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Product", href: "/product" },
-  { label: "FAQ", href: "/product#faq" },
-  { label: "About", href: "/about" },
-  { label: "Contact", action: "contact" },
-  { label: "Careers", href: "/about" },
-];
 
 export default function Footer() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,37 +16,30 @@ export default function Footer() {
       <div className={styles.main}>
         <div className={styles.intro}>
           <div className={styles.introTag}>
-            <Eyebrow variant="dark">Contact</Eyebrow>
+            <Eyebrow variant="dark">{footer.eyebrow}</Eyebrow>
           </div>
           <div className={styles.introBody}>
-            <h2 className={styles.heading}>The future of freight</h2>
+            <h2 className={styles.heading}>{footer.heading}</h2>
             <p className={styles.subheading}>
-              <strong>Relai</strong> is a cloud-native coordination platform built
-              for terminals, carriers, and freight operators. With a unified,
-              real-time interface and tools that adapt to any network, Relai gives
-              the supply chain the visibility and control to move faster — and
-              cleaner.
+              <strong>{footer.lead}</strong> {footer.body}
             </p>
           </div>
         </div>
 
         <div className={styles.panel}>
-          <Link href="/book-a-demo" className={styles.card}>
+          <Link href={footer.card.href} className={styles.card}>
             <div className={styles.cardImg}>
               <Image
-                src="/images/concrete.webp"
-                alt="A container terminal at the waterfront."
+                src={footer.card.image.src}
+                alt={footer.card.image.alt}
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className={styles.cardImgInner}
               />
             </div>
             <div className={styles.cardData}>
-              <Eyebrow>Get in touch</Eyebrow>
-              <p className={styles.cardText}>
-                Ready to replace the disconnected systems slowing your freight with
-                one platform built to coordinate it all? Schedule a demo today.
-              </p>
+              <Eyebrow>{footer.card.eyebrow}</Eyebrow>
+              <p className={styles.cardText}>{footer.card.text}</p>
             </div>
           </Link>
         </div>
@@ -62,7 +47,7 @@ export default function Footer() {
 
       <div className={styles.bottom}>
         <ul className={styles.bottomLinks}>
-          {BOTTOM_LINKS.map((l) =>
+          {footer.links.map((l) =>
             l.action === "contact" ? (
               <li key={l.label}>
                 <button
@@ -70,7 +55,7 @@ export default function Footer() {
                   className={styles.linkButton}
                   onClick={() => setModalOpen(true)}
                 >
-                  Contact
+                  {l.label}
                 </button>
               </li>
             ) : (
@@ -82,17 +67,15 @@ export default function Footer() {
         </ul>
 
         <div className={styles.bottomRight}>
-          <p className={styles.copyright}>© 2026 Relai</p>
+          <p className={styles.copyright}>{footer.copyright}</p>
           <ul>
-            <li>
-              <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-            </li>
+            {social.map((s) => (
+              <li key={s.href}>
+                <a href={s.href} target="_blank" rel="noopener noreferrer">
+                  {s.label}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

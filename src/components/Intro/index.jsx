@@ -6,7 +6,8 @@ import Eyebrow from "@/components/Eyebrow";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./Intro.module.css";
 
-export default function Intro({ excerpt, capsule, body, id, links = [] }) {
+export default function Intro({ content = {} }) {
+  const { excerpt, capsule, body, id, links = [] } = content;
   const scope = useRef(null);
   useReveal(scope);
 

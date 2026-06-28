@@ -11,7 +11,7 @@
 
 .header {
   padding-inline: var(--gutter-sm);
-  padding-top: 7rem;
+  padding-top: 15rem;
   margin-bottom: var(--gutter);
   display: grid;
   grid-template-columns: 1fr;
@@ -151,7 +151,7 @@
 @media (min-width: 1024px) {
   .header {
     padding-inline: var(--gutter);
-    padding-top: 8.5rem;
+    padding-top: 20.5rem;
   }
 
   .split {

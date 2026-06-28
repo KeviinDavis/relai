@@ -11,15 +11,16 @@ const pad = (n) => String(n).padStart(2, "0");
 
 // Light "Stay On Our Radar" band: a talent-network CTA, then a roles band with a
 // numbered list of open role areas.
-export default function TalentSection({
-  heading,
-  text,
-  cta,
-  rolesHeading,
-  rolesText,
-  rolesCta,
-  roles = [],
-}) {
+export default function TalentSection({ content = {} }) {
+  const {
+    heading,
+    text,
+    cta,
+    rolesHeading,
+    rolesText,
+    rolesCta,
+    roles = [],
+  } = content;
   const scope = useRef(null);
   useReveal(scope, [roles.length]);
 

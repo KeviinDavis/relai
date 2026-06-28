@@ -8,7 +8,8 @@ import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./ImageRow.module.css";
 
 // A row of equal-weight images (two-up on desktop, stacked on mobile).
-export default function ImageRow({ images = [] }) {
+export default function ImageRow({ content = {} }) {
+  const { images = [] } = content;
   const scope = useRef(null);
   useReveal(scope, [images.length]);
 

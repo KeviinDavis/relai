@@ -109,7 +109,7 @@
   gap: 0.5rem;
   font-size: var(--font-body-sm);
   line-height: 1.428;           /* 20px on 14px */
-  color: var(--color-gray);
+  color: var(--color-text-muted);
 }
 
 .bottomRight a:hover {

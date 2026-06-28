@@ -47,7 +47,7 @@
 .text {
   font-size: var(--font-body);
   line-height: 1.375;            /* 22px */
-  color: var(--color-black);
+  color: var(--color-text-primary);
 }
 
 .cardLink:hover .img {

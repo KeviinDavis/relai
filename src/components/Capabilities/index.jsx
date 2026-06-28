@@ -20,46 +20,8 @@ const prefersReduce = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const DEFAULT_ITEMS = [
-  {
-    title: "Vessel Intelligence",
-    description:
-      "Live tracking and predictive ETAs across every vessel in your network — so the dock is ready before the ship is.",
-    image: {
-      src: "/images/capability-vessel-intelligence.svg",
-      alt: "Diagram of live vessel tracking and predictive ETAs across a port network.",
-    },
-  },
-  {
-    title: "Terminal Orchestration",
-    description:
-      "Berth, crane, and yard coordinated from one view, sequenced around real arrival times instead of guesswork.",
-    image: {
-      src: "/images/capability-terminal-orchestration.svg",
-      alt: "Diagram of berth, crane, and yard sequenced from a single terminal view.",
-    },
-  },
-  {
-    title: "Drayage & Handoff",
-    description:
-      "The port-to-truck seam, closed — every container with a known location, a next move, and a driver ready for it.",
-    image: {
-      src: "/images/capability-drayage-handoff.svg",
-      alt: "Diagram of the port-to-truck handoff with every container tracked to a driver.",
-    },
-  },
-  {
-    title: "Emissions & Idle",
-    description:
-      "Fuel burn and emissions measured across every leg, turning coordination gains into a cut you can prove.",
-    image: {
-      src: "/images/capability-emissions-idle.svg",
-      alt: "Diagram of fuel burn and emissions measured across every leg of the journey.",
-    },
-  },
-];
-
-export default function Capabilities({ heading = "Capabilities", items = DEFAULT_ITEMS }) {
+export default function Capabilities({ content = {} }) {
+  const { heading = "Capabilities", items = [] } = content;
   const [active, setActive] = useState(0);
   const count = items.length;
 
