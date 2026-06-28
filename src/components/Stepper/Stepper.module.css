@@ -1,0 +1,160 @@
+.section {
+  padding-inline: var(--gutter-sm);
+  margin-bottom: 5rem;            /* 80px (mobile) */
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  max-width: 40rem;
+  margin-bottom: 3rem;
+}
+
+.headerText {
+  font-size: var(--font-h3);     /* 24px */
+  line-height: 1.35;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+/* ---- Mobile/tablet: card on top, blocks as a horizontal scroller ---- */
+.sticky {
+  order: -1;
+  position: relative;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 100 / 97.96;     /* near-square (source mobile) */
+  background-color: var(--color-black);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.slideActive {
+  opacity: 1;
+}
+
+.slideImg {
+  object-fit: contain;
+  padding: 2.5rem;
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: 0 0 auto 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  font-size: var(--font-body);
+  color: var(--color-white);
+  font-family: var(--font-secondary);
+}
+
+.cardCounter {
+  color: var(--color-gray);
+}
+
+.blocks {
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-block: 1.5rem 1.25rem; /* 24/20 */
+}
+
+.blocks::-webkit-scrollbar {
+  display: none;
+}
+
+.block {
+  flex: 0 0 76.67vw;
+  padding-right: var(--gutter-sm);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9375rem;                /* 15px */
+  cursor: pointer;
+}
+
+.blockText {
+  font-size: var(--font-body);
+  line-height: 1.375;
+  color: var(--color-gray);
+  transition: color 0.3s ease;
+}
+
+.active .blockText {
+  color: var(--color-black);
+}
+
+/* ---- Desktop (>=1024, source bp): 12-col grid, sticky card right ---- */
+@media (min-width: 1024px) {
+  .section {
+    padding-inline: var(--gutter);
+    margin-bottom: 7.5rem;       /* 120px */
+  }
+
+  .header {
+    margin-bottom: 4rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: start;
+  }
+
+  .blocks {
+    grid-column: 1 / span 8;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    padding-block: 0;
+  }
+
+  .block {
+    flex: none;
+    width: auto;
+    padding-right: 0;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    gap: 0;
+    padding-block: 1.5rem;
+  }
+
+  .blockTag {
+    grid-column: 2 / span 2;
+  }
+
+  .blockText {
+    grid-column: 4 / span 4;
+  }
+
+  .sticky {
+    order: 0;
+    grid-column: 9 / span 4;
+    position: sticky;
+    top: 6rem;
+  }
+
+  .card {
+    aspect-ratio: 100 / 111.21;  /* portrait (source desktop) */
+  }
+}

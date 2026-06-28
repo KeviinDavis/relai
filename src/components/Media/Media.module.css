@@ -1,0 +1,16 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fill {
+  aspect-ratio: var(--aspect-ratio);
+}
+
+.wrapper img,
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

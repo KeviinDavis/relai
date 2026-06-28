@@ -1,0 +1,48 @@
+.section {
+  padding-block: var(--space-8xl);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7xl);
+  align-items: start;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.title {
+  font-size: var(--font-h3);
+  font-weight: var(--weight-medium);
+  line-height: 1.15;
+}
+
+.text {
+  font-size: var(--font-h6);
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.figure {
+  margin-top: var(--space-l);
+  max-width: 22rem;
+  border-radius: var(--radius-default);
+  overflow: hidden;
+}
+
+.formWrap {
+  padding: var(--space-2xl);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-default);
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8xl);
+  }
+}

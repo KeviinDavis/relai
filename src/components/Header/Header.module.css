@@ -1,0 +1,151 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  z-index: var(--z-nav);
+  pointer-events: none;
+}
+
+.header a,
+.header button {
+  pointer-events: auto;
+}
+
+/* SVG wordmark — top-left, fades out on scroll */
+.logo {
+  position: absolute;
+  top: 20px;
+  left: var(--gutter-sm);
+  display: flex;
+  align-items: center;
+  color: var(--color-black);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.scrolled .logo {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Floating pill group — top-right, centers on scroll. Hidden below 1024px. */
+.navGroup {
+  display: none;
+  position: absolute;
+  top: var(--gutter);
+  right: var(--gutter-sm);
+  align-items: center;
+  gap: var(--space-xs);
+  transition: right 0.6s cubic-bezier(0.4, 0, 0, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.scrolled .navGroup {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.list,
+.homePill {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-size: 1.1875rem;             /* 19px */
+  line-height: 1.2;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+/* the "korr" text pill only shows once scrolled (SVG has faded) */
+.homePill {
+  padding: 11px 15px 9px;
+  opacity: 0;
+  width: 0;
+  padding-inline: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.scrolled .homePill {
+  opacity: 1;
+  width: auto;
+  padding: 11px 15px 9px;
+  pointer-events: auto;
+}
+
+.link {
+  display: inline-block;
+  padding: 11px 15px 9px;
+  white-space: nowrap;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.link:hover {
+  background-color: var(--color-gray-light);
+}
+
+/* Mobile menu chip — shown below 1024px */
+.menuIcon {
+  display: block;
+  position: fixed;
+  top: 19px;
+  right: var(--gutter-sm);
+  z-index: calc(var(--z-nav) + 1);
+  color: var(--color-white);
+  background-color: var(--color-black);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px 4px;
+  cursor: pointer;
+}
+
+.mobileMenu {
+  position: fixed;
+  inset: var(--nav-height) 0 auto 0;
+  z-index: var(--z-nav);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  padding: var(--space-l) var(--gutter-sm) var(--space-2xl);
+  background-color: var(--color-white);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.mobileLink {
+  font-size: var(--font-h4);
+  font-weight: var(--weight-medium);
+}
+
+.mobileContact {
+  align-self: flex-start;
+  margin-top: var(--space-s);
+  font-size: var(--font-h4);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+  .logo {
+    left: var(--gutter);
+  }
+
+  .navGroup {
+    display: flex;
+    right: var(--gutter);
+  }
+
+  .scrolled .navGroup {
+    right: 50%;
+  }
+
+  .menuIcon {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: none;
+  }
+}

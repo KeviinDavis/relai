@@ -1,0 +1,101 @@
+.hero {
+  margin-bottom: var(--gutter);
+}
+
+.header {
+  padding-inline: var(--gutter-sm);
+  padding-top: 7rem;
+  margin-bottom: var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: var(--gutter);
+  row-gap: var(--space-l);
+}
+
+.headingCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.eyebrow {
+  align-self: flex-start;
+}
+
+.title {
+  font-size: var(--font-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+  font-weight: var(--weight-medium);
+}
+
+.aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.excerpt {
+  font-size: var(--font-body);   /* 16px */
+  line-height: 1.375;            /* 22px */
+  max-width: 36rem;
+  margin-bottom: 2.8125rem;      /* 45px — source Hero_excerpt */
+}
+
+.ctas {
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--space-m);
+}
+
+.mediaContainer {
+  padding-inline: 0;              /* mobile: full-bleed, edge-to-edge */
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  padding-bottom: 133.33%;        /* mobile: portrait 3:4 */
+  border-radius: 0;               /* mobile: square edges for full bleed */
+  overflow: hidden;
+  background-color: var(--color-gray-light);
+}
+
+.media .video,
+.media :global(img) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding-inline: var(--gutter);
+    padding-top: 8.5rem;
+  }
+
+  .split {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .aside {
+    /* right column: push excerpt to the upper-right, CTAs to the bottom-right */
+    align-items: flex-end;
+    text-align: left;
+  }
+
+  .ctas {
+    justify-content: flex-end;
+  }
+
+  .mediaContainer {
+    padding-inline: var(--gutter); /* desktop: inset back to the gutter */
+  }
+
+  .media {
+    padding-bottom: 37.79%;       /* desktop: wide banner ~2.65:1 */
+    border-radius: var(--radius-lg);
+  }
+}

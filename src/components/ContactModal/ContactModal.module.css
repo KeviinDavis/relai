@@ -1,0 +1,44 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-m);
+  background-color: rgba(32, 35, 31, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.dialog {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--space-6xl) var(--space-2xl) var(--space-2xl);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-default);
+}
+
+.close {
+  position: absolute;
+  top: var(--space-m);
+  right: var(--space-m);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  border-radius: 50%;
+  border: 1px solid var(--color-stroke-muted);
+  cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.close:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}

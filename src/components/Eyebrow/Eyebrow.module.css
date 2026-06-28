@@ -1,0 +1,29 @@
+.capsule {
+  display: inline-block;
+  align-self: flex-start;        /* never stretch when used as a direct flex child */
+  font-family: var(--font-secondary);
+  font-size: 0.75rem;          /* 12px */
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  padding: 5px 5px 3px;
+  border: 1px solid var(--color-gray-dark);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.default {
+  color: var(--color-black);
+  border-color: var(--color-gray-dark);
+}
+
+.dark {
+  color: var(--color-gray);
+  border-color: var(--color-gray-dark);
+}
+
+.active {
+  color: var(--color-white);
+  background-color: var(--color-black);
+  border-color: var(--color-black);
+}
