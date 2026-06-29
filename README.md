@@ -56,6 +56,29 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — Global film-grain / noise overlay on the page background
+
+Recreated the Figma "Noise" effect (Mono, fine grain, white @ 10% over the black
+fill) as a site-wide texture. The page background color was already true black
+(`--color-bg-primary`), so the only new work was the grain.
+
+- **Mechanism** — a single fixed, `pointer-events: none` `body::before` overlay in
+  `globals.css`, sized to the viewport, sitting above page content but below the
+  nav/modals (`--z-overlay`). No new component, no dependencies.
+- **The grain** — an `feTurbulence` fractal-noise SVG (`--noise-image` in
+  `tokens.css`) whose noise is routed into the **alpha channel** via `feColorMatrix`,
+  so it can drive a CSS alpha mask. `baseFrequency` maps to Figma's "Noise size";
+  `--noise-opacity` (0.12) maps to the 10%. Both are the tuning knobs.
+- **Theme-aware (whole site)** — the masked grain is painted with a solid color that
+  flips: white on the dark default, black on light routes via
+  `body:has(> .theme-light)::before`. This works because RouteTheme/Header already
+  add the global `theme-light` class to a direct child of `<body>` on `/about` and
+  `/book-a-demo`.
+- **Why mask + flipped color, not `mix-blend-mode`** — pure `#000`/`#fff`
+  backgrounds collapse blend modes (anything × 0 = 0), so a blend would show no
+  grain on the actual page extremes. Masking a theme-flipped solid color is robust
+  on both and needs no JS.
+
 ### 2026-06-28 — Standalone GSAP `MobileMenu` overlay (parent-controlled)
 
 New self-contained, full-screen mobile menu that is **not** coupled to any header

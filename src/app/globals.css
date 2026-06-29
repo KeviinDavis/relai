@@ -81,6 +81,41 @@ main {
 }
 
 /* ============================================================
+   FILM GRAIN — global noise overlay
+   ------------------------------------------------------------
+   Recreates the Figma "Noise" effect (Mono, fine grain, white @ 10%
+   over the black fill). A fixed, non-interactive grain layer sits over
+   the page content (below the nav/modals, above sections) so the whole
+   site reads with a consistent texture regardless of each section's own
+   background. The noise SVG (--noise-image, tokens.css) is used as an
+   ALPHA MASK over a solid grain color: white on the dark default, and
+   flipped to black on light routes — where RouteTheme/Header add the
+   global `theme-light` class to a direct child of <body>. Pure black/
+   white backgrounds collapse mix-blend-mode (×0 = 0), so masking a
+   theme-flipped color is used instead of a blend.
+   ============================================================ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  background-color: var(--color-white);
+  -webkit-mask-image: var(--noise-image);
+          mask-image: var(--noise-image);
+  -webkit-mask-size: 160px 160px;
+          mask-size: 160px 160px;
+  -webkit-mask-repeat: repeat;
+          mask-repeat: repeat;
+  opacity: var(--noise-opacity);
+}
+
+/* Light routes flip the grain to dark so it stays visible on white. */
+body:has(> .theme-light)::before {
+  background-color: var(--color-black);
+}
+
+/* ============================================================
    TYPOGRAPHY
    ============================================================ */
 
