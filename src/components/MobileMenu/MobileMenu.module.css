@@ -1,0 +1,103 @@
+/* ============================================================
+   MobileMenu — standalone, parent-controlled full-screen overlay.
+   Panel slides right-to-left in / left-to-right out (GSAP drives the
+   transform on .menuBg). Links + tagline reveal with a vertical clip
+   stagger. Background reuses the project's frosted-menu treatment
+   (--color-nav-glass + backdrop blur), so the foreground is dark.
+   ============================================================ */
+
+.menuWrap {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: var(--space-8xl) var(--gutter) var(--space-3xl);
+  pointer-events: none;
+  /* Sits above all nav chrome (the active Header pins a fixed chip at
+     --z-nav + 1), so the full-screen panel uses the modal layer to cover it. */
+  z-index: var(--z-modal);
+}
+
+.menuWrapOpen {
+  pointer-events: all;
+}
+
+.menuBg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-nav-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  /* INITIAL = parked off-screen to the right. */
+  transform: translateX(100%);
+  will-change: transform;
+}
+
+.menuLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: var(--space-7xl) 0 0;
+}
+
+.linkWrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-xs);
+  width: 100%;
+  font-size: var(--font-h1);
+  font-weight: var(--weight-normal);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  /* Dark foreground on the translucent-white frost, matching the existing
+     frosted Header menu (which also pairs --color-nav-glass with black text). */
+  color: var(--color-black);
+  visibility: hidden;
+}
+
+.clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1.1;
+}
+
+.count {
+  font-size: var(--font-body-sm);
+  line-height: 1;
+  opacity: 0.4;
+  font-variant-numeric: tabular-nums;
+  padding-top: var(--space-2xs);
+}
+
+.tagline {
+  margin-top: auto;
+  overflow: hidden;
+  /* Substitutes the spec's literal 2rem with the nearest fluid type token
+     (--font-h2 maxes at 2rem). */
+  font-size: var(--font-h2);
+  /* Substitutes the missing --leading-normal with --leading-heading (1.08). */
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+  color: var(--color-black);
+  visibility: hidden;
+}
+
+.tagline p {
+  margin: 0;
+}

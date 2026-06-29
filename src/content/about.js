@@ -14,7 +14,7 @@ export const hero = {
   title: "Building the platform we wished we had",
   media: {
     type: "image",
-    src: "/images/about-hero.webp",
+    src: "/images/media-about.svg",
     alt: "A container terminal seen from above.",
   },
 };
@@ -37,7 +37,7 @@ export const whyRelai = {
     "We're seeing Relai's impact across 14 live terminals today.",
   ],
   media: {
-    src: "/images/about-why.webp",
+    src: "/images/image-about-why.svg",
     alt: "Operations team coordinating freight at a terminal.",
   },
 };
@@ -61,7 +61,7 @@ export const mission = {
     "Relai's mission is to give logistics operators technology they can use to thrive in a volatile, fast-moving world. Our vision is nothing less than a total transformation of freight — redefining it as a coordinated, transparent, low-carbon system that moves at the speed of modern trade.",
   ],
   media: {
-    src: "/images/product-architecture.webp",
+    src: "/images/image-about-mission.svg",
     alt: "A connected view of a freight network.",
   },
   actions: [{ label: "Read our mission", href: "/mission", variant: "primary" }],

@@ -61,8 +61,8 @@ export const stats = {
 // Component: ImageRow
 export const gallery = {
   images: [
-    { src: "/images/concrete.webp", alt: "A container terminal at the waterfront." },
-    { src: "/images/about-why.webp", alt: "Stacked shipping containers in a port yard." },
+    { src: "/images/gallery-terminal.svg", alt: "A container terminal at the waterfront." },
+    { src: "/images/gallery-yard.svg", alt: "Stacked shipping containers in a port yard." },
   ],
 };
 
@@ -70,7 +70,7 @@ export const gallery = {
 export const explore = {
   heading: "Explore the Network",
   map: {
-    src: "/images/mission-globe.webp",
+    src: "/images/map-network.svg",
     alt: "Isometric map of a port network and the corridors Relai coordinates.",
   },
   href: "#",

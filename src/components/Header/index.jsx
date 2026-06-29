@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Logo from "@/components/Logo";
-import ContactModal from "@/components/ContactModal";
+import MobileMenu from "@/components/MobileMenu";
+import MenuToggle from "@/components/MenuToggle";
 import { nav } from "@/content/site";
 import styles from "./Header.module.css";
 
-// Bar links: the shared primary nav plus the Book a Demo CTA.
+// Desktop pill: the shared primary nav plus the Book a Demo CTA.
 const navLinks = [...nav.primary, nav.cta];
+
+// Mobile overlay: the full set, leading with Home.
+const menuLinks = [nav.home, ...nav.primary, nav.cta];
 
 // Routes that render on the LIGHT theme. Header lives OUTSIDE RouteTheme (see
 // layout.js), so it doesn't inherit the route's theme class — it sets its own
@@ -21,11 +25,20 @@ export default function Header() {
   const pathname = usePathname();
   const light = LIGHT_ROUTES.has(pathname);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
 
+  // Frost on scroll (> 40), plus a "smart header": the whole bar leaves upward
+  // on scroll-down (past a small threshold) and returns on any scroll-up.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 40);
+      if (y > lastY && y > 80) setHidden(true);
+      else if (y < lastY) setHidden(false);
+      lastY = y;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -38,10 +51,10 @@ export default function Header() {
       <header
         className={`${styles.header} ${light ? "theme-light" : "theme-dark"} ${
           scrolled ? styles.scrolled : ""
-        }`}
+        } ${hidden ? styles.hidden : ""}`}
       >
         <Link href={nav.brand.href} className={styles.logo} aria-label={nav.brand.ariaLabel}>
-          <Logo height={28} />
+          <Logo height={22} />
         </Link>
 
         <div className={styles.navGroup}>
@@ -55,44 +68,41 @@ export default function Header() {
             ))}
           </ul>
         </div>
-
-        <button
-          type="button"
-          className={styles.menuIcon}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((v) => !v)}
-        >
-          {menuOpen ? "Close" : "Menu"}
-        </button>
       </header>
 
+      {/* Mobile nav. The toggle, brand mark, and overlay live at the top level
+          (outside <header>) so they sit above the menu's modal layer and stay
+          interactive while the menu is open. All hidden at >= 1024px. */}
+      <div
+        className={`${styles.menuToggle} ${light ? "theme-light" : "theme-dark"} ${
+          hidden && !menuOpen ? styles.hidden : ""
+        }`}
+      >
+        <MenuToggle open={menuOpen} onToggle={() => setMenuOpen((v) => !v)} />
+      </div>
+
+      {/* The in-nav logo is hidden under the open panel (it's below the modal
+          layer), so render a copy above it. The open frost is always light, so
+          scope it `theme-light` — the Logo reads --color-text-primary, which
+          flips to black there, so it themes itself dark-on-frost. It reveals
+          with the menu links via a clipped drop-in (see Header.module.css). */}
       {menuOpen && (
-        <nav className={styles.mobileMenu} aria-label="Mobile">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={styles.mobileLink}
-              onClick={closeMenu}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <button
-            type="button"
-            className={styles.mobileContact}
-            onClick={() => {
-              closeMenu();
-              setModalOpen(true);
-            }}
-          >
-            {nav.contact.label}
-          </button>
-        </nav>
+        <Link
+          href={nav.brand.href}
+          className={`${styles.menuLogo} theme-light`}
+          aria-label={nav.brand.ariaLabel}
+          onClick={closeMenu}
+        >
+          <Logo height={22} className={styles.menuLogoMark} />
+        </Link>
       )}
 
-      <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
+      <MobileMenu
+        open={menuOpen}
+        onClose={closeMenu}
+        links={menuLinks}
+        tagline="Redefining Freight"
+      />
     </>
   );
 }

@@ -98,7 +98,7 @@ export const shortcuts = {
     "Relai is a venture-backed logistics-tech company, supported by leading climate-tech and supply-chain investors. Founded by terminal operators and engineers who watched global trade run on software older than the internet, Relai was built to be the coordination layer the modern supply chain never had.",
   cards: [
     {
-      image: "/images/home-about.webp",
+      image: "/images/card-about.svg",
       alt: "A team reviewing operations together at a long table.",
       title: "About us",
       text:
@@ -106,7 +106,7 @@ export const shortcuts = {
       href: "/about",
     },
     {
-      image: "/images/home-mission.webp",
+      image: "/images/card-mission.svg",
       alt: "An illustration of a connected global logistics network.",
       title: "Mission",
       text: "Moving the world's freight with less waste, less idle, and less carbon.",

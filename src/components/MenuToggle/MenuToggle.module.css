@@ -1,0 +1,52 @@
+/* ============================================================
+   MenuToggle — two-bar hamburger that morphs into an X on open.
+   Transparent and foreground-only: the bars follow the route theme
+   set on the parent wrapper (light bars on dark routes, dark bars on
+   light routes), matching the Header logo. Positioning is left to the
+   parent.
+   ============================================================ */
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: color 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Open — the menu frost is light on every route, so force the X to black so it
+   stays legible regardless of the underlying page theme. */
+.toggleOpen {
+  color: var(--color-black);
+}
+
+.bars {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2xs);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.bar {
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background-color: currentColor;
+  transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Open — the two bars collapse to center and cross into an X. */
+.toggleOpen .bar:nth-child(1) {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.toggleOpen .bar:nth-child(2) {
+  transform: translateY(-4px) rotate(-45deg);
+}

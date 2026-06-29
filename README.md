@@ -56,6 +56,70 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — Standalone GSAP `MobileMenu` overlay (parent-controlled)
+
+New self-contained, full-screen mobile menu that is **not** coupled to any header
+— a controlled overlay driven by an `open` prop, intended to be mounted only on
+mobile breakpoints. Built to a detailed motion spec; the panel slides in
+right-to-left and back out to the right, while links + tagline reveal with a
+vertical clip stagger.
+
+- **`components/MobileMenu/`** — the overlay panel only. Props: `open`, `onClose`,
+  `links` (`[{ href, label, count? }]`), optional `tagline`. Animation runs through
+  `useGSAP({ scope, dependencies: [open] })` — the repo's existing `gsap.context`
+  wrapper (Hero/Reveal/Stepper) — keeping `hasBeenOpened` (so close never fires on
+  first mount) and `menuTl` (killed before each new timeline) refs as specified.
+  Mirrors `ContactModal`'s body-scroll-lock + Escape-to-close. Since the parent
+  mounts it on mobile only, there's no `matchMedia`/resize logic.
+- **`components/MenuToggle/`** — the toggle is a separate component so it can be placed
+  anywhere. Two bars (a hamburger) that morph into an X while open; styled as a chip
+  (like the old Header menu chip) so it stays legible over both the page and the frost.
+- **Wired into `Header` (replaces the old white mobile menu).** Below 1024px the Header
+  now renders `MenuToggle` (top-right, above the modal layer so it stays clickable to
+  close) + the `MobileMenu` overlay, fed the full nav (Home, Product, About, Mission,
+  Book a Demo) with a "Redefining Freight" tagline. Toggle + overlay sit at the top
+  level (outside the fixed `<header>`'s `z-nav` stacking context) so the overlay's
+  `--z-modal` layer actually paints above the bar. The throwaway demo harness used
+  during the build was removed.
+- **Removed the old `.mobileMenu`** (and its `.mobileLink`/`.mobileContact` styles).
+  This also retires a latent bug there — its links were white-on-white (only the gray
+  "Contact" showed). **Behavior change:** the old menu's Contact-modal shortcut is gone
+  on mobile (it only ever lived in that menu; "Book a Demo" remains the CTA). Easy to
+  re-add as a menu action if wanted.
+- **Token substitutions** (flagged, none invented): panel background reuses the
+  existing frosted-menu treatment — `--color-nav-glass` + `backdrop-filter: blur(12px)`
+  — so, like the old Header frosted pill, the foreground is `--color-black` (the spec's
+  `--color-text-primary` would be white-on-white). Tagline's literal `2rem` → `--font-h2`
+  (fluid, maxes at 2rem); missing `--leading-normal` → `--leading-heading`. The
+  full-screen panel sits at `--z-modal` (not the spec's "nav layer").
+- **Reduced motion**: unlike the decorative GSAP sections (which no-op), the menu still
+  opens/closes — just instantly — since it's functional.
+
+### 2026-06-28 — Every image slot is now a uniform SVG placeholder
+
+Swept the whole site onto the existing dark-box placeholder convention (the
+`MEDIA — …` / mono-caption SVGs already used for the hero, capabilities, and
+testimonial). All remaining real raster images (`.webp`) now point at generated
+placeholder SVGs, so the project shows consistent "drop the real asset here"
+boxes until final media lands.
+
+- **16 new placeholder SVGs in `public/images/`**, one per slot, each self-contained
+  (dark `#20231f` fill, inset `#ffffff26` border, mono primary label + dimmed caption)
+  with a `viewBox` whose aspect matches its container so `preserveAspectRatio="…slice"`
+  fills cleanly without cropping the border. Naming mirrors usage: `media-*` (heros),
+  `card-*` (home shortcut + footer cards), `image-*`/`step-*` (split + stepper),
+  `gallery-*` (mission ImageRow), `map-network` (Explore). Font sizes scale at a fixed
+  ratio of the viewBox's shorter side, matching the pre-existing `media-hero`/`portrait`.
+- **Repointed 16 content `src`s** across `home`, `about`, `product`, `mission`, `site`.
+  Labels by category: `MEDIA — ABOUT/PLATFORM`, `DIAGRAM` (freight network), `MAP`
+  (network), `IMAGE` (everything else); captions name the slot (e.g. "Why Relai",
+  "Vessel Intelligence", "Get in touch").
+- **`alt` text left unchanged** — it still describes the intended asset, so it's already
+  correct once a real image replaces the placeholder. Only the `src` moved.
+- **Orphaned `.webp` files were left in place** (non-destructive) — now unreferenced and
+  safe to delete. The disabled `_mission-legacy/page.js` and the brand favicons/logo
+  marks were intentionally left untouched.
+
 ### 2026-06-28 — About + Book-a-Demo render fully white (route-level theme)
 
 Made `/about` and `/book-a-demo` **entirely white** — every section *and the shared

@@ -6,6 +6,13 @@
   height: var(--nav-height);
   z-index: var(--z-nav);
   pointer-events: none;
+  transition: transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+/* Smart-header hidden state — the whole bar leaves upward on scroll-down. The
+   pill's own horizontal centering lives on .navGroup, so the two don't fight. */
+.header.hidden {
+  transform: translateY(-100%);
 }
 
 .header a,
@@ -25,21 +32,14 @@
   color: var(--color-text-primary);
 }
 
-/* Floating pill group — top-right, centers on scroll. Hidden below 1024px. */
+/* Centered pill group — always horizontally centered on desktop, no movement on
+   scroll. Hidden below 1024px. */
 .navGroup {
   display: none;
   position: absolute;
   top: var(--gutter);
-  right: var(--gutter-sm);
   align-items: center;
   gap: var(--space-xs);
-  transition: right 0.6s cubic-bezier(0.4, 0, 0, 1),
-              transform 0.6s cubic-bezier(0.4, 0, 0, 1);
-}
-
-.scrolled .navGroup {
-  right: 50%;
-  transform: translateX(50%);
 }
 
 /* Translucent frosted pill — see-through on scroll but still legible; the
@@ -69,44 +69,64 @@
   background-color: var(--color-gray-light);
 }
 
-/* Mobile menu chip — shown below 1024px */
-.menuIcon {
-  display: block;
+/* Mobile menu toggle — the standalone hamburger, shown below 1024px. Pinned
+   top-right above the MobileMenu's modal layer so it stays clickable while the
+   menu is open (the menu itself is the components/MobileMenu overlay). */
+.menuToggle {
   position: fixed;
-  top: 19px;
+  top: var(--space-m);
   right: var(--gutter-sm);
-  z-index: calc(var(--z-nav) + 1);
-  color: var(--color-white);
-  background-color: var(--color-black);
-  border-radius: var(--radius-sm);
-  padding: 5px 8px 4px;
-  cursor: pointer;
+  z-index: calc(var(--z-modal) + 1);
+  transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-.mobileMenu {
+/* Leaves upward with the bar on scroll-down (clears its own top offset too). */
+.menuToggle.hidden {
+  transform: translateY(calc(-100% - var(--space-m)));
+}
+
+/* Brand mark shown over the open menu — mirrors the nav logo's top-left spot,
+   above the modal layer. The element carries the `theme-light` class (see
+   Header/index.jsx), so the Logo reads --color-text-primary = black and paints
+   itself dark on the light frost — no explicit color needed here. */
+.menuLogo {
   position: fixed;
-  inset: var(--nav-height) 0 auto 0;
-  z-index: var(--z-nav);
+  top: var(--space-l);
+  left: var(--gutter-sm);
+  z-index: calc(var(--z-modal) + 1);
   display: flex;
-  flex-direction: column;
-  gap: var(--space-m);
-  padding: var(--space-l) var(--gutter-sm) var(--space-2xl);
-  background-color: var(--color-white);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  align-items: center;
+  /* Clip for the drop-in reveal — the mark slides down into view from here. */
+  overflow: hidden;
 }
 
-.mobileLink {
-  font-size: var(--font-h4);
-  font-weight: var(--weight-medium);
+/* Reveals in step with the menu links (see MobileMenu): the same clipped
+   vertical drop, timed to the links' 0.25s start / 0.55s duration. `both`
+   holds the mark parked above the clip until the reveal fires. */
+.menuLogoMark {
+  animation: menuLogoReveal 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.25s both;
 }
 
-.mobileContact {
-  align-self: flex-start;
-  margin-top: var(--space-s);
-  font-size: var(--font-h4);
-  font-weight: var(--weight-medium);
-  color: var(--color-text-muted);
-  cursor: pointer;
+@keyframes menuLogoReveal {
+  from {
+    transform: translateY(-110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Menu opens instantly under reduced motion, so reveal the logo immediately too. */
+@media (prefers-reduced-motion: reduce) {
+  .menuLogoMark {
+    animation: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .menuLogo {
+    display: none;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -116,18 +136,11 @@
 
   .navGroup {
     display: flex;
-    right: var(--gutter);
+    left: 50%;
+    transform: translateX(-50%);
   }
 
-  .scrolled .navGroup {
-    right: 50%;
-  }
-
-  .menuIcon {
-    display: none;
-  }
-
-  .mobileMenu {
+  .menuToggle {
     display: none;
   }
 }

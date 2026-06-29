@@ -66,7 +66,7 @@ export const footer = {
   card: {
     href: "/book-a-demo",
     image: {
-      src: "/images/concrete.webp",
+      src: "/images/card-contact.svg",
       alt: "A container terminal at the waterfront.",
     },
     eyebrow: "Get in touch",
