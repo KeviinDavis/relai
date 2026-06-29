@@ -1,6 +1,6 @@
 .section {
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
 
 /* ---- Mobile/tablet (<1024): heading -> card -> name -> quote ---- */
@@ -25,7 +25,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 100 / 103.2;
-  background-color: var(--color-white);
+  background-color: var(--color-bg-secondary);
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -38,13 +38,13 @@
 .nameMobile {
   display: block;
   font-size: var(--font-body);
-  color: var(--color-gray-light);
+  color: var(--color-text-secondary);
   padding-top: var(--gutter);
   padding-bottom: var(--gutter-sm);
 }
 
 .quote {
-  font-size: var(--font-h2);       /* 32px */
+  font-size: var(--font-h4);       /* 20px — match Shortcuts introText */
   line-height: 1.3;
   letter-spacing: var(--tracking-tight);
   padding-bottom: 5.625rem;        /* 90px */
@@ -57,12 +57,12 @@
   padding-inline: var(--gutter-sm);
   padding-bottom: var(--gutter-sm);
   font-size: var(--font-body);
-  color: var(--color-gray-light);
+  color: var(--color-text-secondary);
 }
 
 .control {
   cursor: pointer;
-  color: var(--color-gray-light);
+  color: var(--color-text-secondary);
   transition: color 0.2s ease;
 }
 
@@ -103,7 +103,7 @@
   .name {
     display: inline;
     font-size: var(--font-body);
-    color: var(--color-gray-light);
+    color: var(--color-text-secondary);
   }
 
   .media {
@@ -123,6 +123,7 @@
 
   .quote {
     grid-column: 1;
+    font-size: 2rem;               /* 32px — match Shortcuts introText */
     padding-bottom: var(--gutter);
   }
 

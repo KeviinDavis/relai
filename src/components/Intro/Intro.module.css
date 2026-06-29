@@ -18,13 +18,7 @@
 }
 
 .links {
-  flex-shrink: 0;
-  text-align: right;
-  font-size: var(--font-body);
-  color: var(--color-text-muted);
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  display: none;
 }
 
 .links a:hover {
@@ -51,6 +45,16 @@
   .section {
     padding-inline: var(--gutter);
     margin-bottom: 7.5rem;        /* 120px */
+  }
+
+  .links {
+    flex-shrink: 0;
+    text-align: right;
+    font-size: var(--font-body);
+    color: var(--color-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
   .main {

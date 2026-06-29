@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Eyebrow from "@/components/Eyebrow";
 import ContactModal from "@/components/ContactModal";
-import { footer, social } from "@/content/site";
+import Logo from "@/components/Logo";
+import { footer, social, nav } from "@/content/site";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
@@ -67,6 +68,9 @@ export default function Footer() {
         </ul>
 
         <div className={styles.bottomRight}>
+          <Link href={nav.brand.href} className={styles.brand} aria-label={nav.brand.ariaLabel}>
+            <Logo height={22} />
+          </Link>
           <p className={styles.copyright}>{footer.copyright}</p>
           <ul>
             {social.map((s) => (

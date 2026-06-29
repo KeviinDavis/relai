@@ -1,6 +1,8 @@
 .footer {
-  background-color: var(--color-bg-dark);
-  color: var(--color-white);
+  /* Semantic tokens so the footer flips under .theme-light (white on
+     About/Book-a-Demo) while staying identical on the dark routes. */
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   padding-inline: var(--gutter-sm);
   padding-top: 1rem;             /* 16px */
   padding-bottom: var(--gutter); /* 24px */
@@ -32,7 +34,7 @@
 .subheading {
   font-size: var(--font-body);
   line-height: 1.375;           /* 22px */
-  color: var(--color-gray-light);
+  color: var(--color-text-secondary);
   max-width: 34rem;
 }
 
@@ -41,6 +43,9 @@
   display: block;
   background-color: var(--color-white);
   color: var(--color-black);
+  /* Hairline defines the white card on the white (light-route) footer; it's
+     invisible on the dark footer (white card edge over black). */
+  border: 1px solid var(--color-stroke-muted);
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
@@ -89,7 +94,7 @@
   grid-template-columns: repeat(2, max-content);
   gap: 0.5rem 3rem;
   font-size: var(--font-body);
-  color: var(--color-gray-light);
+  color: var(--color-text-secondary);
 }
 
 .bottomLinks a:hover,
@@ -98,7 +103,7 @@
 }
 
 .linkButton {
-  color: var(--color-gray-light);
+  color: var(--color-text-secondary);
   cursor: pointer;
   font: inherit;
 }
@@ -110,6 +115,11 @@
   font-size: var(--font-body-sm);
   line-height: 1.428;           /* 20px on 14px */
   color: var(--color-text-muted);
+}
+
+.brand {
+  margin-bottom: var(--space-2xs);
+  color: var(--color-text-primary);
 }
 
 .bottomRight a:hover {

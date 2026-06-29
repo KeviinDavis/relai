@@ -1,0 +1,32 @@
+/* ============================================================
+   Logo lockup — inline mark + live wordmark.
+   Sized off a single `--logo-height` (the mark height); the gap and
+   wordmark scale with it via `em`, so the proportions stay locked at
+   any size. Color reads the theme foreground token, so the lockup
+   themes itself white-on-dark / dark-on-light with no per-use props.
+   ============================================================ */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: var(--logo-height, 1.75rem);
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.mark {
+  display: block;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+}
+
+.word {
+  font-family: var(--font-primary);
+  font-size: 0.72em; /* mark-to-wordmark ratio (intrinsic lockup geometry) */
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+}

@@ -13,20 +13,16 @@
   pointer-events: auto;
 }
 
-/* SVG wordmark — top-left, fades out on scroll */
+/* Wordmark — pinned top-left, visible at all times. Reads the theme foreground
+   (the header sets its own theme class) so it stays legible on both the dark
+   and light routes. */
 .logo {
   position: absolute;
   top: 20px;
   left: var(--gutter-sm);
   display: flex;
   align-items: center;
-  color: var(--color-black);
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0, 1);
-}
-
-.scrolled .logo {
-  opacity: 0;
-  pointer-events: none;
+  color: var(--color-text-primary);
 }
 
 /* Floating pill group — top-right, centers on scroll. Hidden below 1024px. */
@@ -46,34 +42,20 @@
   transform: translateX(50%);
 }
 
-.list,
-.homePill {
+/* Translucent frosted pill — see-through on scroll but still legible; the
+   backdrop blur keeps the links readable over whatever passes behind them. */
+.list {
   display: flex;
   align-items: center;
-  background-color: var(--color-white);
+  background-color: var(--color-nav-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   color: var(--color-black);
   font-size: 1.1875rem;             /* 19px */
   line-height: 1.2;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
   border-radius: var(--radius-sm);
   overflow: hidden;
-}
-
-/* the "relai" text pill only shows once scrolled (SVG has faded) */
-.homePill {
-  padding: 11px 15px 9px;
-  opacity: 0;
-  width: 0;
-  padding-inline: 0;
-  pointer-events: none;
-  transition: opacity 0.3s cubic-bezier(0.4, 0, 0, 1);
-}
-
-.scrolled .homePill {
-  opacity: 1;
-  width: auto;
-  padding: 11px 15px 9px;
-  pointer-events: auto;
 }
 
 .link {

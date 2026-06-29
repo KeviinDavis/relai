@@ -23,6 +23,16 @@ export const meta = {
     type: "website",
     locale: "en_US",
   },
+  // Favicons. The .ico is served + linked by the App Router file convention
+  // (src/app/favicon.ico); these add the SVG (modern), a 32px PNG fallback,
+  // and the home-screen apple-touch icon. Files live in /public.
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 // Component: Header, SiteNav (shared primary navigation)

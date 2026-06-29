@@ -19,7 +19,7 @@ export default function Testimonials({ content = {} }) {
   const counter = `${index + 1}/${count}`;
 
   return (
-    <section className={styles.section} ref={scope}>
+    <section className={`${styles.section} theme-light`} ref={scope}>
       <div className={styles.item} data-reveal>
         <div className={styles.heading}>
           <Eyebrow variant="dark">Testimonials</Eyebrow>

@@ -1,7 +1,8 @@
-/* Dark section — doubled class beats Section's .default background. */
+/* Light section — doubled class beats Section's .default background.
+   Section is wrapped in .theme-light, so semantic tokens flip to dark-on-white. */
 .root.theme {
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   padding-block: var(--space-7xl);
 }
 
@@ -35,7 +36,7 @@
   font-family: var(--font-secondary);
   font-size: var(--font-body-sm);
   letter-spacing: 0.01em;
-  color: var(--color-white);
+  color: var(--color-text-primary);
   white-space: nowrap;
   cursor: pointer;
   opacity: 0.6;
@@ -52,7 +53,7 @@
   bottom: -1px;
   width: 100%;
   height: 1px;
-  background-color: var(--color-white);
+  background-color: var(--color-stroke);
   transform: scaleX(0);
   transform-origin: left center;
   pointer-events: none;
@@ -64,7 +65,7 @@
   display: grid;
   min-height: clamp(22rem, 32vw, 30rem);
   padding: clamp(1.5rem, 3vw, 3rem);
-  background-color: var(--color-gray-light);
+  background-color: var(--color-bg-secondary);
   color: var(--color-text-primary);
   overflow: hidden;
 }

@@ -1,7 +1,11 @@
 .section {
+  /* .theme-light flips tokens to dark-on-white; padding (not margin) keeps the
+     white background continuous from Testimonials down to the Footer. */
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   padding-inline: var(--gutter-sm);
-  margin-top: 8.75rem;            /* 140px */
-  margin-bottom: 2.875rem;        /* 46px */
+  padding-top: 8.75rem;           /* 140px */
+  padding-bottom: 2.875rem;       /* 46px */
 }
 
 .intro {
@@ -58,8 +62,8 @@
 @media (min-width: 1024px) {
   .section {
     padding-inline: var(--gutter);
-    margin-top: 7.5rem;          /* 120px */
-    margin-bottom: 4.5rem;       /* 72px */
+    padding-top: 7.5rem;         /* 120px */
+    padding-bottom: 4.5rem;      /* 72px */
   }
 
   .intro {

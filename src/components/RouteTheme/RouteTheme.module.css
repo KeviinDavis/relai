@@ -1,0 +1,15 @@
+/* Wraps <main> + Footer in one column so they fill the viewport and the footer
+   stays pinned to the bottom (preserves the body flex / sticky-footer layout). */
+.region {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Light routes: paint the surface white and set the foreground so the
+   transparent page sections (Hero / TextSection / SplitSection) inherit dark
+   text. .theme-light (added alongside this class) flips the token values. */
+.light {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}

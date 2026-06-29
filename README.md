@@ -56,6 +56,100 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — About + Book-a-Demo render fully white (route-level theme)
+
+Made `/about` and `/book-a-demo` **entirely white** — every section *and the shared
+Footer* — while Home/Product/Mission stay dark. Realises the theme-scoping intent already
+noted in `tokens.css` ("light on About/Book-a-Demo").
+
+- **New `components/RouteTheme/`** (`"use client"`) — a thin route-aware wrapper placed in
+  `layout.js` around `<main>` + `<Footer>`. On a `LIGHT_ROUTES` match it adds the global
+  `theme-light` class (flips the semantic token set) plus a white surface
+  (`--color-bg-primary`) and foreground (`--color-text-primary`), so the page's transparent
+  light-tone sections (`Hero`/`TextSection`/`SplitSection`) inherit dark text. It always
+  renders a `flex:1` column so the body's sticky-footer layout is unchanged on every route.
+  Add a route to the set to make it white — no per-page or per-component edits.
+- **Why a wrapper, not component edits.** `Hero`/`TextSection`/`SplitSection`/`FormSection`
+  are shared with the dark routes, so editing their CSS would flip Product/Mission too.
+  Scoping the theme at the layout is the design system's sanctioned "page wrapper" pattern
+  and the only way to also reach the shared `Footer`.
+- **`Footer` → semantic tokens** so it flips inside `theme-light`: bg `--color-bg-dark` →
+  `--color-bg-primary`, text `--color-white` → `--color-text-primary`, and the three
+  `--color-gray-light` link/subhead colors (invisible on white) → `--color-text-secondary`.
+  On the dark routes these resolve to the same black/white, so those footers are unchanged
+  (bar a marginally deeper grey on the secondary text). The white demo card gained a
+  `--color-stroke-muted` hairline for definition on the white footer (invisible on dark).
+- **Nav needs no change** — these routes use the legacy light-styled `Header` (black logo,
+  white pills), which already reads correctly on white.
+- **Verification:** `next build` clean (8 routes static). Headless-Chrome captures confirm
+  `/about` + `/book-a-demo` are white head-to-foot with legible dark type, while `/` (dark
+  hero/intro → white mid-block → **dark footer**) and `/mission` (all dark) are unchanged.
+
+### 2026-06-28 — Real Relai logo + brand favicons wired in
+
+Replaced the placeholder wordmark and the neutral favicon with the supplied brand
+assets (dropped at `public/RelaiLogos/`, now integrated and the staging folder removed).
+
+- **`Logo` is now the real lockup** — `components/Logo/index.jsx` renders the **inline
+  SVG mark** (three offset bars, `currentColor`) + the **live `RELAI` wordmark** in
+  `--font-primary` (never baked into an image). Co-located `Logo.module.css` replaces the
+  old inline-styled reference; the only dynamic value is `--logo-height` (the mark height),
+  passed as a custom property so the gap/wordmark scale in `em` and proportions stay locked.
+  **API unchanged** (`{ className, height }`), so the existing `SiteNav` (header + drawer)
+  and legacy `Header` call sites upgrade automatically. Resolves the `needs-real-asset`
+  note from the Korr→Relai scrub.
+- **Themes itself.** The wrapper reads `--color-text-primary` (the project's foreground
+  token), so the lockup paints white on the dark nav/footer and would flip to black under
+  any `.theme-light` surface — consistent with the zero-radius monochrome system.
+- **Footer brand.** Added the live `Logo` to the footer bottom cluster as a home link
+  (`aria-label` from `nav.brand`), above the `© 2026 Relai` line.
+- **Favicons.** Brand `favicon.ico` → `src/app/favicon.ico` (App Router file convention,
+  auto-linked). `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` → `public/`,
+  referenced via `metadata.icons` in `content/site.js` (SVG + 32px PNG fallback + apple).
+- **Brand SVGs** `relai-mark.svg` + `relai-lockup.svg` → `public/images/` (asset-SVG home).
+  The reference `Logo.jsx` was preserved at `docs/Logo.reference.jsx`.
+
+### 2026-06-28 — Home flips white from Capabilities down (Footer stays dark)
+
+The home page (`/`) was all-dark. Made **Capabilities → Testimonials → Shortcuts** a single
+continuous **white** block — Hero/Intro stay dark above, the Footer stays dark below.
+
+- **Driven by the existing `.theme-light` system, not new colors.** Each of the three
+  sections now carries the global `theme-light` class (the same mechanism `SiteNav` uses),
+  so every semantic token flips to dark-on-white in one move — including borders
+  (`--color-stroke` / `--color-stroke-light` invert to dark hairlines automatically).
+- **Raw tokens → semantic tokens** so the flip actually takes effect: `Capabilities`
+  (`--color-black`/`--color-white` → `--color-bg-primary`/`--color-text-primary`, active
+  underline → `--color-stroke`, card → `--color-bg-secondary`) and `Testimonials`
+  (section bg/text, logo card → `--color-bg-secondary`, and four `--color-gray-light`
+  text colors — invisible on white — → `--color-text-secondary`).
+- **Inherited color re-asserted on `Shortcuts`.** `color` is set on `<body>` (computes to
+  white there), so a `theme-light` subtree keeps inheriting white unless re-declared;
+  added `color: var(--color-text-primary)` to the section. This also fixes a latent issue —
+  `Capabilities`' card text was `--color-text-primary` (white) on a light card, i.e. nearly
+  invisible; under `theme-light` it's now black-on-light.
+- **No black seams.** `Shortcuts` used `margin-top/bottom` (which would expose the black
+  body background as strips inside the white block) → converted to `padding-top/bottom`
+  (same 140/46px and 120/72px values) so the white runs unbroken to the Footer.
+
+Scope is home-only — these three components are used solely on `/`, so editing them
+directly is safe.
+
+### 2026-06-28 — Hero `tag` label moves above the heading
+
+The bracketed section label (`tag`, e.g. `[ FREIGHT ]`, `[ MISSION ]`, `[ PLATFORM ]`,
+`[ DEMO ]`) now renders **above** the `<h1>` instead of in the meta block beneath it —
+across every hero, at all breakpoints (it's a DOM-order change, not responsive). One edit
+to the shared `Hero` covers all five pages.
+
+- **`Hero/index.jsx`** — `tag` lifted out of the post-title `metaRow` into its own `<span>`
+  directly before the title, tagged `data-hero-tag`. `hasMeta` no longer counts `tag`, so a
+  tag-only hero (Home/Product/Demo) renders no empty meta block. The entrance timeline gives
+  the relocated tag the eyebrow's `from(y:16, opacity:0)` at t=0, so it reads as a top label.
+- **`Hero.module.css`** — `.tag` gains `align-self: flex-start` (matches `.eyebrow` in the
+  flex column). `.metaRow` switches `space-between` → `flex-end` so Mission's lone scroll
+  arrow keeps its right alignment now that the tag no longer shares the row.
+
 ### 2026-06-28 — Content layer: a local file-based "headless CMS" (`src/content/`)
 
 Introduced a hard **data ↔ render** separation so copy can change without touching a

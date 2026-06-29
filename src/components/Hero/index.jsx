@@ -28,7 +28,7 @@ export default function Hero({ content = {} }) {
   } = content;
   const isDark = tone === "dark";
   const hasAside = Boolean(text || actions.length);
-  const hasMeta = Boolean(meta.length || tag || scrollIndicator);
+  const hasMeta = Boolean(meta.length || scrollIndicator);
   const figureStyle = mediaAspect ? { "--hero-media-pb-lg": mediaAspect } : undefined;
 
   const scope = useRef(null);
@@ -39,6 +39,7 @@ export default function Hero({ content = {} }) {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const root = scope.current;
       const eyebrowEl = root.querySelector("." + styles.eyebrow);
+      const tagEl = root.querySelector("[data-hero-tag]");
       const titleEl = root.querySelector("[data-hero-title]");
       const asideEl = root.querySelector("[data-hero-aside]");
       const metaItems = [...root.querySelectorAll("[data-hero-meta] > *")];
@@ -47,6 +48,7 @@ export default function Hero({ content = {} }) {
 
       const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
       if (eyebrowEl) tl.from(eyebrowEl, { y: 16, opacity: 0, duration: 0.6 }, 0);
+      if (tagEl) tl.from(tagEl, { y: 16, opacity: 0, duration: 0.6 }, 0);
       if (titleEl)
         tl.fromTo(
           titleEl,
@@ -84,6 +86,11 @@ export default function Hero({ content = {} }) {
               {eyebrow}
             </Eyebrow>
           )}
+          {tag && (
+            <span className={styles.tag} data-hero-tag>
+              {tag}
+            </span>
+          )}
           <h1 className={styles.title} data-hero-title>{title}</h1>
 
           {hasMeta && (
@@ -98,29 +105,26 @@ export default function Hero({ content = {} }) {
                 </p>
               )}
 
-              {(tag || scrollIndicator) && (
+              {scrollIndicator && (
                 <div className={styles.metaRow}>
-                  {tag && <span className={styles.tag}>{tag}</span>}
-                  {scrollIndicator && (
-                    <a
-                      href={scrollTo}
-                      className={styles.scroll}
-                      aria-label="Scroll to content"
+                  <a
+                    href={scrollTo}
+                    className={styles.scroll}
+                    aria-label="Scroll to content"
+                  >
+                    <svg
+                      className={styles.scrollIcon}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      aria-hidden="true"
                     >
-                      <svg
-                        className={styles.scrollIcon}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M12 4v16M5 13l7 7 7-7"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                        />
-                      </svg>
-                    </a>
-                  )}
+                      <path
+                        d="M12 4v16M5 13l7 7 7-7"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                    </svg>
+                  </a>
                 </div>
               )}
             </div>

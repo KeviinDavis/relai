@@ -164,7 +164,7 @@ export default function Capabilities({ content = {} }) {
   };
 
   return (
-    <Section variant="default" className={`${styles.root} ${styles.theme}`}>
+    <Section variant="default" className={`${styles.root} ${styles.theme} theme-light`}>
       <Container>
         <div className={styles.inner} ref={scope}>
           <h2 className={styles.heading}>{heading}</h2>

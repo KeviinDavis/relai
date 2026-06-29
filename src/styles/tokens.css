@@ -36,6 +36,7 @@
   --color-stroke:         var(--color-white);
   --color-stroke-muted:   #ffffff1a;
   --color-stroke-light:   #ffffff26;
+  --color-nav-glass:      #ffffffb8;   /* frosted nav pill — translucent white, see-through but legible */
 
   /* ============================================================
      SYSTEM TOKENS — layout/scale

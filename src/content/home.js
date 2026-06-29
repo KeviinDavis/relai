@@ -22,7 +22,7 @@ export const hero = {
 export const intro = {
   id: "why-relai",
   excerpt:
-    "Freight has gone global. The software didn't keep up. Relai replaces the disconnected, decades-old systems that move the world's cargo with a single platform built for speed, visibility, and coordination.",
+    "Freight has gone global. Relai replaces the disconnected, decades-old systems that move the world's cargo with a single platform built for speed, visibility, and coordination.",
   capsule: "Why Relai",
   body:
     "Relai began with a simple observation: the supply chain doesn't break in transit — it breaks at the handoffs. Between ship and port. Port and yard. Yard and truck. Each seam runs on its own aging system, and freight loses time, money, and fuel in the gaps. Relai closes them — coordinating every handoff in one platform built for how freight actually moves.",
