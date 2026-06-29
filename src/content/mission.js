@@ -21,7 +21,7 @@ export const hero = {
   mediaAspect: "56.25%",
   media: {
     type: "image",
-    src: "/images/media-mission.svg",
+    src: "/exampleimages/example8.png",
     alt: "Placeholder for the Relai mission background video — a port at dusk.",
   },
 };

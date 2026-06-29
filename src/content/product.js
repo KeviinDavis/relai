@@ -17,7 +17,7 @@ export const hero = {
   actions: [{ label: "Book a demo", href: "/book-a-demo", variant: "solid" }],
   media: {
     type: "image",
-    src: "/images/media-product.svg",
+    src: "/exampleimages/example4.png",
     alt: "Relai platform architecture spanning vessel, terminal, yard, and road.",
   },
 };

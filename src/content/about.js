@@ -13,8 +13,8 @@ export const hero = {
   eyebrow: "About",
   title: "Building the platform",
   media: {
-    type: "image",
-    src: "/images/media-about.svg",
+    type: "video",
+    src: "/exampleimages/about.mp4",
     alt: "A container terminal seen from above.",
   },
 };

@@ -12,8 +12,8 @@ export const hero = {
     { label: "Book a demo", href: "/book-a-demo" },
   ],
   media: {
-    type: "image",
-    src: "/images/media-hero.svg",
+    type: "video",
+    src: "/exampleimages/example1.mp4",
     alt: "Placeholder for the Relai hero background video — a port terminal at dusk.",
   },
 };
