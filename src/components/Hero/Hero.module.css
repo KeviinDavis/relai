@@ -11,7 +11,7 @@
 
 .header {
   padding-inline: var(--gutter-sm);
-  padding-top: 18rem;
+  padding-top: 12rem;
   margin-bottom: var(--gutter);
   display: grid;
   grid-template-columns: 1fr;
