@@ -35,9 +35,29 @@
 }
 
 .formWrap {
+  position: relative;
+  overflow: hidden;
   padding: var(--space-2xl);
-  background-color: var(--color-bg-secondary);
+  background-color: #f4f4f4; /* one-off grey panel — intentionally not a token */
+  border: 1px solid var(--color-stroke-muted);
   border-radius: var(--radius-default);
+}
+
+/* White noise layered over the grey, sitting behind the form content */
+.formWrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--color-white);
+  -webkit-mask-image: var(--noise-image);
+          mask-image: var(--noise-image);
+  -webkit-mask-size: 160px 160px;
+          mask-size: 160px 160px;
+  -webkit-mask-repeat: repeat;
+          mask-repeat: repeat;
+  opacity: 0.18;
 }
 
 @media (min-width: 1024px) {

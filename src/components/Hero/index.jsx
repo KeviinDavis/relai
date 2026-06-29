@@ -50,18 +50,13 @@ export default function Hero({ content = {} }) {
       if (eyebrowEl) tl.from(eyebrowEl, { y: 16, opacity: 0, duration: 0.6 }, 0);
       if (tagEl) tl.from(tagEl, { y: 16, opacity: 0, duration: 0.6 }, 0);
       if (titleEl)
+        // Slide the title up from behind .titleMask (overflow:hidden). The line
+        // rises out of a clean bottom edge — glyphs stay whole and descenders
+        // are never sliced. 120% clears the mask bleed at every title size.
         tl.fromTo(
           titleEl,
-          { yPercent: 35, opacity: 0, clipPath: "inset(0 0 100% 0)" },
-          {
-            yPercent: 0,
-            opacity: 1,
-            clipPath: "inset(0 0 0% 0)",
-            duration: 1.1,
-            // line-height:1 lets descenders overflow the box; drop the clip at
-            // rest so the inset() wipe doesn't keep slicing the glyphs.
-            clearProps: "clipPath",
-          },
+          { yPercent: 120 },
+          { yPercent: 0, duration: 1.1 },
           0.1
         );
       if (supporting.length)
@@ -91,7 +86,9 @@ export default function Hero({ content = {} }) {
               {tag}
             </span>
           )}
-          <h1 className={styles.title} data-hero-title>{title}</h1>
+          <div className={styles.titleMask}>
+            <h1 className={styles.title} data-hero-title>{title}</h1>
+          </div>
 
           {hasMeta && (
             <div className={styles.meta} data-hero-meta>

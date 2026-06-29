@@ -56,6 +56,27 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — Hero title reveal: clip-wipe → slide-up mask
+
+**What:** Replaced the title's entrance tween. It was a `clip-path: inset()`
+top-down wipe combined with `yPercent: 35` + opacity. Now the `<h1>` is wrapped
+in a `.titleMask` (`overflow: hidden`) and slides up from `yPercent: 120 → 0`.
+
+**Why:** With `--leading-display: 1`, the clip rectangle was the tight 1em line
+box, so the wipe sliced straight through the glyphs and the descenders only
+appeared at the very end when `clearProps` dropped the clip — the heading read as
+"not showing the full letters" for most of the animation. A slide-up mask reveals
+the line from a clean bottom edge: glyphs are always whole, descenders are never
+sliced, and the `clearProps` hack is gone.
+
+**Tradeoffs / details:** The title `font-size` moved from `.title` onto
+`.titleMask` so the descender/ascender bleed can be expressed in `em` and scale
+with the fluid heading. The mask uses `padding-block: 0.14em` (room so
+`overflow: hidden` doesn't crop the tight line-height-1 caps/tails) with a
+matching `margin-block: -0.14em` so vertical rhythm is unchanged — `0.14em` stays
+under `--space-l` (1.25rem) even at the 8rem dark title. `120%` clears the mask +
+bleed at every title size and line count (overshoot is harmless under the clip).
+
 ### 2026-06-28 — Global film-grain / noise overlay on the page background
 
 Recreated the Figma "Noise" effect (Mono, fine grain, white @ 10% over the black

@@ -29,8 +29,25 @@
   align-self: flex-start;
 }
 
-.title {
+/* Reveal mask: clips the title's slide-up entrance. The font-size lives here so
+   the em-based bleed below scales with the fluid heading; the h1 inherits it. */
+.titleMask {
+  overflow: hidden;
   font-size: var(--font-h1);
+  /* Bleed gives the tight line-height:1 glyphs room so overflow:hidden doesn't
+     crop ascenders/descenders at rest; the matching negative margin cancels the
+     bleed so vertical rhythm is unchanged. */
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+
+.dark .titleMask {
+  /* The dark hero title is the dominant display element — larger than the
+     shared --font-h1 token, scoped to the dark hero so light pages are unaffected. */
+  font-size: clamp(2.5rem, 0.5rem + 8vw, 8rem);
+}
+
+.title {
   line-height: var(--leading-display);
   letter-spacing: var(--tracking-display);
   font-weight: var(--weight-medium);
@@ -38,9 +55,6 @@
 
 .dark .title {
   color: var(--color-white);
-  /* The dark hero title is the dominant display element — larger than the
-     shared --font-h1 token, scoped to the dark hero so light pages are unaffected. */
-  font-size: clamp(2.5rem, 0.5rem + 8vw, 8rem);
   font-weight: var(--weight-bold);
 }
 

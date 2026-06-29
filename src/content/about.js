@@ -11,7 +11,7 @@ export const meta = {
 // Component: Hero
 export const hero = {
   eyebrow: "About",
-  title: "Building the platform we wished we had",
+  title: "Building the platform",
   media: {
     type: "image",
     src: "/images/media-about.svg",
