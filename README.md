@@ -56,6 +56,28 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-28 — Leadership: portrait above each name/role
+
+**What:** Each person in `Leadership` now stacks a portrait above the name +
+role, rendered through the shared `Media` primitive (`fill`, `4/5`). Dropped the
+old `border-top` row dividers and per-row padding — they read as a list, which no
+longer suits an image-card grid — and switched the grid to gap-based spacing
+(`--space-4xl` base, `--space-6xl` row-gap once multi-column).
+
+- **4 new placeholder SVGs in `public/images/`** (`leadership-<first>-<last>.svg`),
+  one per leader, following the site's existing dark-box convention (`#20231f`
+  fill, inset `#ffffff26` border, mono `PORTRAIT` label + dimmed name caption),
+  matching `testimonial-portrait.svg`. `viewBox` is `800×1000` (4/5) so
+  `preserveAspectRatio="…slice"` fills the slot cleanly; font sizes hold the same
+  ratio-of-shorter-side as the other placeholders.
+- **Wired each person an `image`** in `content/about.js` pointing at its SVG.
+- Component keeps a token-colored fallback box (`--color-bg-secondary`) for any
+  person without an `image`, and stays forward-compatible — swap the `image` for
+  a real headshot and nothing else changes.
+
+**Why:** Requested portraits over the names, using the same placeholder images as
+the rest of the site rather than a flat box.
+
 ### 2026-06-28 — Hero title reveal: clip-wipe → slide-up mask
 
 **What:** Replaced the title's entrance tween. It was a `clip-path: inset()`

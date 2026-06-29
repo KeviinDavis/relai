@@ -46,10 +46,26 @@ export const whyRelai = {
 export const leadership = {
   title: "Leadership",
   people: [
-    { name: "Elena Marchetti", role: "Co-founder & CEO" },
-    { name: "David Okafor", role: "Co-founder & CTO" },
-    { name: "Sofia Reyes", role: "Head of Terminal Operations" },
-    { name: "Daniel Cho", role: "Head of Product" },
+    {
+      name: "Elena Marchetti",
+      role: "Co-founder & CEO",
+      image: "/images/leadership-elena-marchetti.svg",
+    },
+    {
+      name: "David Okafor",
+      role: "Co-founder & CTO",
+      image: "/images/leadership-david-okafor.svg",
+    },
+    {
+      name: "Sofia Reyes",
+      role: "Head of Terminal Operations",
+      image: "/images/leadership-sofia-reyes.svg",
+    },
+    {
+      name: "Daniel Cho",
+      role: "Head of Product",
+      image: "/images/leadership-daniel-cho.svg",
+    },
   ],
 };
 
