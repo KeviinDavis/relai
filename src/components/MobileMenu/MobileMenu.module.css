@@ -57,7 +57,7 @@
   justify-content: flex-start;
   gap: var(--space-xs);
   width: 100%;
-  font-size: var(--font-h1);
+  font-size: var(--font-nav-link);
   font-weight: var(--weight-normal);
   letter-spacing: var(--tracking-tight);
   line-height: 1;

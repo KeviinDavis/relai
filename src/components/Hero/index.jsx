@@ -102,6 +102,7 @@ export default function Hero({ content = {} }) {
                 </p>
               )}
 
+              {/* Scroll-cue arrow temporarily disabled.
               {scrollIndicator && (
                 <div className={styles.metaRow}>
                   <a
@@ -124,6 +125,7 @@ export default function Hero({ content = {} }) {
                   </a>
                 </div>
               )}
+              */}
             </div>
           )}
         </div>
