@@ -38,28 +38,28 @@ export const stepper = {
   steps: [
     {
       capsule: "Vessel Intelligence",
-      image: "/images/step-vessel.svg",
+      image: "/svgs/relai-vessel-intelligence.svg",
       alt: "Live vessel tracking and predictive ETAs across the network.",
       text:
         "It starts at sea. Relai ingests live AIS position, weather, and port-congestion data for every vessel inbound to your network, then models arrival windows continuously as conditions change. Instead of a static ETA that's wrong by the time it matters, your team works from a prediction that updates by the hour — and the rest of the operation plans against it.",
     },
     {
       capsule: "Terminal Orchestration",
-      image: "/images/step-terminal.svg",
+      image: "/svgs/relai-terminal-orchestration.svg",
       alt: "Berth, crane, and yard sequenced against the live ETA.",
       text:
         "As the vessel approaches, Relai sequences the terminal around it. Berth windows, crane assignments, and yard slots resolve against the live ETA, so labor and equipment are staged for the ship that's actually arriving — not the schedule from a week ago. When an arrival shifts, the plan recalculates and flags the downstream moves that need attention.",
     },
     {
       capsule: "Drayage & Handoff",
-      image: "/images/step-drayage.svg",
+      image: "/svgs/relai-drayage-handoff.svg",
       alt: "Terminal, yard, and carrier connected on one system at the handoff.",
       text:
         "The container's most fragile moment is the handoff to the road. Relai connects terminal, yard, and carrier on one system, so the moment a box is discharged it has a known location, an appointment, and a driver matched to it. No phone tag, no containers sitting idle waiting to be claimed — the relay continues without a gap.",
     },
     {
       capsule: "Emissions & Idle",
-      image: "/images/step-emissions.svg",
+      image: "/svgs/relai-emissions-idle.svg",
       alt: "Idle hours, fuel burn, and emissions measured across every leg.",
       text:
         "Across every leg, Relai measures what the old systems couldn't see: idle hours, fuel burn, and emissions per move. Every coordination gain — a ship that didn't wait at anchor, a truck that didn't queue at the gate — becomes a quantified reduction in cost and carbon, reported in the same view your team already works from.",
@@ -75,7 +75,7 @@ export const deployFast = {
     "Relai handles the complexity — so your team doesn't have to. From terminal integrations to carrier APIs, every connection is configurable out of the box. No custom builds, no patchwork. One flexible platform that fits your network from day one.",
   ],
   media: {
-    src: "/images/image-deploy-fast.svg",
+    src: "/exampleimages/designedtodeploy.jpg",
     alt: "Configurable integrations across terminal and carrier systems.",
   },
   aspectRatio: "4/3",
@@ -98,7 +98,7 @@ export const realtime = {
     "It fits into your existing stack, so you can finally stop working around your core systems.",
   ],
   media: {
-    src: "/images/image-realtime.svg",
+    src: "/exampleimages/realtimedesign.webp",
     alt: "Real-time network visibility ready for planning and reporting.",
   },
   aspectRatio: "4/3",

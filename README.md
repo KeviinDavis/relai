@@ -56,6 +56,120 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-30 — Capabilities: fix uneven "01 / 04" counter baseline
+
+**What:** The "01" sat higher than the "/ 04" on every breakpoint. Cause: the "01"
+is an odometer roll (`.counterRoll`) with `overflow: hidden`, which makes an
+inline-block report its baseline as its *bottom edge*. Combined with
+`align-items: baseline` and the roll's `height: 1.4em`, flexbox aligned the roll's
+bottom edge to the "/ 04" text baseline, leaving the digit floating ~0.6em high.
+
+- **`.counter`** — `align-items: baseline` → `flex-end`, added `line-height: 1`.
+- **`.counterRoll`** — `height` `1.4em` → `1em`.
+- With matched 1em line-boxes bottom-aligned, the glyph baselines now coincide. The
+  odometer animation is unaffected (it rolls by `yPercent`, relative to the element's
+  own height). Applies to all breakpoints since the rule isn't media-scoped.
+
+### 2026-06-30 — Capabilities: right-align the mobile label
+
+**What:** Pushed the capability label (e.g. "Vessel Intelligence") to the right end
+of the card on mobile via `justify-self: end` on `.title`. It's `width: fit-content`
+in the grid's right column, so its right edge lands at the card's content edge —
+flush to the end of the container but inside the existing padding (not edge-to-edge).
+
+- Mobile-only; desktop 3-column layout untouched.
+
+### 2026-06-30 — Capabilities: larger mobile diagram
+
+**What:** The mobile diagram read too small. Lifted its cap from `max-width: 60%`
+to `100%` so it fills its grid column (right column of the bottom row) instead of
+sitting at 60% of it. Still right/bottom-aligned next to the numeral.
+
+- Mobile-only, single value. Further size is bounded by the column width, which is
+  set by the rail column + `column-gap`; shrinking that gap would widen the column
+  (and the diagram) further if needed.
+
+### 2026-06-30 — Capabilities: mobile description spans full width
+
+**What:** On mobile the description was sitting in the right column (indented under
+the label). Moved it to span both columns (`grid-column: 2` → `1 / -1`) so it
+left-aligns under the `01 / 04` counter and the numeral — sharing a left edge with
+them, which reads as more balanced and matches the reference.
+
+- Mobile-only; row layout is now: counter | label (row 1), full-width description
+  (row 2), numeral | diagram (row 3). Desktop 3-column layout untouched.
+
+### 2026-06-30 — Capabilities: mobile layout reworked to match reference
+
+**What:** On mobile (≤768px) the panel went from a single full-width column
+(counter → label → description → numeral → full-bleed diagram) to the source's
+compact 2-column layout.
+
+- **`.panel`** — mobile now keeps `display: grid` (was flex column) with
+  `grid-template-columns: auto 1fr`. Left column is the rail (counter top, numeral
+  bottom); right column stacks label → description → diagram.
+- **Explicit grid placement** (replaced the old `order` flow): counter `1/1`, title
+  `2/1`, description `2/2`, numeral `1/3`, media `2/3`.
+- **Numeral** bottom-aligns to the diagram (`align-self: end`) and gets a modest
+  mobile size bump (`clamp(4.5rem, 14vw, 6rem)`) so it reads as a pair with it.
+- **Diagram** is no longer full-bleed — `max-width: 60%`, `justify-self: end`,
+  bottom-aligned, so it sits smaller and right-aligned like the reference.
+- **Rail→content gap** widened (`column-gap` `clamp(1rem,5vw,2rem)` →
+  `clamp(2.5rem,12vw,4rem)`) so the label/description start further right of the
+  counter, matching the reference's wider gap.
+- Desktop layout untouched; this is the deferred mobile pass.
+
+### 2026-06-30 — Capabilities: tightened proportions to match reference
+
+**What:** Pulled the home `Capabilities` card closer to the reference layout — smaller
+copy, narrower measure, shorter card, smaller numeral, framed diagram. Dark theme kept.
+
+- **Description** — `max-width` 32ch → 26ch (shorter line length) and `font-size`
+  cap 1.875rem → 1.5rem (30px → 24px).
+- **Card height** — `min-height` cap 30rem → 22rem, closing the dead space that
+  pushed the giant numeral far below the text.
+- **Giant numeral** — `font-size` cap 11rem → 8rem so it stops dominating the
+  shorter card.
+- **Body gap** — label→description gap cap 1.75rem → 1.25rem (tighter rhythm).
+- **Diagram** — added a `1px solid var(--color-stroke-muted)` frame on `.figureClip`
+  to match the reference's bordered diagram box.
+- All values stay clamp/token-based; no structural or color change.
+
+### 2026-06-30 — Capabilities: flipped from light to dark
+
+**What:** The home `Capabilities` section now renders dark instead of light. Swapped
+its theme wrapper class from `theme-light` to `theme-dark` in `Capabilities/index.jsx`.
+
+- **One-word change, no restyle** — the component already styles everything through
+  semantic tokens (`--color-bg-primary`, `--color-bg-secondary`,
+  `--color-text-primary/secondary`, `--color-stroke`, `--color-stroke-light`).
+  `.theme-dark` (tokens.css) remaps exactly those, so the whole section inverts
+  with no per-property edits and no hardcoded values.
+- **Bonus fit** — the four diagram SVGs have a dark surface baked in, so they now
+  blend into the dark `--color-bg-secondary` card instead of contrasting against a
+  light panel.
+- Updated the stale "Light section" comment at the top of `Capabilities.module.css`.
+
+### 2026-06-30 — Product Stepper: reuse the four Capabilities diagram SVGs
+
+**What:** Repointed the four `Stepper` step images on the product page from their
+`public/images/step-*.svg` placeholders to the same rebrand diagrams now used in
+`Capabilities` (`public/svgs/relai-*.svg`), matched by step `capsule`: Vessel
+Intelligence → `relai-vessel-intelligence`, Terminal Orchestration →
+`relai-terminal-orchestration`, Drayage & Handoff → `relai-drayage-handoff`,
+Emissions & Idle → `relai-emissions-idle`.
+
+- **`content/product.js` only** — swapped the four `steps[].image` paths. No
+  component or CSS change.
+- **Fit note (not restyled):** the Stepper card is portrait/near-square
+  (`aspect-ratio 100/111.21` desktop, `100/97.96` mobile) with `object-fit:
+  contain` and a `--color-black` background, whereas these SVGs are 16:9. They
+  render as a horizontally-centered band; because each SVG's baked-in dark surface
+  matches the black card, the contain letterboxing blends rather than showing bars.
+  The diagram therefore fills the card's width but not its full height — left as-is
+  per "don't restyle," flagged for review.
+- **Old `step-*.svg` placeholders kept** in `public/images/` (now unused).
+
 ### 2026-06-30 — Capabilities: real diagram SVGs replace placeholders
 
 **What:** Swapped the four `Capabilities` diagram slots from their generic

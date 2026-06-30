@@ -37,7 +37,7 @@ export const whyRelai = {
     "We're seeing Relai's impact across 14 live terminals today.",
   ],
   media: {
-    src: "/images/image-about-why.svg",
+    src: "/exampleimages/whyrelai2.png",
     alt: "Operations team coordinating freight at a terminal.",
   },
 };
@@ -47,24 +47,24 @@ export const leadership = {
   title: "Leadership",
   people: [
     {
-      name: "Elena Marchetti",
+      name: "Marcus Bennet",
       role: "Co-founder & CEO",
-      image: "/images/leadership-elena-marchetti.svg",
+      image: "/leadership/MarcusBennet.webp",
     },
     {
-      name: "David Okafor",
+      name: "Karim Haddad",
       role: "Co-founder & CTO",
-      image: "/images/leadership-david-okafor.svg",
+      image: "/leadership/KarimHaddad.webp",
+    },
+    {
+      name: "Naomi Clarke",
+      role: "Head of Terminal Operations",
+      image: "/leadership/NaomiClarke.webp",
     },
     {
       name: "Sofia Reyes",
-      role: "Head of Terminal Operations",
-      image: "/images/leadership-sofia-reyes.svg",
-    },
-    {
-      name: "Daniel Cho",
       role: "Head of Product",
-      image: "/images/leadership-daniel-cho.svg",
+      image: "/leadership/SofiaReyes.webp",
     },
   ],
 };
@@ -77,7 +77,7 @@ export const mission = {
     "Relai's mission is to give logistics operators technology they can use to thrive in a volatile, fast-moving world. Our vision is nothing less than a total transformation of freight — redefining it as a coordinated, transparent, low-carbon system that moves at the speed of modern trade.",
   ],
   media: {
-    src: "/images/image-about-mission.svg",
+    src: "/exampleimages/frieghtmoves.jpg",
     alt: "A connected view of a freight network.",
   },
   actions: [{ label: "Read our mission", href: "/mission", variant: "primary" }],
