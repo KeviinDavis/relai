@@ -1,67 +1,45 @@
 <!-- PALETTE
-     page    #000000
-     surface #20231F
-     fg      #FFFFFF
-     muted   #737373
-     accent  #DE4A3B
--->
-<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+     page #000000  surface #20231F  fg #FFFFFF  muted #737373  accent #DE4A3B -->
+<svg viewBox="0 0 512 640" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="512" height="640" fill="#20231F"/>
 
-  <!-- surface -->
-  <rect x="0" y="0" width="640" height="360" fill="#20231F"/>
-
-  <!-- route + markers + axis -->
   <g fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+    <!-- vertical stage axis -->
+    <line x1="70" y1="140" x2="70" y2="560" stroke="#737373" stroke-width="1"/>
+    <line x1="62" y1="140" x2="70" y2="140" stroke="#737373" stroke-width="1"/>
+    <line x1="62" y1="280" x2="70" y2="280" stroke="#737373" stroke-width="1"/>
+    <line x1="62" y1="420" x2="70" y2="420" stroke="#737373" stroke-width="1"/>
+    <line x1="62" y1="560" x2="70" y2="560" stroke="#737373" stroke-width="1"/>
 
     <!-- projected route (muted) -->
-    <path d="M52 252 L156 216 L246 224 L338 168 L446 144 L588 92" stroke="#737373" stroke-width="1"/>
+    <path d="M360 140 L300 230 L330 280 L250 360 L290 420 L210 500 L250 560" stroke="#737373" stroke-width="1"/>
     <!-- traveled route (foreground) -->
-    <path d="M52 252 L156 216 L246 224 L338 168" stroke="#FFFFFF" stroke-width="1.5"/>
+    <path d="M360 140 L300 230 L330 280 L250 360 L290 420" stroke="#FFFFFF" stroke-width="1.5"/>
 
     <!-- leader line to ETA readout -->
-    <line x1="338" y1="168" x2="420" y2="112" stroke="#FFFFFF" stroke-width="1"/>
-
-    <!-- ETA readout panel -->
-    <rect x="420" y="78" width="142" height="68" fill="none" stroke="#737373" stroke-width="1"/>
-    <line x1="420" y1="102" x2="562" y2="102" stroke="#737373" stroke-width="1"/>
+    <line x1="290" y1="420" x2="330" y2="418" stroke="#FFFFFF" stroke-width="1"/>
+    <rect x="330" y="388" width="140" height="60" fill="none" stroke="#737373" stroke-width="1"/>
+    <line x1="330" y1="412" x2="470" y2="412" stroke="#737373" stroke-width="1"/>
 
     <!-- vessel markers -->
-    <path d="M154 206 L170 216 L154 226 Z" stroke="#FFFFFF" stroke-width="1"/>
-    <path d="M244 214 L260 224 L244 234 Z" stroke="#FFFFFF" stroke-width="1"/>
-    <!-- active vessel (accent) — snapped onto the route node at 338,168 -->
-    <path d="M331 156 L351 168 L331 180 Z" fill="#DE4A3B" stroke="#DE4A3B" stroke-width="1"/>
-    <path d="M506 128 L522 138 L506 148 Z" stroke="#737373" stroke-width="1"/>
-
-    <!-- baseline axis -->
-    <line x1="70" y1="294" x2="588" y2="294" stroke="#737373" stroke-width="1"/>
-    <line x1="70" y1="286" x2="70" y2="302" stroke="#737373" stroke-width="1"/>
-    <line x1="246" y1="286" x2="246" y2="302" stroke="#737373" stroke-width="1"/>
-    <line x1="420" y1="286" x2="420" y2="302" stroke="#737373" stroke-width="1"/>
-    <line x1="588" y1="286" x2="588" y2="302" stroke="#737373" stroke-width="1"/>
-
+    <path d="M293 222 L307 222 L300 236 Z" stroke="#737373" stroke-width="1"/>
+    <path d="M283 410 L297 410 L290 426 Z" fill="#DE4A3B" stroke="#DE4A3B" stroke-width="1"/>
+    <path d="M243 552 L257 552 L250 566 Z" stroke="#737373" stroke-width="1"/>
   </g>
 
-  <!-- labels -->
   <g font-family="Helvetica, Arial, sans-serif">
+    <text x="40" y="48" fill="#FFFFFF" font-size="12" letter-spacing="1.4">VESSEL INTELLIGENCE</text>
+    <text x="40" y="64" fill="#737373" font-size="9" letter-spacing="1">LIVE · AIS ROUTE</text>
 
-    <!-- eyebrow -->
-    <text x="52" y="44" fill="#FFFFFF" font-size="12" letter-spacing="1.4">VESSEL INTELLIGENCE</text>
-    <text x="52" y="60" fill="#737373" font-size="9" letter-spacing="1">LIVE · AIS ROUTE</text>
+    <text x="58" y="143" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">PORT A</text>
+    <text x="58" y="283" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">ANCHORAGE</text>
+    <text x="58" y="423" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">CHANNEL</text>
+    <text x="58" y="563" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">BERTH</text>
 
-    <!-- ETA readout content -->
-    <text x="432" y="96" fill="#737373" font-size="9" letter-spacing="1">PREDICTIVE ETA</text>
-    <text x="432" y="129" fill="#FFFFFF" font-size="17">14:32 UTC</text>
+    <text x="342" y="405" fill="#737373" font-size="9" letter-spacing="1">PREDICTIVE ETA</text>
+    <text x="342" y="436" fill="#FFFFFF" font-size="16">14:32 UTC</text>
 
-    <!-- active vessel status -->
-    <text x="300" y="216" fill="#FFFFFF" font-size="9" letter-spacing="0.6">MV-204 · CNTR-71</text>
-    <text x="300" y="228" fill="#737373" font-size="8" letter-spacing="1">ACTIVE INBOUND</text>
-
-    <!-- axis stage labels -->
-    <text x="70"  y="316" fill="#737373" font-size="8" letter-spacing="1" text-anchor="start">PORT A</text>
-    <text x="246" y="316" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">ANCHORAGE</text>
-    <text x="420" y="316" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">CHANNEL</text>
-    <text x="588" y="316" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">BERTH</text>
-
+    <text x="120" y="458" fill="#FFFFFF" font-size="9" letter-spacing="0.6">MV-204 · CNTR-71</text>
+    <text x="120" y="470" fill="#737373" font-size="8" letter-spacing="1">ACTIVE INBOUND</text>
   </g>
-
 </svg>

@@ -21,7 +21,7 @@ export const hero = {
   mediaAspect: "56.25%",
   media: {
     type: "image",
-    src: "/exampleimages/example8.png",
+    src: "/exampleimages/portcontainers.png",
     alt: "Placeholder for the Relai mission background video — a port at dusk.",
   },
 };
@@ -61,8 +61,9 @@ export const stats = {
 // Component: ImageRow
 export const gallery = {
   images: [
-    { src: "/images/gallery-terminal.svg", alt: "A container terminal at the waterfront." },
-    { src: "/images/gallery-yard.svg", alt: "Stacked shipping containers in a port yard." },
+    { src: "/exampleimages/maybe.png", alt: "A container terminal at the waterfront." },
+    { src: "/exampleimages/example8.png", alt: "Stacked shipping containers in a port yard." },
+    
   ],
 };
 
@@ -70,7 +71,7 @@ export const gallery = {
 export const explore = {
   heading: "Explore the Network",
   map: {
-    src: "/images/map-network.svg",
+    src: "/svgs/relai-freight-network.svg",
     alt: "Isometric map of a port network and the corridors Relai coordinates.",
   },
   href: "#",

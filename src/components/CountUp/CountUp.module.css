@@ -1,0 +1,4 @@
+/* Fixed-width figures so the number doesn't jitter horizontally as it ticks. */
+.num {
+  font-variant-numeric: tabular-nums;
+}

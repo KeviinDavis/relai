@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import Section from "@/components/Section";
 import Container from "@/components/Container";
+import CountUp from "@/components/CountUp";
 import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./StatList.module.css";
 
@@ -27,7 +28,7 @@ export default function StatList({ content = {} }) {
             {items.map((item) => (
               <li key={item.label} className={styles.row}>
                 <div className={styles.figure}>
-                  <span className={styles.value}>{item.value}</span>
+                  <CountUp value={item.value} className={styles.value} />
                   <span className={styles.label}>{item.label}</span>
                 </div>
                 <p className={styles.description}>{item.description}</p>

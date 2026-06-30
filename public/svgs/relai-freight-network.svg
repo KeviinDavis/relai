@@ -1,0 +1,95 @@
+<!-- PALETTE
+     page    #000000
+     surface #20231F
+     fg      #FFFFFF
+     muted   #737373
+     accent  #DE4A3B
+-->
+<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- surface -->
+  <rect x="0" y="0" width="640" height="360" fill="#20231F"/>
+
+  <!-- faint coordinate grid -->
+  <g stroke="#737373" stroke-width="0.5" opacity="0.35">
+    <line x1="100" y1="24" x2="100" y2="336"/>
+    <line x1="200" y1="24" x2="200" y2="336"/>
+    <line x1="300" y1="24" x2="300" y2="336"/>
+    <line x1="400" y1="24" x2="400" y2="336"/>
+    <line x1="500" y1="24" x2="500" y2="336"/>
+    <line x1="52" y1="120" x2="588" y2="120"/>
+    <line x1="52" y1="200" x2="588" y2="200"/>
+    <line x1="52" y1="280" x2="588" y2="280"/>
+  </g>
+
+  <g fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+
+    <!-- inbound routes: accent = active, muted = scheduled. Flow right -> left into hub -->
+    <path d="M530 96  Q340 70 160 192"  stroke="#DE4A3B" stroke-width="1"/>
+    <path d="M440 64  Q280 60 160 192"  stroke="#737373" stroke-width="1"/>
+    <path d="M570 168 Q370 150 160 192" stroke="#DE4A3B" stroke-width="1"/>
+    <path d="M510 268 Q340 300 160 192" stroke="#737373" stroke-width="1"/>
+    <path d="M390 300 Q260 300 160 192" stroke="#737373" stroke-width="1"/>
+    <path d="M580 230 Q370 260 160 192" stroke="#737373" stroke-width="1"/>
+    <path d="M480 120 Q320 100 160 192" stroke="#737373" stroke-width="1"/>
+    <path d="M390 100 Q270 90 160 192"  stroke="#DE4A3B" stroke-width="1"/>
+    <path d="M340 70  Q240 80 160 192"  stroke="#737373" stroke-width="1"/>
+    <path d="M550 130 Q350 120 160 192" stroke="#737373" stroke-width="1"/>
+    <path d="M440 200 Q300 200 160 192" stroke="#737373" stroke-width="1"/>
+    <path d="M460 300 Q310 310 160 192" stroke="#737373" stroke-width="1"/>
+    <path d="M320 250 Q230 240 160 192" stroke="#DE4A3B" stroke-width="1"/>
+    <path d="M530 300 Q340 320 160 192" stroke="#737373" stroke-width="1"/>
+
+    <!-- inbound direction markers (on active routes, pointing left toward hub) -->
+    <path d="M206 187 L196 192 L206 197 Z" stroke="#DE4A3B" stroke-width="1"/>
+    <path d="M210 161 L200 166 L210 171 Z" stroke="#DE4A3B" stroke-width="1" transform="rotate(-32 200 166)"/>
+    <path d="M212 165 L202 170 L212 175 Z" stroke="#DE4A3B" stroke-width="1" transform="rotate(-25 202 170)"/>
+
+    <!-- labeled origin nodes (8x8) -->
+    <rect x="526" y="92"  width="8" height="8" stroke="#DE4A3B" stroke-width="1"/>
+    <rect x="436" y="60"  width="8" height="8" stroke="#737373" stroke-width="1"/>
+    <rect x="566" y="164" width="8" height="8" stroke="#DE4A3B" stroke-width="1"/>
+    <rect x="506" y="264" width="8" height="8" stroke="#737373" stroke-width="1"/>
+    <rect x="386" y="296" width="8" height="8" stroke="#737373" stroke-width="1"/>
+    <rect x="576" y="226" width="8" height="8" stroke="#737373" stroke-width="1"/>
+
+    <!-- unlabeled origin nodes (6x6) -->
+    <rect x="477" y="117" width="6" height="6" stroke="#737373" stroke-width="1"/>
+    <rect x="387" y="97"  width="6" height="6" stroke="#DE4A3B" stroke-width="1"/>
+    <rect x="337" y="67"  width="6" height="6" stroke="#737373" stroke-width="1"/>
+    <rect x="547" y="127" width="6" height="6" stroke="#737373" stroke-width="1"/>
+    <rect x="437" y="197" width="6" height="6" stroke="#737373" stroke-width="1"/>
+    <rect x="457" y="297" width="6" height="6" stroke="#737373" stroke-width="1"/>
+    <rect x="317" y="247" width="6" height="6" stroke="#DE4A3B" stroke-width="1"/>
+    <rect x="527" y="297" width="6" height="6" stroke="#737373" stroke-width="1"/>
+
+    <!-- destination hub (left) -->
+    <circle cx="160" cy="192" r="28" stroke="#737373" stroke-width="0.5"/>
+    <circle cx="160" cy="192" r="18" stroke="#DE4A3B" stroke-width="1"/>
+    <rect x="154" y="186" width="12" height="12" fill="#DE4A3B" stroke="#DE4A3B" stroke-width="1"/>
+
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif">
+
+    <!-- eyebrow -->
+    <text x="52" y="44" fill="#FFFFFF" font-size="12" letter-spacing="1.4">GLOBAL COORDINATION NETWORK</text>
+    <text x="52" y="60" fill="#737373" font-size="9" letter-spacing="1">INBOUND ROUTES · LIVE</text>
+
+    <!-- route count readout -->
+    <text x="588" y="44" fill="#737373" font-size="9" letter-spacing="1" text-anchor="end">14 INBOUND ROUTES · 1 HUB</text>
+
+    <!-- labeled majors only -->
+    <text x="522" y="93"  fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">SHANGHAI</text>
+    <text x="450" y="61"  fill="#737373" font-size="8" letter-spacing="1">BUSAN</text>
+    <text x="562" y="165" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">ROTTERDAM</text>
+    <text x="520" y="269" fill="#737373" font-size="8" letter-spacing="1">SINGAPORE</text>
+    <text x="400" y="302" fill="#737373" font-size="8" letter-spacing="1">DUBAI</text>
+    <text x="572" y="228" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">ANTWERP</text>
+
+    <!-- hub label -->
+    <text x="160" y="235" fill="#DE4A3B" font-size="10" letter-spacing="1.4" text-anchor="middle">LONG BEACH</text>
+
+  </g>
+
+</svg>

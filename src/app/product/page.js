@@ -1,6 +1,6 @@
 import Hero from "@/components/Hero";
 import TextSection from "@/components/TextSection";
-import Stepper from "@/components/Stepper";
+import ProcessList from "@/components/ProcessList";
 import SplitSection from "@/components/SplitSection";
 import Faq from "@/components/Faq";
 import {
@@ -21,7 +21,7 @@ export default function ProductPage() {
     <>
       <Hero content={hero} />
       <TextSection content={intro} />
-      <Stepper content={stepper} />
+      <ProcessList content={stepper} />
       <SplitSection content={deployFast} />
       <TextSection content={callout} />
       <SplitSection content={realtime} />

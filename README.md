@@ -56,6 +56,55 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-30 — Mission: count-up animation on "The mission in numbers"
+
+**What:** Added `components/CountUp`, a small client component that animates the
+numeric part of each stat in `StatList` from 0 → target when it scrolls into view.
+Wired it into `StatList` in place of the static value `<span>`; the mission page's
+stat values (`mission.js`) are unchanged.
+
+**Why / how:** Ported the idea from another project's self-contained
+`IntersectionObserver` + `requestAnimationFrame` `CountUp`, but rebuilt it on the
+project's own GSAP/ScrollTrigger system instead of a second raw-rAF animation stack —
+so it fires in sync with `useReveal`'s row reveal (`top 85%`, `once`) and reuses the
+same `prefers-reduced-motion` guard. The original snippet only animated pure-digit
+strings, so every Mission value (`"920+ hrs"`, `"68%"`, `"1.2M+"`, `"11%"`) would have
+rendered static; `CountUp` instead parses the leading number off each string, animates
+it (`toFixed` so `1.2M+` counts `0.0 → 1.2`), and holds the suffix static.
+`tabular-nums` on the figure keeps digit width from jittering as it ticks. No content
+changes, no new deps, no new tokens; backward-compatible (final text is identical, and
+non-numeric values render unchanged).
+
+### 2026-06-30 — Product: new `ProcessList` (pinned scroll-scrubbed steps)
+
+**What:** Added `components/ProcessList`, a scroll-driven replacement for the product
+page's `Stepper`, cloning the mechanics of the good-fella "animatedListSection" (the
+"How we work." section). The product page now renders `ProcessList` with the same
+`stepper` content; `Stepper` is left in place for reuse elsewhere.
+
+- **Pinning:** desktop wraps the content in a tall track (`min-height: var(--steps) *
+  80vh` → 320vh for 4 steps) and pins the inner via CSS `position: sticky` — the whole
+  header/list/media holds still while scroll progress drives the sequence. This replaces
+  Stepper's flow-layout + per-block `ScrollTrigger` enter/leave model.
+- **Engine:** one scrubbed `ScrollTrigger` reads `progress`. Active row = `round(p*(N-1))`
+  (discrete, CSS-transitioned); the marker square's Y glides between row centers and its
+  rotation interpolates `p*900deg` every frame via a direct transform write. CSS sticky +
+  Lenis (already wired in `SmoothScroll`) avoids GSAP pin-spacer interplay.
+- **Active treatment:** rows share a fixed indent (`padding-left: --space-8xl`) and never
+  shift horizontally — active is just `opacity:1`, others `opacity:0.4`, and the marker
+  square travels down the left gutter to mark the active step. (Dropped the per-row
+  `translateX` after first review — it pushed the active row toward the page edge.) Step
+  label is number (`01`–`04`, from index) + `h3` title (`step.capsule`) + muted body.
+- **Media:** vertical filmstrip — frames stacked in a flex column, shown via
+  `translateY(active * -100%)` with a 0.7s ease; `object-fit: cover` at 4/5. Current SVGs
+  render as placeholders until 4/5 art replaces them. Dropped Stepper's `2/4` counter and
+  capsule-heading overlay.
+- **Color:** the marker square + image tint use `--color-accent` (mono — white on dark),
+  **not** an orange brand color. `tokens.css` states relai has no brand accent, so no token
+  was added or invented.
+- **Mobile (<1024):** plain vertical stack — each step's text then its 4/5 image. No
+  carousel, no scroll-sync (replaces Stepper's horizontal snap carousel).
+
 ### 2026-06-30 — Capabilities: fix uneven "01 / 04" counter baseline
 
 **What:** The "01" sat higher than the "/ 04" on every breakpoint. Cause: the "01"
