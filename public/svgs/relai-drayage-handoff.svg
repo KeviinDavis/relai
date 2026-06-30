@@ -1,0 +1,59 @@
+<!-- PALETTE
+     page    #000000
+     surface #20231F
+     fg      #FFFFFF
+     muted   #737373
+     accent  #DE4A3B
+-->
+<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- surface -->
+  <rect x="0" y="0" width="640" height="360" fill="#20231F"/>
+
+  <g fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+
+    <!-- flow line: white = traveled, muted = remaining -->
+    <line x1="96"  y1="168" x2="400" y2="168" stroke="#FFFFFF" stroke-width="1.5"/>
+    <line x1="400" y1="168" x2="552" y2="168" stroke="#737373" stroke-width="1"/>
+
+    <!-- stage nodes (22x22 squares) -->
+    <rect x="85"  y="157" width="22" height="22" stroke="#FFFFFF" stroke-width="1"/>
+    <rect x="237" y="157" width="22" height="22" stroke="#FFFFFF" stroke-width="1"/>
+    <rect x="389" y="157" width="22" height="22" stroke="#FFFFFF" stroke-width="1.5"/>
+    <rect x="541" y="157" width="22" height="22" stroke="#737373" stroke-width="1"/>
+
+    <!-- status chips -->
+    <rect x="64"  y="220" width="64" height="18" stroke="#737373" stroke-width="1"/>
+    <rect x="216" y="220" width="64" height="18" stroke="#737373" stroke-width="1"/>
+    <rect x="361" y="220" width="78" height="18" stroke="#DE4A3B" stroke-width="1.5"/>
+    <rect x="520" y="220" width="64" height="18" stroke="#737373" stroke-width="1"/>
+
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif">
+
+    <!-- eyebrow -->
+    <text x="52" y="44" fill="#FFFFFF" font-size="12" letter-spacing="1.4">DRAYAGE &amp; HANDOFF</text>
+    <text x="52" y="60" fill="#737373" font-size="9" letter-spacing="1">CONTAINER LIFECYCLE · REF CNTR-4471</text>
+
+    <!-- timestamps above nodes -->
+    <text x="96"  y="146" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">08:12</text>
+    <text x="248" y="146" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">09:40</text>
+    <text x="400" y="146" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">11:05</text>
+    <text x="552" y="146" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">--:--</text>
+
+    <!-- stage labels -->
+    <text x="96"  y="206" fill="#FFFFFF" font-size="9" letter-spacing="1" text-anchor="middle">YARD</text>
+    <text x="248" y="206" fill="#FFFFFF" font-size="9" letter-spacing="1" text-anchor="middle">GATE OUT</text>
+    <text x="400" y="206" fill="#FFFFFF" font-size="9" letter-spacing="1" text-anchor="middle">IN TRANSIT</text>
+    <text x="552" y="206" fill="#737373" font-size="9" letter-spacing="1" text-anchor="middle">DELIVERED</text>
+
+    <!-- chip text -->
+    <text x="96"  y="233" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">CLEARED</text>
+    <text x="248" y="233" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">CLEARED</text>
+    <text x="400" y="233" fill="#DE4A3B" font-size="8" letter-spacing="1" text-anchor="middle">IN TRANSIT</text>
+    <text x="552" y="233" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">PENDING</text>
+
+  </g>
+
+</svg>

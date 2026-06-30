@@ -56,6 +56,23 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-30 — Capabilities: real diagram SVGs replace placeholders
+
+**What:** Swapped the four `Capabilities` diagram slots from their generic
+`public/images/capability-*.svg` placeholders to the rebrand diagrams in
+`public/svgs/relai-*.svg`, mapped by tab — Vessel Intelligence (01) →
+`relai-vessel-intelligence`, Terminal Orchestration (02) →
+`relai-terminal-orchestration`, Drayage & Handoff (03) → `relai-drayage-handoff`,
+Emissions & Idle (04) → `relai-emissions-idle`.
+
+- **`content/home.js` only** — repointed the four `image.src` values. No component
+  or CSS change: the slot is already `aspect-ratio: 16/9` with `object-fit: cover`,
+  and each SVG is a self-contained `viewBox 0 0 640 360` (16:9) with the dark
+  surface baked in, so it fills the existing slot with no crop and no restyling.
+- **`alt` text left unchanged** — already describes each diagram accurately.
+- **Old `capability-*.svg` placeholders kept** in `public/images/` (now unused);
+  left in place rather than deleted since removal wasn't in scope.
+
 ### 2026-06-28 — Leadership: portrait above each name/role
 
 **What:** Each person in `Leadership` now stacks a portrait above the name +

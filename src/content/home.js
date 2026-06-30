@@ -44,7 +44,7 @@ export const capabilities = {
       description:
         "Live tracking and predictive ETAs across every vessel in your network — so the dock is ready before the ship is.",
       image: {
-        src: "/images/capability-vessel-intelligence.svg",
+        src: "/svgs/relai-vessel-intelligence.svg",
         alt: "Diagram of live vessel tracking and predictive ETAs across a port network.",
       },
     },
@@ -53,7 +53,7 @@ export const capabilities = {
       description:
         "Berth, crane, and yard coordinated from one view, sequenced around real arrival times instead of guesswork.",
       image: {
-        src: "/images/capability-terminal-orchestration.svg",
+        src: "/svgs/relai-terminal-orchestration.svg",
         alt: "Diagram of berth, crane, and yard sequenced from a single terminal view.",
       },
     },
@@ -62,7 +62,7 @@ export const capabilities = {
       description:
         "The port-to-truck seam, closed — every container with a known location, a next move, and a driver ready for it.",
       image: {
-        src: "/images/capability-drayage-handoff.svg",
+        src: "/svgs/relai-drayage-handoff.svg",
         alt: "Diagram of the port-to-truck handoff with every container tracked to a driver.",
       },
     },
@@ -71,7 +71,7 @@ export const capabilities = {
       description:
         "Fuel burn and emissions measured across every leg, turning coordination gains into a cut you can prove.",
       image: {
-        src: "/images/capability-emissions-idle.svg",
+        src: "/svgs/relai-emissions-idle.svg",
         alt: "Diagram of fuel burn and emissions measured across every leg of the journey.",
       },
     },
@@ -83,7 +83,7 @@ export const testimonials = {
   items: [
     {
       name: "Marcus Vance — VP of Terminal Operations, Pacific Gateway Lines",
-      image: "/images/testimonial-portrait.svg",
+      image: "/exampleimages/testimonial.jpg",
       alt: "Portrait of Marcus Vance, VP of Terminal Operations at Pacific Gateway Lines.",
       quote:
         "We'd spent years stitching together systems that were never meant to talk to each other. Relai is the first platform that treats the whole journey as one operation. We can see a vessel three days out and have the yard and drivers sequenced before it berths. The idle time we've cut goes straight to the bottom line — and to our emissions targets.",
@@ -98,7 +98,7 @@ export const shortcuts = {
     "Relai is a venture-backed logistics-tech company, supported by leading climate-tech and supply-chain investors. Founded by terminal operators and engineers who watched global trade run on software older than the internet, Relai was built to be the coordination layer the modern supply chain never had.",
   cards: [
     {
-      image: "/images/card-about.svg",
+      image: "/exampleimages/missionhome.webp",
       alt: "A team reviewing operations together at a long table.",
       title: "About us",
       text:
@@ -106,8 +106,8 @@ export const shortcuts = {
       href: "/about",
     },
     {
-      image: "/images/card-mission.svg",
-      alt: "An illustration of a connected global logistics network.",
+      image: "/exampleimages/abouthome.webp",
+            alt: "An illustration of a connected global logistics network.",
       title: "Mission",
       text: "Moving the world's freight with less waste, less idle, and less carbon.",
       href: "/mission",

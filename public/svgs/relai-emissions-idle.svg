@@ -1,0 +1,54 @@
+<!-- PALETTE
+     page    #000000
+     surface #20231F
+     fg      #FFFFFF
+     muted   #737373
+     accent  #DE4A3B
+-->
+<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- surface -->
+  <rect x="0" y="0" width="640" height="360" fill="#20231F"/>
+
+  <g fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+
+    <!-- reference gridlines (faint) -->
+    <line x1="110" y1="120" x2="430" y2="120" stroke="#737373" stroke-width="0.5"/>
+    <line x1="110" y1="200" x2="430" y2="200" stroke="#737373" stroke-width="0.5"/>
+
+    <!-- baseline (x) axis -->
+    <line x1="110" y1="280" x2="430" y2="280" stroke="#737373" stroke-width="1"/>
+
+    <!-- baseline bar (muted) -->
+    <rect x="158" y="120" width="90" height="160" stroke="#737373" stroke-width="1"/>
+    <!-- coordinated bar (accent) -->
+    <rect x="318" y="149" width="90" height="131" stroke="#DE4A3B" stroke-width="1.5"/>
+
+    <!-- delta measure between bar tops -->
+    <line x1="450" y1="120" x2="450" y2="149" stroke="#737373" stroke-width="1"/>
+    <line x1="445" y1="120" x2="455" y2="120" stroke="#737373" stroke-width="1"/>
+    <line x1="445" y1="149" x2="455" y2="149" stroke="#737373" stroke-width="1"/>
+
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif">
+
+    <!-- eyebrow -->
+    <text x="52" y="44" fill="#FFFFFF" font-size="12" letter-spacing="1.4">EMISSIONS &amp; IDLE</text>
+    <text x="52" y="60" fill="#737373" font-size="9" letter-spacing="1">CO₂ PER LEG · COORDINATED VS BASELINE</text>
+
+    <!-- bar value labels -->
+    <text x="203" y="112" fill="#FFFFFF" font-size="13" text-anchor="middle">100</text>
+    <text x="363" y="141" fill="#FFFFFF" font-size="13" text-anchor="middle">82</text>
+
+    <!-- bar axis labels -->
+    <text x="203" y="298" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">BASELINE</text>
+    <text x="363" y="298" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">COORDINATED</text>
+
+    <!-- headline -->
+    <text x="486" y="150" fill="#FFFFFF" font-size="46">−18%</text>
+    <text x="488" y="172" fill="#737373" font-size="9" letter-spacing="1.4">IDLE EMISSIONS / LEG</text>
+
+  </g>
+
+</svg>

@@ -1,0 +1,70 @@
+<!-- PALETTE
+     page    #000000
+     surface #20231F
+     fg      #FFFFFF
+     muted   #737373
+     accent  #DE4A3B
+-->
+<svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- surface -->
+  <rect x="0" y="0" width="640" height="360" fill="#20231F"/>
+
+  <g fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+
+    <!-- berth track lines -->
+    <line x1="110" y1="120" x2="588" y2="120" stroke="#737373" stroke-width="1"/>
+    <line x1="110" y1="158" x2="588" y2="158" stroke="#737373" stroke-width="1"/>
+    <line x1="110" y1="196" x2="588" y2="196" stroke="#737373" stroke-width="1"/>
+    <line x1="110" y1="234" x2="588" y2="234" stroke="#737373" stroke-width="1"/>
+
+    <!-- scheduled bars: muted = done/future, white = confirmed/active -->
+    <rect x="130" y="112" width="96"  height="16" stroke="#737373" stroke-width="1"/>
+    <rect x="250" y="112" width="118" height="16" stroke="#FFFFFF" stroke-width="1"/>
+
+    <rect x="150" y="150" width="150" height="16" stroke="#FFFFFF" stroke-width="1"/>
+
+    <rect x="118" y="188" width="64"  height="16" stroke="#737373" stroke-width="1"/>
+    <rect x="300" y="188" width="180" height="16" stroke="#FFFFFF" stroke-width="1"/>
+
+    <rect x="262" y="226" width="158" height="16" stroke="#FFFFFF" stroke-width="1"/>
+    <rect x="440" y="226" width="110" height="16" stroke="#737373" stroke-width="1"/>
+
+    <!-- NOW line (accent) -->
+    <line x1="326" y1="104" x2="326" y2="250" stroke="#DE4A3B" stroke-width="1.5"/>
+
+    <!-- time axis -->
+    <line x1="110" y1="264" x2="588" y2="264" stroke="#737373" stroke-width="1"/>
+    <line x1="110" y1="264" x2="110" y2="270" stroke="#737373" stroke-width="1"/>
+    <line x1="230" y1="264" x2="230" y2="270" stroke="#737373" stroke-width="1"/>
+    <line x1="350" y1="264" x2="350" y2="270" stroke="#737373" stroke-width="1"/>
+    <line x1="470" y1="264" x2="470" y2="270" stroke="#737373" stroke-width="1"/>
+    <line x1="588" y1="264" x2="588" y2="270" stroke="#737373" stroke-width="1"/>
+
+  </g>
+
+  <g font-family="Helvetica, Arial, sans-serif">
+
+    <!-- eyebrow -->
+    <text x="52" y="44" fill="#FFFFFF" font-size="12" letter-spacing="1.4">TERMINAL ORCHESTRATION</text>
+    <text x="52" y="60" fill="#737373" font-size="9" letter-spacing="1">BERTH SCHEDULE · LIVE</text>
+
+    <!-- berth labels -->
+    <text x="52" y="123" fill="#737373" font-size="9" letter-spacing="1">BERTH 1</text>
+    <text x="52" y="161" fill="#737373" font-size="9" letter-spacing="1">BERTH 2</text>
+    <text x="52" y="199" fill="#737373" font-size="9" letter-spacing="1">BERTH 3</text>
+    <text x="52" y="237" fill="#737373" font-size="9" letter-spacing="1">BERTH 4</text>
+
+    <!-- NOW label -->
+    <text x="326" y="98" fill="#DE4A3B" font-size="9" letter-spacing="1.4" text-anchor="middle">NOW</text>
+
+    <!-- time axis labels -->
+    <text x="110" y="282" fill="#737373" font-size="8" letter-spacing="1" text-anchor="start">00:00</text>
+    <text x="230" y="282" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">06:00</text>
+    <text x="350" y="282" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">12:00</text>
+    <text x="470" y="282" fill="#737373" font-size="8" letter-spacing="1" text-anchor="middle">18:00</text>
+    <text x="588" y="282" fill="#737373" font-size="8" letter-spacing="1" text-anchor="end">24:00</text>
+
+  </g>
+
+</svg>
