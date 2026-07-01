@@ -56,6 +56,88 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-30 — News article pages: `/news/[slug]` (Anduril `NewsArticleContent` rebuild)
+
+**What:** Gave every link in the home `News` band a real destination. New dynamic
+route `app/news/[slug]/page.js` renders each article as a **light** editorial page:
+the shared `Hero` (big title over the article's placeholder image) above a new
+`NewsArticleContent` band rebuilt from Anduril's `NewsArticleContent` slice — a sticky
+left column (article summary + a **Share** row with decorative `X / LI / RD` buttons)
+beside a right-hand rich-text body (a larger `.lead` paragraph, then body paragraphs,
+with inline links). Previously all four `/news/<slug>` links 404'd.
+
+- **One template, content-driven.** `content/news.js` gained a `slug`, a `body`
+  (`{ lead, paragraphs }`) per article, and exports `articles` / `articleSlugs` /
+  `getArticle(slug)`. The page reads from those, so adding an article to `news` gives it
+  a page, a static param, and metadata automatically. `generateStaticParams` prerenders
+  all four; an unknown slug hits `notFound()`.
+- **Rich-text model (no new dep).** Each `paragraphs` entry is either a string (plain
+  `<p>`) or an array of segments, where a string is text and `{ text, href }` is an
+  inline link (rendered via `next/link`) — mirrors the source's occasional inline links
+  without a markdown/CMS renderer. Body copy is **unique placeholder per article** (freight
+  newsroom copy, cross-linking the four articles), flagged in `news.js` to swap for a real
+  feed later.
+- **Primitives only.** `Section` + `Container` wrap the band; the placeholder image reuses
+  each article's existing `news-*.svg` through the `Hero` media path. No new primitives,
+  folders, deps, or tokens; all spacing/type/color via tokens.
+- **Light route via the existing mechanism.** `RouteTheme` now also treats any `/news/`
+  path as light (a `LIGHT_PREFIXES` prefix match alongside the exact `/about` /
+  `/book-a-demo` set), so the whole page — hero, body, **and Footer** — paints white and
+  the film-grain flips to dark, exactly like `/about`. The legacy light-styled `Header`
+  already reads correctly on white (same as About/Book-a-Demo), so the nav needed no change.
+- **Layout:** mobile-first single column (summary/share stacked above the body); at
+  **1024px** it fans out to the source's 12-column grid — left info at cols 1–4 (sticky,
+  offset below the fixed nav), body at cols 6–12 capped to a `44rem` measure.
+- **Share buttons are decorative** (match the source markup + `aria-label`s, no click
+  behavior) — so the component stays a Server Component with no client boundary.
+- **Verification:** `next build` clean — `/news/[slug]` prerenders all four slugs as SSG,
+  TypeScript + lint pass (12 routes total).
+
+**Decisions / assumptions:** left `.summary` reuses the article `title` (the source repeats
+the headline there); hero `eyebrow` = "News", `meta` = the date. "Similar News" and the
+sticky share-bar (separate source slices) and a `/news` index were out of scope. Desktop
+completed first, then the mobile stack pass — both in this build.
+
+### 2026-06-30 — Home: new `News` section (Anduril `NewsFeaturedSlice` rebuild)
+
+**What:** Added `components/News`, a newsroom band rebuilt from Anduril's
+`NewsFeaturedSlice` (their `/solid-rocket-motors` page) — a "News" header + hairline
+rule, one highlighted article (date · large title · description · "Read more", with a
+3:2 image), then a list of compact rows (date · title · "Read more" + a small
+right-aligned thumbnail). Mounted on the home page after `Shortcuts`, before the Footer.
+New `content/news.js` holds the data (1 featured + 3 list items).
+
+- **Primitives only, no invention:** wrapped in `Section` + `Container`, images through
+  the shared `Media` primitive (`fill` + per-item `aspectRatio`), motion through the
+  existing `useReveal` hook. No new primitives, folders, deps, or tokens.
+- **Surface:** dark. Uses `Section variant="default"` under the global `theme-dark`
+  class, so the background resolves to `--color-bg-primary` (black) and all type/hairlines
+  flip to their dark-theme token values automatically — a dark band re-asserted inside the
+  home page's light region (the sanctioned `theme-dark`-inside-light pattern). The dark
+  `#20231f` placeholder boxes blend into the black surface (like the dark Capabilities
+  diagrams).
+- **Motion:** `useReveal` drives the heading wipe (`data-reveal-mask`), the featured
+  image clip-settle (`data-reveal-image`), and the per-block fade-rise (`data-reveal`).
+  The signature per-row top rule that *draws in* (`scaleX 0→1`, expo ease) isn't a
+  `useReveal` primitive, so it's a small local `useGSAP` over `[data-reveal-border]`.
+  The rule defaults to `scaleX(1)` in CSS, so under `prefers-reduced-motion` (where the
+  GSAP no-ops) the rules still show. "Read more" gets a left-origin underline wipe +
+  arrow nudge on hover (token-driven, mirrors `Explore`'s inline arrow — there's no
+  shared arrow-link primitive and `Button` is a chip).
+- **Responsive:** mobile-first; the featured stacks (image on top via `order`) and rows
+  keep title-left / small-thumb-right. The two-column featured + wider thumb column
+  (`clamp(10rem, 15vw, 16rem)`) switch in at **1024px**, matching the project's unified
+  desktop breakpoint (and `Shortcuts`).
+
+**Decisions / assumptions:** placement = home (moved into the Testimonials `Reveal`
+wrapper); content = placeholder copy; images use the site's dark-box SVG placeholder
+convention — four new `public/images/news-*.svg` (dark `#20231f` fill, inset
+`#ffffff26` border, mono `IMAGE` label + caption), one per slot with a `viewBox`
+matching that slot's aspect ratio (featured 3:2, then 16:9 / 3:2 / 2.6:1). `alt` text
+still describes the intended real photo, so swapping the `src` for a real asset needs no
+other change. The source's hidden header "view all" link was omitted to match the live
+site; `Read more` links point at `/news/<slug>` placeholders (no article routes exist yet).
+
 ### 2026-06-30 — Mission: count-up animation on "The mission in numbers"
 
 **What:** Added `components/CountUp`, a small client component that animates the

@@ -1,0 +1,111 @@
+/* NewsArticleContent — article body band (sticky summary/share + rich text).
+   Mirrors the source's 12-column NewsArticleContent slice on the light surface
+   (the route renders under theme-light). Mobile-first; the two columns fan out
+   at 1024px. */
+
+.root {
+  color: var(--color-text-primary);
+}
+
+/* ---- grid ---- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+}
+
+/* ---- left: sticky info column ---- */
+.information {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.summary {
+  font-size: var(--font-body);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+  max-width: 24rem;
+}
+
+.share {
+  display: flex;
+  align-items: center;
+  gap: var(--space-m);
+}
+
+.shareTitle {
+  font-size: var(--font-tagline);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.shareButtons {
+  display: flex;
+  gap: var(--space-s);
+}
+
+.shareButton {
+  font-size: var(--font-body-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: opacity var(--transition-base);
+}
+
+.shareButton:hover {
+  opacity: 0.6;
+}
+
+/* ---- right: rich-text body ---- */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.lead {
+  font-size: var(--font-h3);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+}
+
+.paragraph {
+  font-size: var(--font-h5);
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.inlineLink {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  transition: opacity var(--transition-base);
+}
+
+.inlineLink:hover {
+  opacity: 0.6;
+}
+
+/* ---- desktop ---- */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--gutter);
+  }
+
+  .left {
+    grid-column: 1 / 5;
+  }
+
+  .right {
+    grid-column: 7 / 13;
+  }
+
+  .information {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-2xl));
+  }
+}

@@ -3,7 +3,7 @@
 .root.theme {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
-  padding-block: var(--space-7xl);
+  padding-block: 0;
 }
 
 .inner {

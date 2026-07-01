@@ -21,9 +21,16 @@ const menuLinks = [nav.home, ...nav.primary, nav.cta];
 // light-on-dark). Mirrors LIGHT_ROUTES in RouteTheme.
 const LIGHT_ROUTES = new Set(["/about", "/book-a-demo"]);
 
+// Prefix-matched light routes — must mirror LIGHT_PREFIXES in RouteTheme so the
+// logo/links pick the dark foreground on the white /news/<slug> article pages.
+// (The bare /news index stays dark and is intentionally not matched here.)
+const LIGHT_PREFIXES = ["/news/"];
+
 export default function Header() {
   const pathname = usePathname();
-  const light = LIGHT_ROUTES.has(pathname);
+  const light =
+    LIGHT_ROUTES.has(pathname) ||
+    LIGHT_PREFIXES.some((prefix) => pathname.startsWith(prefix));
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

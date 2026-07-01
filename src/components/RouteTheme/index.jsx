@@ -10,9 +10,15 @@ import styles from "./RouteTheme.module.css";
 // ("light on About/Book-a-Demo"); add a route here to make it white.
 const LIGHT_ROUTES = new Set(["/about", "/book-a-demo"]);
 
+// Prefix-matched light routes — every article under /news/ is a white,
+// editorial page (Hero + NewsArticleContent).
+const LIGHT_PREFIXES = ["/news/"];
+
 export default function RouteTheme({ children }) {
   const pathname = usePathname();
-  const light = LIGHT_ROUTES.has(pathname);
+  const light =
+    LIGHT_ROUTES.has(pathname) ||
+    LIGHT_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 
   return (
     <div className={`${styles.region} ${light ? `${styles.light} theme-light` : ""}`}>

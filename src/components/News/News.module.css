@@ -1,0 +1,214 @@
+/* News — newsroom band (header + featured article + compact list).
+   Mirrors the source NewsFeaturedSlice on a light cream surface. Mobile-first;
+   min-width queries fan it out to the desktop two-column layout. */
+
+.root {
+  color: var(--color-text-primary);
+}
+
+/* Standalone /news page: this band is the top-of-page element, so it must clear
+   the fixed, transparent nav (heroes bake this in; a bare section doesn't). The
+   compound .root.standalone (0,2,0) beats Section's .section padding-block. */
+.root.standalone {
+  padding-top: calc(var(--nav-height) + var(--space-6xl));
+}
+
+/* ---- header ---- */
+.top {
+  margin-bottom: var(--space-6xl);
+}
+
+.heading {
+  font-size: var(--font-h2);
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-l);
+}
+
+.rule {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-stroke-muted);
+}
+
+/* ---- featured article ---- */
+.featured {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-7xl);
+}
+
+.featuredText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-m);
+}
+
+.featuredTitle {
+  font-size: var(--font-h2);
+  letter-spacing: var(--tracking-tight);
+}
+
+.description {
+  font-size: var(--font-body);
+  color: var(--color-text-secondary);
+  max-width: 42rem;
+}
+
+.featuredImage {
+  position: relative;
+  overflow: hidden;
+  order: -1; /* image stacks on top on mobile */
+}
+
+.featuredImage img {
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.featured:hover .featuredImage img {
+  transform: scale(1.04);
+}
+
+/* ---- list ---- */
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.itemLink {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  column-gap: var(--space-l);
+  padding-block: var(--space-m);
+}
+
+.itemBorder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-stroke-muted);
+  transform: scaleX(1); /* visible default — reveal animates from 0 */
+  transform-origin: left center;
+}
+
+.itemLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-s);
+}
+
+.itemTitle {
+  font-size: var(--font-h3);
+  letter-spacing: var(--tracking-tight);
+  max-width: 48rem;
+}
+
+.itemRight {
+  width: 6.5rem;
+}
+
+.thumb {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.thumb img {
+  transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.itemLink:hover .thumb img {
+  transform: scale(1.04);
+}
+
+/* ---- shared: date + read-more ---- */
+.date {
+  font-size: var(--font-body-sm);
+  color: var(--color-text-muted);
+}
+
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin-top: var(--space-xs);
+  font-size: var(--font-btn);
+  color: var(--color-text-primary);
+}
+
+.readMoreLabel {
+  position: relative;
+}
+
+.readMoreLabel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.featured:hover .readMoreLabel::after,
+.itemLink:hover .readMoreLabel::after {
+  transform: scaleX(1);
+}
+
+.arrow {
+  display: inline-flex;
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.featured:hover .arrow,
+.itemLink:hover .arrow {
+  transform: translate(2px, -2px);
+}
+
+/* ---- desktop ---- */
+@media (min-width: 1024px) {
+  .top {
+    margin-bottom: var(--space-7xl);
+  }
+
+  .featured {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--gutter);
+    align-items: start;
+  }
+
+  .featuredText {
+    gap: var(--space-l);
+    padding-right: var(--gutter);
+  }
+
+  .featuredImage {
+    order: 0; /* back to the right column */
+  }
+
+  .itemLink {
+    grid-template-columns: 1fr clamp(10rem, 15vw, 16rem);
+    column-gap: var(--gutter);
+    padding-block: var(--space-m);
+  }
+
+  .itemRight {
+    width: 100%;
+  }
+}

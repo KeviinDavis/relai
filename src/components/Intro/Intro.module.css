@@ -58,8 +58,10 @@
   }
 
   .main {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    column-gap: var(--gutter);
+    /* Eyebrow column sized to its content so the tag→paragraph gap is a fixed,
+       tight space (was the empty remainder of a full 1/6 column). */
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--space-4xl);
   }
 
   .tag {
@@ -67,7 +69,7 @@
   }
 
   .body {
-    grid-column: span 5 / -1;
+    grid-column: 2 / -1;
     font-size: var(--font-h3);   /* 24px / 32px */
     line-height: 1.35;
   }

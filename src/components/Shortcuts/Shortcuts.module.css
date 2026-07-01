@@ -1,6 +1,7 @@
 .section {
-  /* .theme-light flips tokens to dark-on-white; padding (not margin) keeps the
-     white background continuous from Testimonials down to the Footer. */
+  /* Inherits the route theme (no forced .theme-light), so it renders on the
+     page's primary background — dark on Home/Product/Mission, white on the
+     light routes. */
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   padding-inline: var(--gutter-sm);
@@ -16,8 +17,10 @@
 }
 
 .introText {
-  font-size: var(--font-h4);     /* 20px / 27px */
-  line-height: 1.35;
+  /* Mirrors Intro .body (the "Why Relai" paragraph) so the two sections read
+     at the same size. */
+  font-size: var(--font-body);   /* mobile 16px */
+  line-height: 1.375;
   max-width: 60rem;
 }
 
@@ -67,20 +70,22 @@
   }
 
   .intro {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--gutter);
-    gap: var(--gutter);          /* 24px */
+    /* Mirrors Intro .main: eyebrow sized to its content, paragraph a fixed gap
+       after it — keeps the tag→paragraph space tight and identical to Intro. */
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: var(--space-4xl);
   }
 
   .introTag {
-    grid-column: 2 / span 1;
+    /* Flush to the left content edge, mirroring Intro .tag ("Why Relai"). */
+    grid-column: 1 / span 1;
   }
 
   .introText {
-    grid-column: 3 / span 8;
-    font-size: 2rem;             /* 32px */
-    line-height: 2.375rem;       /* 38px */
-    letter-spacing: -0.01em;
+    /* Paragraph fills the track after the content-sized eyebrow column. */
+    grid-column: 2 / -1;
+    font-size: var(--font-h3);   /* mirror Intro .body — up to 24px */
+    line-height: 1.35;
   }
 
   .grid {

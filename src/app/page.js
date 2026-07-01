@@ -3,8 +3,10 @@ import Intro from "@/components/Intro";
 import Capabilities from "@/components/Capabilities";
 import Testimonials from "@/components/Testimonials";
 import Shortcuts from "@/components/Shortcuts";
+import News from "@/components/News";
 import Reveal from "@/components/Reveal";
 import { hero, intro, capabilities, testimonials, shortcuts } from "@/content/home";
+import { news } from "@/content/news";
 
 export default function Home() {
   return (
@@ -17,13 +19,14 @@ export default function Home() {
 
       <Capabilities content={capabilities} />
 
-      <Reveal>
+      {/* <Reveal>
         <Testimonials content={testimonials} />
-      </Reveal>
+      </Reveal> */}
 
-      <Reveal>
-        <Shortcuts content={shortcuts} />
-      </Reveal>
+
+      <Shortcuts content={shortcuts} />
+
+      <News content={news} />
     </>
   );
 }

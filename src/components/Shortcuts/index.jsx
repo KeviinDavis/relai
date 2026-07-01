@@ -13,7 +13,7 @@ export default function Shortcuts({ content = {} }) {
   useReveal(scope, [cards.length]);
 
   return (
-    <section className={`${styles.section} theme-light`} ref={scope}>
+    <section className={styles.section} ref={scope}>
       <div className={styles.intro}>
         <div className={styles.introTag} data-reveal>
           <Eyebrow>{capsule}</Eyebrow>

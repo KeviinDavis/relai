@@ -43,8 +43,9 @@ export const nav = {
   brand: { href: "/", label: "Relai", ariaLabel: "Relai — home" },
   primary: [
     { label: "Product", href: "/product" },
-    { label: "About", href: "/about" },
     { label: "Mission", href: "/mission" },
+    { label: "About", href: "/about" },
+    { label: "News", href: "/news" },
   ],
   cta: { label: "Book a Demo", href: "/book-a-demo" },
   contact: { label: "Contact", drawerLabel: "Contact Relai" },
