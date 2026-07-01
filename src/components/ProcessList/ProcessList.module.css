@@ -62,7 +62,9 @@
 
 .mobile {
   display: block;
-  padding-block: var(--space-7xl);
+  /* Top gap now comes from the shared header above; keep only the bottom
+     separation from the next section. */
+  padding-bottom: var(--space-7xl);
 }
 
 .mobileList {

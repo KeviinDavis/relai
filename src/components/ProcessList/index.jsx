@@ -85,7 +85,15 @@ export default function ProcessList({ content = {} }) {
 
   return (
     <section className={styles.section} id="product" ref={scope}>
-      {/* Desktop — pinned, scroll-scrubbed sequence */}
+      {/* Shared header — one block that flows normally at every breakpoint, so the
+          gap above it is a fixed value instead of the old centered-pin distance
+          that scaled with viewport height. */}
+      <div className={styles.header}>
+        <Eyebrow>{capsule}</Eyebrow>
+        <p className={styles.headerText}>{text}</p>
+      </div>
+
+      {/* Desktop — pinned, scroll-scrubbed sequence (steps + media only) */}
       <div
         className={styles.track}
         ref={trackRef}
@@ -93,11 +101,6 @@ export default function ProcessList({ content = {} }) {
       >
         <div className={styles.pinned}>
           <div className={styles.inner}>
-            <div className={styles.header}>
-              <Eyebrow>{capsule}</Eyebrow>
-              <p className={styles.headerText}>{text}</p>
-            </div>
-
             <div className={styles.split}>
               <ol className={styles.steps}>
                 <span className={styles.marker} ref={squareRef} aria-hidden="true" />
@@ -141,12 +144,8 @@ export default function ProcessList({ content = {} }) {
         </div>
       </div>
 
-      {/* Mobile — flat vertical stack: lead, title, text, image (no pin, no scrub) */}
+      {/* Mobile — flat vertical stack (header is shared above) */}
       <div className={styles.mobile}>
-        <div className={styles.header}>
-          <Eyebrow>{capsule}</Eyebrow>
-          <p className={styles.headerText}>{text}</p>
-        </div>
         <ol className={styles.mobileList}>
           {steps.map((step, i) => (
             <li className={styles.mobileItem} key={step.capsule}>

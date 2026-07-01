@@ -1,6 +1,6 @@
 .section {
   padding-top: var(--space-2xl);    /* 32px — tight under the hero */
-  padding-bottom: var(--space-6xl); /* 60px — separation from the section below */
+  padding-bottom: var(--space-4xl); /* 40px — tight, consistent gap to the section below */
   /* Full-bleed with a gutter, so content starts at the same left edge as the
      sections around it (mirrors ProcessList) instead of a centered column. */
   padding-inline: var(--gutter-sm);
