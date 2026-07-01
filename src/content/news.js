@@ -26,7 +26,7 @@ export const news = {
       "New capital accelerates Relai's rollout across major U.S. ports — bringing vessel, terminal, yard, and truck onto a single real-time system.",
     href: "/news/relai-series-b",
     image: {
-      src: "/images/news-featured.svg",
+      src: "/newsheros/news1.jpg",
       alt: "Stacked shipping containers lit at a port terminal at dusk.",
       aspectRatio: "3/2",
     },
@@ -66,9 +66,9 @@ export const news = {
       title: "Pacific Gateway Lines selects Relai",
       href: "/news/pacific-gateway-selects-relai",
       image: {
-        src: "/images/news-pacific-gateway.svg",
-        alt: "Freight trucks staged along a container yard.",
-        aspectRatio: "16/9",
+        src: "/newsheros/news5.jpg",
+        alt: "Stacked shipping containers and orange yard equipment at a port terminal.",
+        aspectRatio: "3/2",
       },
       body: {
         lead:
@@ -98,7 +98,7 @@ export const news = {
       title: "Relai cuts idle time and emissions",
       href: "/news/relai-cuts-idle-emissions",
       image: {
-        src: "/images/news-idle-emissions.svg",
+        src: "/newsheros/news3.jpg",
         alt: "Aerial view of a working port at golden hour.",
         aspectRatio: "3/2",
       },
@@ -130,9 +130,9 @@ export const news = {
       title: "Relai completes first real-time handoff pilot",
       href: "/news/relai-realtime-handoff-pilot",
       image: {
-        src: "/images/news-realtime-pilot.svg",
+        src: "/newsheros/news4.jpg",
         alt: "Real-time logistics dashboard tracking containers across a network.",
-        aspectRatio: "2.6/1",
+        aspectRatio: "3/2",
       },
       body: {
         lead:

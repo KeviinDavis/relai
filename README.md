@@ -56,6 +56,20 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-07-01 — News: uniform list thumbnails + real Pacific Gateway photo
+
+The three compact `News` rows rendered thumbnails at three different heights
+because each item carried its own `aspectRatio` (`16/9`, `3/2`, `2.6/1`) and the
+`Media` fill wrapper sizes off that value. Aligned all list items to `3/2`,
+matching the "Relai cuts idle time and emissions" card the user picked as the
+reference — the thumbnail column is a fixed width, so equal ratios now render
+equal sizes. **Why data, not CSS:** `aspectRatio` is the prop that exists to
+control this, and the article Hero reads only `image.src`/`image.alt` (not
+`aspectRatio`), so the change is scoped to the list. Also swapped Pacific
+Gateway off the leftover `/images/news-pacific-gateway.svg` placeholder to the
+real `newsheros/news2.jpg` (the only one of the four hero photos not yet wired
+in), with an alt describing its stacked-containers/yard-equipment content.
+
 ### 2026-06-30 — Book-a-Demo form: client-only submit state machine
 
 `ContactForm` gained real submit behavior (still **no backend, no network, no
