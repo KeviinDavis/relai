@@ -5,7 +5,7 @@
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   padding-inline: var(--gutter-sm);
-  padding-top: 8.75rem;           /* 140px */
+  padding-top: var(--space-6xl);  /* 60px — gap up from Capabilities */
   padding-bottom: 2.875rem;       /* 46px */
 }
 
@@ -65,7 +65,7 @@
 @media (min-width: 1024px) {
   .section {
     padding-inline: var(--gutter);
-    padding-top: 7.5rem;         /* 120px */
+    /* padding-top stays at var(--space-6xl) from the base rule (60px) */
     padding-bottom: 4.5rem;      /* 72px */
   }
 

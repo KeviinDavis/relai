@@ -1,7 +1,7 @@
 .section {
   padding-inline: var(--gutter-sm);
   padding-block: 0;
-  margin-bottom: 6rem;            /* 96px */
+  margin-bottom: var(--space-6xl); /* 60px — gap down to Capabilities */
 }
 
 .top {
@@ -44,7 +44,7 @@
 @media (min-width: 1024px) {
   .section {
     padding-inline: var(--gutter);
-    margin-bottom: 7.5rem;        /* 120px */
+    /* margin-bottom stays at var(--space-6xl) from the base rule (60px) */
   }
 
   .links {

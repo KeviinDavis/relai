@@ -214,9 +214,8 @@
 
 /* ---------------------------------------------------------------- mobile */
 @media (max-width: 768px) {
-  .root.theme {
-    padding-block: var(--space-6xl);
-  }
+  /* No vertical padding at any breakpoint — the gap to Intro (above) and
+     Shortcuts (below) is owned entirely by those neighbors' spacing. */
 
   .tabs {
     gap: var(--space-2xl);
