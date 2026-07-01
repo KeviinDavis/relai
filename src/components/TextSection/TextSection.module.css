@@ -1,5 +1,9 @@
 .section {
-  padding-block: var(--space-8xl);
+  padding-top: var(--space-2xl);    /* 32px — tight under the hero */
+  padding-bottom: var(--space-6xl); /* 60px — separation from the section below */
+  /* Full-bleed with a gutter, so content starts at the same left edge as the
+     sections around it (mirrors ProcessList) instead of a centered column. */
+  padding-inline: var(--gutter-sm);
 }
 
 .dark {
@@ -11,6 +15,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-l);
+  /* Readable column width — same token as ProcessList's header. Flush-left by
+     default; only .center recenters it. */
+  max-width: var(--container-narrow);
+}
+
+.wide {
+  max-width: var(--container-max);
 }
 
 .left {
@@ -21,6 +32,7 @@
 .center {
   align-items: center;
   text-align: center;
+  margin-inline: auto;
 }
 
 .title {
@@ -53,4 +65,10 @@
   flex-wrap: wrap;
   gap: var(--space-m);
   margin-top: var(--space-m);
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-inline: var(--gutter);
+  }
 }

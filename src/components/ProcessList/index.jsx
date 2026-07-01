@@ -141,7 +141,7 @@ export default function ProcessList({ content = {} }) {
         </div>
       </div>
 
-      {/* Mobile — plain stacked list (no pin, no scrub) */}
+      {/* Mobile — flat vertical stack: lead, title, text, image (no pin, no scrub) */}
       <div className={styles.mobile}>
         <div className={styles.header}>
           <Eyebrow>{capsule}</Eyebrow>
@@ -150,16 +150,12 @@ export default function ProcessList({ content = {} }) {
         <ol className={styles.mobileList}>
           {steps.map((step, i) => (
             <li className={styles.mobileItem} key={step.capsule}>
-              <div className={styles.mobileRow}>
-                <span className={styles.mobileLead}>
-                  <span className={styles.mobileMarker} aria-hidden="true" />
-                  <span className={styles.num}>{pad(i)}</span>
-                </span>
-                <div className={styles.rowBody}>
-                  <h3 className={styles.rowTitle}>{step.capsule}</h3>
-                  <p className={styles.rowText}>{step.text}</p>
-                </div>
-              </div>
+              <span className={styles.mobileLead}>
+                <span className={styles.mobileMarker} aria-hidden="true" />
+                <span className={styles.num}>{pad(i)}</span>
+              </span>
+              <h3 className={styles.rowTitle}>{step.capsule}</h3>
+              <p className={styles.rowText}>{step.text}</p>
               <div className={styles.mobileMedia}>
                 <Image
                   src={step.image}

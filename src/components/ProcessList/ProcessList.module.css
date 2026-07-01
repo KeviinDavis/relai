@@ -72,23 +72,19 @@
   list-style: none;
 }
 
+/* Flat vertical stack — lead, title, text, image all flush to the left edge.
+   Per-row rhythm via margins (no shared flex gap): tight through the text block,
+   larger before the image. Row-to-row spacing lives on .mobileList. */
 .mobileItem {
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
-}
-
-.mobileRow {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-s);
 }
 
 .mobileLead {
   display: flex;
   align-items: center;
   gap: var(--space-xs);
-  flex-shrink: 0;
+  margin-bottom: var(--space-m);
 }
 
 .mobileMarker {
@@ -100,6 +96,7 @@
 .mobileMedia {
   position: relative;
   width: 100%;
+  margin-top: var(--space-2xl);
   aspect-ratio: 4 / 5;
   overflow: hidden;
 }
