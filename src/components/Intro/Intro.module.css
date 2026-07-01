@@ -13,7 +13,7 @@
 
 .excerpt {
   font-size: var(--font-h3);     /* 24px */
-  line-height: 1.35;
+  line-height: 1;
   max-width: 42rem;
 }
 
@@ -37,7 +37,7 @@
 
 .body {
   font-size: var(--font-body);   /* mobile 16px/22px */
-  line-height: 1.375;
+  line-height: 1;
   max-width: 48rem;
 }
 
@@ -71,6 +71,6 @@
   .body {
     grid-column: 2 / -1;
     font-size: var(--font-h3);   /* 24px / 32px */
-    line-height: 1.35;
+    line-height: 1;
   }
 }

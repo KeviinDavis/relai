@@ -44,10 +44,10 @@ export const stats = {
         "More than two-thirds of global freight is coordinated on software written before the cloud. Relai is the layer that finally connects the gaps between them.",
     },
     {
-      value: "1.2M+",
+      value: "2.4M+",
       label: "Container moves a year",
       description:
-        "Relai coordinates over a million container handoffs annually across its launch network — every one tracked from ship to truck.",
+        "Relai coordinates over two million container handoffs annually across its launch network — every one tracked from ship to truck.",
     },
     {
       value: "11%",
@@ -68,13 +68,14 @@ export const gallery = {
 };
 
 // Component: Explore
+// No `href` — there's no interactive explorer to link to, so the network SVG
+// stands on its own (Explore only renders its link when an href is supplied).
 export const explore = {
   heading: "Explore the Network",
   map: {
     src: "/svgs/relai-freight-network.svg",
     alt: "Isometric map of a port network and the corridors Relai coordinates.",
   },
-  href: "#",
 };
 
 // Component: CtaBanner
@@ -82,7 +83,7 @@ export const partner = {
   title: "Shape the future of global freight",
   text:
     "The supply chain is being rebuilt for a lower-carbon, real-time world — and it will take operators, carriers, and ports moving together. If your organization is ready to coordinate freight differently, we'd like to talk.",
-  actions: [{ label: "Partner With Relai", href: "#", variant: "light" }],
+  actions: [{ label: "Partner With Relai", href: "/book-a-demo", variant: "light" }],
 };
 
 // Component: TalentSection
@@ -90,10 +91,10 @@ export const talent = {
   heading: "Stay On Our Radar",
   text:
     "Be the first to know when new Relai roles open. Submit your information to express your interest.",
-  cta: { label: "Join Our Talent Network", href: "#" },
+  cta: { label: "Join Our Talent Network", href: "/book-a-demo" },
   rolesHeading: "We're Hiring For The Following Roles",
   rolesText: "Find your future at Relai.",
-  rolesCta: { label: "Explore Open Roles", href: "#" },
+  rolesCta: { label: "Explore Open Roles", href: "/book-a-demo" },
   roles: [
     "Terminal Integrations Engineer",
     "Software Engineer, Platform",

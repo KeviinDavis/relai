@@ -53,9 +53,9 @@ export const nav = {
 };
 
 // Component: SiteNav (drawer), Footer (social row)
-export const social = [
-  { label: "LinkedIn", href: "#" }, // placeholder — no Relai LinkedIn yet
-];
+// Empty until Relai has a live social profile. The footer/drawer social rows
+// render nothing when this is empty — no placeholder or dead link is left behind.
+export const social = [];
 
 // Component: Footer
 export const footer = {
@@ -74,13 +74,18 @@ export const footer = {
     text:
       "Ready to replace the disconnected systems slowing your freight with one platform built to coordinate it all? Schedule a demo today.",
   },
+  // Mirrors the header IA (Product · Mission · About · News), plus footer-only
+  // utility links (Home, FAQ, Contact, Careers). Careers points to /mission,
+  // where the open roles actually live.
   links: [
     { label: "Home", href: "/" },
     { label: "Product", href: "/product" },
     { label: "FAQ", href: "/product#faq" },
+    { label: "Mission", href: "/mission" },
     { label: "About", href: "/about" },
-    { label: "Contact", action: "contact" },
-    { label: "Careers", href: "/about" },
+    { label: "News", href: "/news" },
+    { label: "Contact", href: "/book-a-demo" },
+    { label: "Careers", href: "/mission" },
   ],
   copyright: "© 2026 Relai",
 };

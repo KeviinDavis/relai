@@ -8,14 +8,15 @@ import { useReveal } from "@/components/Reveal/useReveal";
 import styles from "./Explore.module.css";
 
 // Explore band: heading + QR (desktop) on the left, isometric site map on the right.
-// On mobile the QR is replaced by a tappable "Explore" link below the map.
+// On mobile the QR is replaced by a tappable "Explore" link below the map — but
+// only when an `href` is supplied. With no href the map stands on its own.
 export default function Explore({ content = {} }) {
   const {
     heading,
     qrLabel = "Scan QR Code to explore",
     qr,
     map,
-    href = "#",
+    href,
     linkLabel = "Explore",
   } = content;
   const scope = useRef(null);
@@ -39,12 +40,14 @@ export default function Explore({ content = {} }) {
             />
           </figure>
 
-          <a className={styles.exploreLink} href={href} data-reveal>
-            {linkLabel}
-            <svg className={styles.arrow} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.5" />
-            </svg>
-          </a>
+          {href && (
+            <a className={styles.exploreLink} href={href} data-reveal>
+              {linkLabel}
+              <svg className={styles.arrow} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+            </a>
+          )}
 
           {qr && (
             <div className={styles.qrBlock} data-reveal>

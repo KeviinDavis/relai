@@ -94,7 +94,7 @@ export const news = {
     },
     {
       slug: "relai-cuts-idle-emissions",
-      date: "12/18/2025",
+      date: "05/28/2025",
       title: "Relai cuts idle time and emissions",
       href: "/news/relai-cuts-idle-emissions",
       image: {
@@ -120,17 +120,13 @@ export const news = {
             " with a leading carrier, which tracked a single container across every stage of a port call on one live timeline. What began as a controlled test has become the default way these sites now operate.",
           ],
           "Operators have also found that the same data that reduces idling makes the environmental gains easy to prove. Because every move is timestamped on a shared record, a terminal can point to exactly how many idling-hours were avoided and translate them into fuel and emissions saved — turning a soft sustainability claim into a number that stands up to scrutiny.",
-          [
-            "Relai is now extending the same instrumentation to additional gateways, turning idle-time reduction from a one-site result into a repeatable outcome. The expansion is backed by the company's recent ",
-            { text: "Series B", href: "/news/relai-series-b" },
-            ", which is funding both the integration work and the analytics that make the savings legible across every lane.",
-          ],
+          "Relai is now extending the same instrumentation to additional gateways, turning idle-time reduction from a one-site result into a repeatable outcome. That expansion leans on deeper integration work and the analytics that make the savings legible across every lane — so each new site can point to exactly where the hours and the fuel were saved.",
         ],
       },
     },
     {
       slug: "relai-realtime-handoff-pilot",
-      date: "10/07/2025",
+      date: "04/16/2025",
       title: "Relai completes first real-time handoff pilot",
       href: "/news/relai-realtime-handoff-pilot",
       image: {
@@ -147,19 +143,8 @@ export const news = {
           "In practice, that meant wiring the terminal's operating system, the yard's position data, the appointment system, and the carrier's dispatch onto a single record. Each party kept the tools it already used; Relai sat between them, keeping the picture current and pushing changes the instant they happened. A slip in discharge no longer traveled by email an hour later — it propagated to the dispatcher and the driver in real time.",
           "The result was a cleaner handoff between terminal and drayage, with fewer missed appointments and less time spent reconciling where a container actually was. Drivers arrived against work that was genuinely ready, gate transactions went faster, and the day's plan held together longer because it was continuously corrected instead of set once and overtaken by events.",
           "Just as important as the operational numbers was what the participants stopped doing. The dispatcher spent less of the day on the phone chasing status; the terminal desk fielded fewer calls asking where a box was; and the exceptions that did occur surfaced early enough to be managed rather than absorbed. Coordination that had lived in people's heads and inboxes moved onto a shared system that never lost the thread.",
-          [
-            "The pilot also produced the first clear evidence of the downstream benefits Relai has since seen at scale — the same ",
-            {
-              text: "reductions in idle time and emissions",
-              href: "/news/relai-cuts-idle-emissions",
-            },
-            " that come from trucks no longer queuing for containers that aren't ready. What the pilot proved in a controlled setting has since become a repeatable pattern across the company's deployments.",
-          ],
-          [
-            "More than a proof of concept, the pilot is the foundation for the broader coordination layer Relai is now scaling following its ",
-            { text: "Series B", href: "/news/relai-series-b" },
-            ". The mechanics validated over a single port call — one live record, every party reading and writing to it — are precisely the mechanics the platform now runs across whole gateways.",
-          ],
+          "The pilot also produced the first clear evidence of the downstream benefits Relai expects at scale — the reductions in idle time and emissions that come from trucks no longer queuing for containers that aren't ready. What the pilot proved in a controlled setting is the pattern the company now aims to repeat across every deployment.",
+          "More than a proof of concept, the pilot is the foundation for the broader coordination layer Relai is now scaling. The mechanics validated over a single port call — one live record, every party reading and writing to it — are precisely the mechanics the platform is built to run across whole gateways.",
           "Relai and the carrier plan to expand the pilot to additional lanes and terminals, using the real-time handoff as the template for how freight moves should be coordinated. For both, the goal is no longer to demonstrate that the model works, but to make it the ordinary way a port call runs.",
         ],
       },

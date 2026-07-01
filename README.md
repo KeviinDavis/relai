@@ -56,6 +56,162 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-06-30 — Book-a-Demo form: client-only submit state machine
+
+`ContactForm` gained real submit behavior (still **no backend, no network, no
+navigation** — all state lives in the component). Modeled four states
+`idle | submitting | error | success`:
+
+- **Validation on submit** (`noValidate`, JS-driven). Full Name, Email, and
+  Message are all required; Email must match a standard format. Invalid submits
+  keep every typed value, don't navigate, and render an inline message under the
+  offending field (`aria-describedby` + `aria-invalid` wire each error to its
+  input). Editing a field clears just that field's error.
+- **submitting** — on a valid submit we hold a ~700ms pending pace (Submit
+  disabled, label → "Sending…"), then land on success. Purely UX timing, not a
+  request; the timer is cleared on unmount.
+- **success** — the fields are replaced **in place** inside the same `formWrap`
+  (surrounding heading/layout untouched, so nothing shifts). Copy uses the
+  captured name — _"Thanks, {name} — we'll be in touch."_ (falls back to the
+  nameless line when empty) — plus a walkthrough line and a quiet "Send another
+  request" reset control.
+
+**Decisions:** Message was made mandatory (asked). Errors are styled in the
+existing **monochrome** text tokens — the palette has no error/red token and the
+contract forbids inventing one, so errors read as emphasis, not color. The
+field→confirmation swap uses a small opacity fade, gated behind
+`prefers-reduced-motion` so it cuts instantly. Focus moves to the confirmation
+heading on success. "Send another request" is a real `<button>` (an action, not
+navigation). Only the shared `ContactForm` was touched — the modal is unused, so
+no other surface was considered.
+
+### 2026-06-30 — Shared type scale (sizes) + flat line-height 1 site-wide
+
+Used the article page (`/news/[slug]` — the one page that exercises every level:
+Hero title, eyebrow, meta, lead, body, share labels) as the reference, captured
+its scale, and rolled it out to the whole site.
+
+- **Shared size scale (7 roles):** Display/H1 32→78 · H2 24→32 · H3 20→24 ·
+  Lead 18→22 · Body 16 · Small 14 · Eyebrow 12. Sizes reuse the existing clamps;
+  `--font-lead` is the only new size. Body/Lead now have real tokens (the article
+  body previously borrowed `--font-h5` and the lead `--font-h3` — heading tokens
+  doing body work); Body is a 16px base with Lead stepping above it.
+- **Line-height is a flat `1` across the whole project** — a deliberately tight
+  house style that matches how the article page always read. Set `body`,
+  `h1–h6`, `p`, and every `--leading-*` token to 1, and normalized the ~46 local
+  numeric `line-height` overrides scattered across ~25 components to 1 in one
+  pass. **Note:** an earlier draft of this change briefly opened the article body
+  to 1.6/lead 1.4 (misreading the brief's "inverse" line) — reverted; the whole
+  site is 1.
+- **One family site-wide.** `--font-secondary` is aliased to `--font-primary`
+  (already byte-identical Helvetica) — single family source, no visual change, no
+  edits to the 17 referencing files.
+- **Weights:** the shared scale uses 400/500 only. Oversized display **bold**
+  (dark Hero title, StatList figures, Logo) is intentionally retained.
+- **Deferred:** a few inline px annotations next to former line-heights (e.g.
+  `/* 22px */`) are now stale since the computed height changed; harmless, left
+  for a cleanup pass.
+
+### 2026-06-30 — Align move-count figures across the site
+
+Product/FAQ states "200,000+ container moves per month" (target 1M/month by end
+of 2026) — an annualized 2.4M/year — but the Mission stat said "1.2M+ container
+moves a year," half that. Aligned Mission to the annualized Product figure:
+
+- `content/mission.js`: stat value `1.2M+` → `2.4M+`, and its description
+  "over a million container handoffs annually" → "over two million …" to match.
+- Product copy kept exactly as-is (its current/target growth story is
+  internally consistent and is the anchor figure).
+- No code change: `CountUp` parses `2.4M+` the same as `1.2M+` (numeric `2.4` +
+  static `M+` suffix).
+
+Reviewed but left: the News article's qualitative "thousands of moves a week"
+(per-terminal impact prose, not a network-total figure — no numeric conflict).
+
+### 2026-06-30 — News: fix contradictory article timeline (dates + prose)
+
+The "Relai closes its Series B" article (08/05/2025) referenced the real-time
+handoff pilot and the idle/emissions article as *past* events, but both were
+dated later (10/07 and 12/18). Moved both before Series B so the feed reads
+newest-at-top in its existing order (no reordering of the array):
+
+- Real-time handoff pilot: `10/07/2025` → `04/16/2025`
+- Cuts idle/emissions: `12/18/2025` → `05/28/2025`
+- Pacific Gateway (06/20/2025) and Series B (08/05/2025) unchanged.
+
+Final order, top → bottom: `08/05 > 06/20 > 05/28 > 04/16` (pilot earliest,
+Series B most recent). All dates live only in `content/news.js`; the `/news`
+index and `/news/[slug]` pages both read `article.date` from it, so the edits
+propagate everywhere.
+
+Then made the **body cross-links** consistent with the new order — every inline
+article link now points *backward* in time. Three forward-references were
+removed by reframing the copy (no dates or article order touched):
+
+- Emissions body no longer cites "the company's recent **Series B**" (Series B is
+  now later) — reworded to a self-contained line about scaling integration +
+  analytics.
+- Pilot body no longer says the layer is scaling "following its **Series B**" —
+  reworded to drop the anachronistic reference.
+- Pilot body no longer links forward to the later **idle/emissions** article
+  ("has since seen at scale") — reframed as forward-looking ("expects at scale").
+  As the earliest article it now carries no cross-links, which is correct.
+
+Verified: 0 forward/inconsistent cross-links remain; `content/news.js` parses and
+still exports all four articles.
+
+### 2026-06-30 — Footer: fix nav IA + remove dead hrefs/modal (site-wide)
+
+`Footer` is shared across every page, so these apply everywhere:
+
+- **Careers** → `/mission` (was `/about`) — the open roles live on the Mission
+  page (`TalentSection`).
+- **Contact** → now a link to `/book-a-demo` (was a `<button>` opening
+  `ContactModal`). That modal was triggered only from the footer, so its wiring
+  is removed: dropped `useState`, the `ContactModal` import/render, the
+  `action === "contact"` branch, the now-dead `.linkButton` CSS, and the
+  `"use client"` directive — `Footer` is now a clean Server Component.
+- **Added Mission + News** to the footer nav so it mirrors the header IA. Order:
+  `Home · Product · FAQ · Mission · About · News · Contact · Careers`.
+- **LinkedIn removed** entirely (no live profile). `social` is now `[]`; the
+  footer/drawer social rows are guarded so no empty `<ul>` is left behind.
+
+Footer now has **zero `#` / dead hrefs** (`FAQ → /product#faq` is a valid
+section anchor, kept). `ContactModal` still exists but is no longer referenced by
+the footer.
+
+### 2026-06-30 — Social links: render as non-clickable labels
+
+Relai has no live social profiles yet, so the social row (currently just
+LinkedIn) was a placeholder `href="#"` link. Made social entries non-clickable
+everywhere they render: dropped the meaningless `href` from `content/site.js`,
+and render each as a `<span>` instead of an `<a>` in both the site-wide `Footer`
+and the (dormant) `SiteNav` drawer. The label still shows; it just no longer
+links or shows a hover-underline affordance. With the Mission CTA fix below, the
+site now has **zero `#` hrefs**.
+
+### 2026-06-30 — Mission: resolve four placeholder `#` CTAs
+
+The Mission page had four dead `href: "#"` links (a bare `#` scrolls to page top,
+which reads as a bug). Resolved all of them — data-only changes in
+`content/mission.js`, plus one small component guard:
+
+- **Partner With Relai**, **Join Our Talent Network**, **Explore Open Roles** →
+  `/book-a-demo` (an existing page; all three are "get in touch" intents, so the
+  demo page is the natural catch-all). No new build.
+- **Explore** (under "Explore the Network") — removed. There's no interactive
+  explorer/QR to link to, so the network SVG now stands on its own. `Explore`
+  defaulted `href = "#"` and rendered the link unconditionally, so dropping the
+  content href alone wouldn't hide it — instead the component now only renders
+  the link when an `href` is supplied (`{href && …}`), keeping it reusable for a
+  future page that does have an explorer/QR.
+- The six role line-items (01–06) stay a **static list** — they're plain strings,
+  not trivially linkable, and carry no `#`.
+
+Out of scope / left as-is: the footer's **LinkedIn** social link is still `href="#"`
+by design — a site-wide placeholder (see `content/site.js`, "no Relai LinkedIn yet"),
+not a Mission CTA.
+
 ### 2026-06-30 — News article pages: `/news/[slug]` (Anduril `NewsArticleContent` rebuild)
 
 **What:** Gave every link in the home `News` band a real destination. New dynamic
@@ -1095,6 +1251,11 @@ images, SVGs, fonts, and videos all serve 200.
 
 ## 4. Open Items
 
+- **Line-height is a flat `1` everywhere**, including multi-line body copy (FAQ
+  answers, form text, footer, testimonials). This is the intended tight house
+  style, but a few long-paragraph spots may read cramped — flag any specific
+  place that needs air and it can get a local exception. A handful of inline px
+  comments next to former line-heights are now stale and worth a cleanup pass.
 - **Arsenal-1 imagery is placeholder.** `/arsenal-1` reuses existing repo photos as
   stand-ins (and a generated QR). Drop real assets into `public/images/` and update the
   `src` props in `app/arsenal-1/page.js` for the hero, the two-up gallery, and the

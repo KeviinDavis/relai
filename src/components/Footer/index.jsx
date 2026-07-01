@@ -1,17 +1,11 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Eyebrow from "@/components/Eyebrow";
-import ContactModal from "@/components/ContactModal";
 import Logo from "@/components/Logo";
 import { footer, social, nav } from "@/content/site";
 import styles from "./Footer.module.css";
 
 export default function Footer() {
-  const [modalOpen, setModalOpen] = useState(false);
-
   return (
     <footer className={styles.footer}>
       <div className={styles.main}>
@@ -48,23 +42,11 @@ export default function Footer() {
 
       <div className={styles.bottom}>
         <ul className={styles.bottomLinks}>
-          {footer.links.map((l) =>
-            l.action === "contact" ? (
-              <li key={l.label}>
-                <button
-                  type="button"
-                  className={styles.linkButton}
-                  onClick={() => setModalOpen(true)}
-                >
-                  {l.label}
-                </button>
-              </li>
-            ) : (
-              <li key={l.label}>
-                <Link href={l.href}>{l.label}</Link>
-              </li>
-            )
-          )}
+          {footer.links.map((l) => (
+            <li key={l.label}>
+              <Link href={l.href}>{l.label}</Link>
+            </li>
+          ))}
         </ul>
 
         <div className={styles.bottomRight}>
@@ -72,19 +54,17 @@ export default function Footer() {
             <Logo height={22} />
           </Link>
           <p className={styles.copyright}>{footer.copyright}</p>
-          <ul>
-            {social.map((s) => (
-              <li key={s.href}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer">
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+          {social.length > 0 && (
+            <ul>
+              {social.map((s) => (
+                <li key={s.label}>
+                  <span>{s.label}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
-
-      <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </footer>
   );
 }

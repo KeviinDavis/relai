@@ -14,7 +14,7 @@
 .title {
   font-size: clamp(1.75rem, 1rem + 1.8vw, 2.25rem);
   font-weight: var(--weight-medium);
-  line-height: 1.1;
+  line-height: 1;
   letter-spacing: var(--tracking-tight);
 }
 
@@ -26,7 +26,7 @@
 
 .text {
   font-size: var(--font-body);
-  line-height: 1.5;
+  line-height: 1;
   color: var(--color-gray-light);
   max-width: 34rem;
 }

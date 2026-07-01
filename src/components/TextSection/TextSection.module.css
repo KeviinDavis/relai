@@ -26,21 +26,21 @@
 .title {
   font-size: var(--font-h2);
   font-weight: var(--weight-medium);
-  line-height: 1.1;
+  line-height: 1;
   max-width: 24ch;
 }
 
 .lead {
   font-size: var(--font-h3);
   font-weight: var(--weight-medium);
-  line-height: 1.25;
+  line-height: 1;
   letter-spacing: -0.01em;
 }
 
 .paragraph {
   font-size: var(--font-h6);
   font-weight: var(--weight-normal);
-  line-height: 1.4;
+  line-height: 1;
   color: var(--color-text-secondary);
 }
 

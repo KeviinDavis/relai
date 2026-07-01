@@ -2,8 +2,8 @@
   display: inline-block;
   align-self: flex-start;        /* never stretch when used as a direct flex child */
   font-family: var(--font-secondary);
-  font-size: 0.75rem;          /* 12px */
-  line-height: 1;
+  font-size: var(--font-tagline);   /* 12px — Eyebrow role */
+  line-height: var(--leading-eyebrow);
   letter-spacing: 0;
   text-transform: none;
   padding: 5px 5px 3px;

@@ -13,7 +13,7 @@
 
 .headerText {
   font-size: var(--font-h3);     /* 24px */
-  line-height: 1.35;
+  line-height: 1;
 }
 
 .grid {
@@ -94,7 +94,7 @@
 
 .blockText {
   font-size: var(--font-body);
-  line-height: 1.375;
+  line-height: 1;
   color: var(--color-text-muted);
   transition: color 0.3s ease;
 }

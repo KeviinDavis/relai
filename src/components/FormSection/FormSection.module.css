@@ -18,12 +18,12 @@
 .title {
   font-size: var(--font-h3);
   font-weight: var(--weight-medium);
-  line-height: 1.15;
+  line-height: 1;
 }
 
 .text {
   font-size: var(--font-h6);
-  line-height: 1.55;
+  line-height: 1;
   color: var(--color-text-secondary);
 }
 

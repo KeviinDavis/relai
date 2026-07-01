@@ -23,8 +23,7 @@
 
 .summary {
   font-size: var(--font-body);
-  line-height: 1;
-  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-body);
   color: var(--color-text-primary);
   max-width: 24rem;
 }
@@ -37,6 +36,7 @@
 
 .shareTitle {
   font-size: var(--font-tagline);
+  line-height: var(--leading-eyebrow);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-muted);
@@ -49,6 +49,7 @@
 
 .shareButton {
   font-size: var(--font-body-sm);
+  line-height: var(--leading-small);
   color: var(--color-text-primary);
   cursor: pointer;
   transition: opacity var(--transition-base);
@@ -66,15 +67,15 @@
 }
 
 .lead {
-  font-size: var(--font-h3);
-  line-height: 1;
+  font-size: var(--font-lead);
+  line-height: var(--leading-lead);
   letter-spacing: var(--tracking-tight);
   color: var(--color-text-primary);
 }
 
 .paragraph {
-  font-size: var(--font-h5);
-  line-height: 1;
+  font-size: var(--font-body);
+  line-height: var(--leading-body);
   color: var(--color-text-primary);
 }
 

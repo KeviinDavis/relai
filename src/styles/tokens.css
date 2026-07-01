@@ -11,10 +11,11 @@
      (Helvetica Now or Inter) here if real Helvetica is a question. */
   --font-primary:   "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  /* Secondary / label font — SAME Helvetica (no mono typeface).
-     Eyebrows/labels get their look from uppercase + --tracking-label
-     at the component level, not from a mono font. */
-  --font-secondary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Secondary / label font — aliased to --font-primary so the whole site
+     runs on ONE family + fallback. Eyebrows/labels get their look from
+     uppercase + --tracking-label at the component level, not from a
+     separate typeface. */
+  --font-secondary: var(--font-primary);
 
   /* Raw color values — Relai palette (monochrome; photos carry all color) */
   --color-black:         #000000;   /* true black — dark page bg            */
@@ -63,27 +64,52 @@
 
   /* Breakpoints (reference): 768px (md), 1024px (lg) */
 
-  /* Type scale */
-  --font-display:  clamp(2.5rem, 0rem + 14vw, 12rem);        /* oversized hero wordmark */
-  --font-h1:       clamp(2rem, 0.34rem + 7.1vw, 4.875rem);   /* 32 → 78, headings */
+  /* ------------------------------------------------------------
+     SHARED TYPE SCALE — one ramp, 7 roles.
+     Every text element pulls its SIZE from here (the article page is the
+     reference that exercises all 7). Sizes reuse the existing clamps;
+     --font-lead is the only new size.
+        Display/H1  --font-h1      (32→78)
+        H2          --font-h2      (24→32)
+        H3          --font-h3      (20→24)
+        Lead        --font-lead    (18→22)
+        Body        --font-body    (16)
+        Small       --font-body-sm (14)
+        Eyebrow     --font-tagline (12)
+     LINE-HEIGHT is a flat 1 across the whole project — a deliberately
+     tight house style (matches the article page). All --leading-* below
+     resolve to 1; kept as named knobs in case a role ever needs air.
+     ------------------------------------------------------------ */
+  --font-display:  clamp(2.5rem, 0rem + 14vw, 12rem);        /* oversized hero wordmark — separate from H1 */
+  --font-h1:       clamp(2rem, 0.34rem + 7.1vw, 4.875rem);   /* 32 → 78, Display/H1 */
   --font-nav-link: clamp(2.5rem, 1rem + 6.4vw, 6.5rem);      /* 40 → 104, mobile menu links */
   --font-h2:       clamp(1.5rem, 1.07rem + 1.85vw, 2rem);    /* 24 → 32, statements */
   --font-h3:       clamp(1.25rem, 1.07rem + 0.77vw, 1.5rem); /* 20 → 24, subheads */
+  --font-lead:     clamp(1.125rem, 1rem + 0.6vw, 1.375rem);  /* 18 → 22, lead paragraph */
   --font-h4:       1.25rem;     /* 20 */
   --font-h5:       1.125rem;    /* 18 */
   --font-h6:       1.25rem;     /* 20 — large body / lead */
   --font-body-lg:  1.25rem;     /* 20 */
-  --font-body:     1rem;        /* 16 */
-  --font-body-sm:  0.875rem;    /* 14 */
-  --font-tagline:  0.75rem;     /* 12 — uppercase label */
+  --font-body:     1rem;        /* 16 — Body */
+  --font-body-sm:  0.875rem;    /* 14 — Small */
+  --font-tagline:  0.75rem;     /* 12 — Eyebrow / uppercase label */
   --font-btn:      0.875rem;    /* 14 */
+
+  /* Line-height — flat 1 project-wide (tight house style). */
+  --leading-h1:      1;
+  --leading-h2:      1;
+  --leading-h3:      1;
+  --leading-lead:    1;
+  --leading-body:    1;
+  --leading-small:   1;
+  --leading-eyebrow: 1;
 
   /* Display line-height / tracking */
   --leading-display:  1;
-  --leading-heading:  1.08;
+  --leading-heading:  1;
   --tracking-display: -0.04em;  /* tightened for the oversized wordmark   */
   --tracking-tight:   -0.01em;
-  --tracking-label:    0.08em;  /* NEW — positive tracking for UPPERCASE labels */
+  --tracking-label:    0.08em;  /* positive tracking for UPPERCASE labels */
 
   /* Weights */
   --weight-normal:   400;

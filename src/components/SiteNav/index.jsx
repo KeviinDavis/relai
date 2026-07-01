@@ -140,22 +140,18 @@ export default function SiteNav({ theme = "dark" }) {
               </button>
             </div>
 
-            <div className={styles.metaBlock}>
-              <span className={styles.metaLabel}>Social</span>
-              <div className={styles.social}>
-                {social.map((s) => (
-                  <a
-                    key={s.href}
-                    className={styles.metaLink}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {s.label}
-                  </a>
-                ))}
+            {social.length > 0 && (
+              <div className={styles.metaBlock}>
+                <span className={styles.metaLabel}>Social</span>
+                <div className={styles.social}>
+                  {social.map((s) => (
+                    <span key={s.label} className={styles.metaLink}>
+                      {s.label}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </header>

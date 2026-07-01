@@ -48,7 +48,7 @@
 }
 
 .title {
-  line-height: var(--leading-display);
+  line-height: var(--leading-h1);
   letter-spacing: var(--tracking-display);
   font-weight: var(--weight-medium);
 }
@@ -71,8 +71,8 @@
   flex-direction: column;
   font-family: var(--font-secondary);
   font-size: var(--font-tagline);
-  line-height: 1.4;
-  letter-spacing: 0.06em;
+  line-height: var(--leading-eyebrow);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
 
@@ -126,7 +126,7 @@
 
 .excerpt {
   font-size: var(--font-body);   /* 16px */
-  line-height: 1.375;            /* 22px */
+  line-height: 1;            /* 22px */
   max-width: 36rem;
   margin-bottom: 2.8125rem;      /* 45px — source Hero_excerpt */
 }

@@ -10,7 +10,7 @@
   text-transform: uppercase;
   font-weight: var(--weight-bold);
   font-size: clamp(2.5rem, 1rem + 7.5vw, 6rem);
-  line-height: 0.95;
+  line-height: 1;
   letter-spacing: var(--tracking-display);
   margin-bottom: var(--space-8xl);
 }
@@ -37,7 +37,7 @@
 .value {
   font-size: clamp(2.5rem, 1rem + 4vw, 4rem);
   font-weight: var(--weight-bold);
-  line-height: 1.05;
+  line-height: 1;
   letter-spacing: var(--tracking-tight);
 }
 
@@ -48,7 +48,7 @@
 
 .description {
   font-size: var(--font-body-sm);
-  line-height: 1.5;
+  line-height: 1;
   color: var(--color-text-muted);
   max-width: 34rem;
 }
