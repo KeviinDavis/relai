@@ -20,9 +20,9 @@
   pointer-events: auto;
 }
 
-/* Wordmark — pinned top-left, visible at all times. Reads the theme foreground
-   (the header sets its own theme class) so it stays legible on both the dark
-   and light routes. */
+/* Standalone wordmark — pinned top-left, mobile only (desktop puts the brand
+   inside the pill). Reads the theme foreground (the header sets its own theme
+   class) so it stays legible on both the dark and light routes. */
 .logo {
   position: absolute;
   top: 20px;
@@ -32,41 +32,66 @@
   color: var(--color-text-primary);
 }
 
-/* Centered pill group — always horizontally centered on desktop, no movement on
-   scroll. Hidden below 1024px. */
+/* Frosted glass capsule — always horizontally centered on desktop, no movement
+   on scroll. Hidden below 1024px. One pill wraps wordmark + links + CTA; the
+   backdrop blur keeps everything legible over whatever passes behind it. Tight
+   right padding so the CTA's own pill nests against the capsule edge. The pill
+   is always light glass with dark contents, whatever the route theme. */
 .navGroup {
   display: none;
   position: absolute;
   top: var(--gutter);
   align-items: center;
   gap: var(--space-xs);
-}
-
-/* Translucent frosted pill — see-through on scroll but still legible; the
-   backdrop blur keeps the links readable over whatever passes behind them. */
-.list {
-  display: flex;
-  align-items: center;
+  padding: 8px 8px 8px 20px;
   background-color: var(--color-nav-glass);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   color: var(--color-black);
-  font-size: 1.1875rem;             /* 19px */
+  font-size: var(--font-body-sm);
   line-height: 1;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
+  border-radius: var(--radius-full);
+}
+
+/* Brand lockup inside the pill — replaces the standalone top-left logo on
+   desktop. Paints from the capsule's dark foreground via currentColor. */
+.wordmark {
+  display: flex;
+  align-items: center;
+}
+
+.list {
+  display: flex;
+  align-items: center;
 }
 
 .link {
   display: inline-block;
-  padding: 11px 15px 9px;
+  padding: 6px 10px;
+  white-space: nowrap;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.link:hover {
+  color: var(--color-muted);
+}
+
+/* Filled CTA pill — dark-on-light inverse of the capsule. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  height: 2rem;                     /* 32px */
+  padding: 0 18px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-black);
+  color: var(--color-white);
   white-space: nowrap;
   transition: background-color 0.3s cubic-bezier(0.4, 0, 0, 1);
 }
 
-.link:hover {
-  background-color: var(--color-gray-light);
+.cta:hover {
+  background-color: var(--color-surface);
 }
 
 /* Mobile menu toggle — the standalone hamburger, shown below 1024px. Pinned
@@ -130,8 +155,10 @@
 }
 
 @media (min-width: 1024px) {
+  /* The wordmark lives inside the pill on desktop; the standalone top-left
+     mark is mobile-only. */
   .logo {
-    left: var(--gutter);
+    display: none;
   }
 
   .navGroup {

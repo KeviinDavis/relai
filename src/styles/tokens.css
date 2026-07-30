@@ -134,6 +134,7 @@
 
   /* Border radius — SHARP system. 0 everywhere except inputs/menu (2px). */
   --radius-sm:      0.125rem;   /* 2px — inputs + menu panel ONLY */
+  --radius-full:    999px;      /* pill — nav glass + its CTA ONLY */
   --radius-md:      0;          /* sharp — cards, images, panels  */
   --radius-lg:      0;          /* sharp                          */
   --radius-default: 0;

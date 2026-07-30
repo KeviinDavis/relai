@@ -9,9 +9,6 @@ import MenuToggle from "@/components/MenuToggle";
 import { nav } from "@/content/site";
 import styles from "./Header.module.css";
 
-// Desktop pill: the shared primary nav plus the Book a Demo CTA.
-const navLinks = [...nav.primary, nav.cta];
-
 // Mobile overlay: the full set, leading with Home.
 const menuLinks = [nav.home, ...nav.primary, nav.cta];
 
@@ -64,9 +61,22 @@ export default function Header() {
           <Logo height={22} />
         </Link>
 
+        {/* Desktop pill: wordmark + primary links + the filled CTA, all inside
+            one frosted glass capsule. The glass is always light, so the
+            wordmark is scoped `theme-light` — the Logo reads
+            --color-text-primary, which resolves to black there (same idiom as
+            menuLogo below). */}
         <div className={styles.navGroup}>
+          <Link
+            href={nav.brand.href}
+            className={`${styles.wordmark} theme-light`}
+            aria-label={nav.brand.ariaLabel}
+          >
+            <Logo height={18} />
+          </Link>
+
           <ul className={styles.list}>
-            {navLinks.map((link) => (
+            {nav.primary.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className={styles.link}>
                   {link.label}
@@ -74,6 +84,10 @@ export default function Header() {
               </li>
             ))}
           </ul>
+
+          <Link href={nav.cta.href} className={styles.cta}>
+            {nav.cta.label}
+          </Link>
         </div>
       </header>
 

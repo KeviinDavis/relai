@@ -56,6 +56,28 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-07-30 — Header: frosted glass pill restyle
+
+Restyled the desktop nav from a links-only bar into a single frosted glass
+capsule: wordmark (Logo at 18px) + primary links + a filled black "Book a Demo"
+CTA pill, all inside one `border-radius: var(--radius-full)` capsule. Styling
+only — hide-on-scroll, mobile hamburger/overlay, and route theming are untouched.
+
+- **Token:** added `--radius-full: 999px` (pill exception to the sharp radius
+  system; existing `--radius-*` untouched).
+- **Structure:** CTA is no longer an appended list link — `.navGroup` renders
+  wordmark → `nav.primary` list → CTA button. Link data still comes from
+  `content/site.js`.
+- **Styling:** glass (background/blur/shadow) moved from `.list` up to
+  `.navGroup` so one pill wraps everything; links 19px → 14px with a
+  color-shift hover (was bg fill); CTA is a 32px filled black pill.
+- **Why the pill is theme-fixed:** the glass is always light with dark
+  contents, so the wordmark is scoped `theme-light` (the Logo paints from
+  `--color-text-primary`, which would resolve white on dark routes).
+- **Desktop vs mobile:** the standalone top-left logo is now hidden ≥1024px
+  (the brand lives inside the pill); mobile keeps the standalone mark and
+  hamburger unchanged.
+
 ### 2026-07-01 — News: uniform list thumbnails + real Pacific Gateway photo
 
 The three compact `News` rows rendered thumbnails at three different heights

@@ -37,8 +37,8 @@ export const meta = {
 
 // Component: Header, SiteNav (shared primary navigation)
 // One canonical set drives both the solid Header and the over-hero SiteNav, so
-// the two bars can never drift. "Book a Demo" is the CTA — the right-side button
-// on SiteNav and an appended bar link on Header. "Contact" opens the modal.
+// the two bars can never drift. "Book a Demo" is the CTA — the right-side
+// filled button on both bars. "Contact" opens the modal.
 export const nav = {
   brand: { href: "/", label: "Relai", ariaLabel: "Relai — home" },
   primary: [
