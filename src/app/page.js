@@ -14,7 +14,7 @@ import Reveal from "@/components/Reveal";
 import { intro, capabilities, testimonials, shortcuts, customerStory } from "@/content/home";
 import { fluidHero } from "@/content/fluid-hero";
 import { news } from "@/content/news";
-import { cards } from "@/content/impact";
+import { scenarios as impactScenarios, cards } from "@/content/impact";
 import { scenarios as platformScenarios, cards as platformCards } from "@/content/platform";
 import { media } from "@/content/fluid-stats";
 import { logoWall } from "@/content/logo-wall";
@@ -25,9 +25,12 @@ export default function Home() {
       <FluidHero content={fluidHero} tone="inherit" />
       <LogoWall content={logoWall} tone="inherit" />
       <FluidCards scenarios={platformScenarios} cards={platformCards} tone="inherit" introPosition="top" />
-      <FluidStats media={media} cards={cards} tone="inherit" />
       <ThemeBreak />
-      {/* <VideoParallax /> */}
+      <VideoParallax />
+
+      {/* <FluidStats media={media} cards={cards} tone="inherit" /> */}
+      <FluidCards scenarios={impactScenarios} cards={cards} tone="inherit" introPosition="bottom" />
+      {/* <ThemeBreak /> */}
       <SplitSection content={customerStory} />
       <News content={news} tone="inherit" />
     </ThemeFadeZone>

@@ -4,14 +4,11 @@
   background-color: var(--color-bg-primary);
 }
 
-/* Inset frame: the video is clipped inward so the wrapper's background shows as
-   a gutter around it, instead of bleeding edge-to-edge. Tune the inset value to
-   taste. */
+/* Full-bleed — video sits edge-to-edge, no inset gutter. */
 .section {
   position: relative;
   height: 68.85vh;
   overflow: hidden;
-  clip-path: inset(var(--space-8xl));
 }
 
 /* Oversized layer clipped by the section. GSAP drifts it vertically for the
