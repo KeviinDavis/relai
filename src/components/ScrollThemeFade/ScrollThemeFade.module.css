@@ -1,0 +1,59 @@
+/* Background-color and color are animated inline by GSAP; every piece of
+   content below inherits currentColor so it inverts along with the fade.
+   All spacing/type pulls from tokens.css (the pasted source used a foreign
+   token set — --space-24, --text-lg, --leading-tight — remapped here to the
+   project's named scale). */
+.stage {
+  position: relative;
+}
+
+/* ── Transparent sections ───────────────────────────────────── */
+.section {
+  position: relative;
+  background: transparent;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: var(--space-8xl) var(--space-2xl);
+}
+
+.inner[data-align="center"] {
+  align-items: center;
+  text-align: center;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-tagline);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  margin-bottom: var(--space-l);
+}
+
+.kickerIcon {
+  flex-shrink: 0;
+}
+
+.heading {
+  font-size: var(--font-h1);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-h1);
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.body {
+  margin-top: var(--space-l);
+  font-size: var(--font-lead);
+  line-height: var(--leading-lead);
+  max-width: 46ch;
+  opacity: 0.75;
+}

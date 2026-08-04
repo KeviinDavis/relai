@@ -1,0 +1,345 @@
+/* FluidCards — fluid hover-expand stat-card section (Relai "mission in numbers").
+   Root maps the internal --milk-* palette onto Relai's SEMANTIC tokens, so the
+   block inverts with the theme: the `tone` prop puts a global `theme-light` /
+   `theme-dark` class on this root (same mechanism as RouteTheme / Header),
+   flipping the semantic tokens for its subtree. Light = white page / warm-gray
+   cards; dark = black page / warm near-black cards.
+   The rounded corners are kept locally for fidelity (Relai's global system is
+   sharp), scoped to this component only. */
+
+.impact {
+  --milk-gray: var(--color-bg-secondary); /* lifted card / panel fill */
+  --milk-text-dim: var(--color-text-secondary); /* dim body text */
+  --milk-border: var(--color-stroke-muted); /* intro row hairline */
+  --milk-border-soft: var(--color-stroke-muted); /* card footer hairline */
+  --milk-radius: 0.75rem;
+  --milk-radius-sm: 0.5rem;
+  --milk-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* NB: .bgNone (below) opts out of this surface for the ThemeFadeZone. */
+  padding-block: var(--space-2xl);
+}
+
+/* Opt-out of the self-painted surface so a parent stage shows through. */
+.bgNone {
+  background: transparent;
+}
+
+.impact img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- 1. Scenarios intro row ---------- */
+
+.scenariosRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.625rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--milk-border);
+  margin-bottom: 0.625rem;
+}
+
+.scenariosHeading {
+  margin: 0;
+  font-size: clamp(2.375rem, 3.5vw, 3.125rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.scenariosCard {
+  position: relative;
+  min-height: 11rem;
+  padding: 1.25rem;
+  background: var(--milk-gray);
+  border-radius: var(--milk-radius);
+}
+
+/* Platform intro row carries more copy (heading + eyebrow/title/subtext), so
+   the two top cells get more room to breathe. Scoped to that variant via the
+   lead card's eyebrow (impact has none). */
+.scenariosRow:has(.eyebrow) {
+  align-items: stretch;
+}
+
+.scenariosRow:has(.eyebrow) .scenariosHeading {
+  font-size: clamp(1.75rem, 2.6vw, 2.25rem);
+}
+
+.scenariosRow:has(.eyebrow) .scenariosCard {
+  min-height: 22rem;
+  padding: 2rem;
+}
+
+.scenariosLead {
+  margin: 0 0 1.5rem;
+  padding-right: 18%;
+  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.scenariosThumb {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 6.875rem;
+  height: 6.875rem;
+  border-radius: var(--milk-radius-sm);
+  overflow: hidden;
+}
+
+/* Platform lead card: eyebrow + bold title + dim subtext + decorative chip. */
+.eyebrow {
+  display: block;
+  margin-bottom: 1rem;
+  padding-right: 20%;
+  font-size: 0.9375rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.leadTitle {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.leadSubtext {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--color-text-secondary);
+}
+
+.menuChip {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--milk-radius-sm);
+  background: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ---------- 2. Dynamic-width cards ----------
+   Three cards at the source's ratio: the wide column is 50%, the two collapsed
+   columns 25% each. Gaps are 0.625rem (10px); each column subtracts its share
+   of the 20px of total gutter so the row always sums to 100%. Hovering a card
+   slides the wide column to it. */
+
+.cards {
+  display: grid;
+  grid-template-columns:
+    calc(50% - 10px)
+    calc(25% - 5px)
+    calc(25% - 5px);
+  gap: 0.625rem;
+  margin-bottom: 0.625rem;
+  transition: grid-template-columns 0.6s var(--milk-ease);
+}
+
+.cards:has(.card:nth-child(2):hover) {
+  grid-template-columns:
+    calc(25% - 5px)
+    calc(50% - 10px)
+    calc(25% - 5px);
+}
+
+.cards:has(.card:nth-child(3):hover) {
+  grid-template-columns:
+    calc(25% - 5px)
+    calc(25% - 5px)
+    calc(50% - 10px);
+}
+
+.card {
+  background: var(--milk-gray);
+  border-radius: var(--milk-radius);
+  overflow: hidden;
+}
+
+.cardBody {
+  position: relative;
+  min-height: 10rem;
+  padding: 1.25rem;
+}
+
+.cardCode {
+  margin: 0 0 0.625rem;
+  font-size: clamp(2.25rem, 3.6vw, 3rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+/* Platform variant: feature names are words, not short stats — smaller than the
+   big impact stat figures. Scoped to the instance that carries a lead eyebrow. */
+.impact:has(.eyebrow) .cardCode {
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* The description is always laid out at the wide-column width, so it never
+   reflows as the card grows — that reflow is what made the reveal look glitchy.
+   The narrow card clips it (card is overflow:hidden) and fades it out; hovering
+   just fades it back in once the width has settled. No transform, no reflow. */
+.cardText {
+  width: 21rem;
+  color: var(--milk-text-dim);
+  opacity: 0;
+  transition: opacity 0.3s var(--milk-ease);
+}
+
+.cardText p {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.card:hover .cardText {
+  opacity: 1;
+  transition-delay: 0.25s;
+  transition-duration: 0.5s;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid var(--milk-border-soft);
+}
+
+.cardLabel {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1875rem;
+  height: 2.1875rem;
+  margin: -0.625rem 0;
+  padding: 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: transform 0.35s var(--milk-ease);
+}
+
+.cardIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.card:hover .cardIcon {
+  transform: scale(0);
+}
+
+/* Card 1 is "expanded" at rest: description shown, icon hidden… */
+.card:first-child:not(:hover) .cardText {
+  opacity: 1;
+}
+
+.card:first-child:not(:hover) .cardIcon {
+  transform: scale(0);
+}
+
+/* …until any other card is hovered — then it collapses like the rest. */
+.cards:hover .card:not(:hover) .cardText {
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+.cards:hover .card:not(:hover) .cardIcon {
+  transform: scale(1);
+}
+
+/* ---------- Layout variant: "grid" (structured) ----------
+   Equal columns at rest (no pre-expanded first card); hovering a card still
+   grows it and reveals its description, so the fluid interaction is kept — it
+   just starts from a tidy, symmetric grid. minmax(0,1fr) keeps the columns
+   even despite the fixed-width description clipped inside each card. */
+
+.layoutGrid .cards {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.layoutGrid .cards:has(.card:nth-child(1):hover) {
+  grid-template-columns: 1.7fr 0.65fr 0.65fr;
+}
+
+.layoutGrid .cards:has(.card:nth-child(2):hover) {
+  grid-template-columns: 0.65fr 1.7fr 0.65fr;
+}
+
+.layoutGrid .cards:has(.card:nth-child(3):hover) {
+  grid-template-columns: 0.65fr 0.65fr 1.7fr;
+}
+
+/* No pre-expanded first card in the grid — every card rests collapsed
+   (description hidden, plus icon shown) and opens only on hover. */
+.layoutGrid .card:first-child:not(:hover) .cardText {
+  opacity: 0;
+}
+
+.layoutGrid .card:first-child:not(:hover) .cardIcon {
+  transform: scale(1);
+}
+
+/* ---------- Mobile: stack the intro row and cards into one column ---------- */
+
+@media (max-width: 767px) {
+  .scenariosRow {
+    grid-template-columns: 1fr;
+    row-gap: 0.625rem;
+  }
+
+  .scenariosCard {
+    min-height: 11rem;
+  }
+
+  .scenariosLead {
+    margin-bottom: 1.5rem;
+    padding-right: 15%;
+  }
+
+  .cards,
+  .cards:has(.card:nth-child(2):hover),
+  .cards:has(.card:nth-child(3):hover) {
+    grid-template-columns: 1fr;
+  }
+
+  /* No hover on touch: every card shows its full-width description + no icon. */
+  .cardText {
+    width: auto;
+    opacity: 1;
+  }
+
+  .cardIcon {
+    transform: scale(0);
+  }
+}

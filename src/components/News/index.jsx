@@ -29,8 +29,16 @@ function ReadMore() {
   );
 }
 
-export default function News({ content = {}, standalone = false }) {
+export default function News({
+  content = {},
+  standalone = false,
+  bg = "solid",
+  tone = "dark",
+}) {
   const { heading = "News", featured, items = [] } = content;
+  // "inherit" drops the fixed theme class so the section reads ambient theme
+  // tokens (used inside ThemeFadeZone); "dark" keeps the standalone surface.
+  const themeClass = tone === "inherit" ? "" : "theme-dark";
   const scope = useRef(null);
 
   // Shared section reveals: heading wipe, featured image clip, row fade-rise.
@@ -65,7 +73,7 @@ export default function News({ content = {}, standalone = false }) {
   return (
     <Section
       variant="default"
-      className={`${styles.root} ${standalone ? styles.standalone : ""} theme-dark`}
+      className={`${styles.root} ${standalone ? styles.standalone : ""} ${bg === "none" ? styles.bgNone : ""} ${themeClass}`}
     >
       <Container>
         <div ref={scope}>

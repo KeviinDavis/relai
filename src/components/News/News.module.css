@@ -6,6 +6,12 @@
   color: var(--color-text-primary);
 }
 
+/* Opt-out of Section's painted surface so a parent stage shows through.
+   Compound (0,2,0) beats Section's .section background. */
+.root.bgNone {
+  background: transparent;
+}
+
 /* Standalone /news page: this band is the top-of-page element, so it must clear
    the fixed, transparent nav (heroes bake this in; a bare section doesn't). The
    compound .root.standalone (0,2,0) beats Section's .section padding-block. */

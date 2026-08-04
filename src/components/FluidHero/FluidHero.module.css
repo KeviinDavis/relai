@@ -1,0 +1,221 @@
+/* FluidHero — flat tone-painted hero (de-carded during iteration).
+   The section surface is the component background; the media block and its
+   caves carve that surface into the image. Radius knob mirrors the
+   FluidCards family's small tier (--milk-radius-sm = 0.5rem). */
+
+/* Section bottom padding halved per review (Section's --space-4xl → --space-l,
+   2.5rem → 1.25rem). Doubled class outranks the primitive's single class. */
+.frame.frame {
+  padding-bottom: var(--space-l);
+}
+
+/* Opt-out of Section's painted surface so a parent stage shows through.
+   Compound (0,2,0) beats Section's .section background. */
+.frame.bgNone {
+  background: transparent;
+}
+
+/* ---------- Header: eyebrow, then heading left / support right ---------- */
+
+.header {
+  /* Top/bottom padding doubled per review — 2 × token, no single token that
+     large. No side padding: heading and media share the container edge. */
+  padding: calc(var(--space-2xl) * 2) 0 calc(var(--space-5xl) * 2);
+}
+
+.eyebrow {
+  margin-bottom: var(--space-m);
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* support copy tops out with the heading */
+  gap: var(--space-2xl);
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--font-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-display);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+}
+
+.support {
+  max-width: 60ch;
+  margin: 0;
+  font-size: var(--font-body);
+  line-height: var(--leading-body);
+  text-align: right;
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Nested media card ---------- */
+
+.media {
+  --fluid-radius-sm: 0.5rem;
+  /* 16:9 with height reduced 25% (9 × 0.75 = 6.75) — ≈2.37:1 */
+  --fluid-media-aspect: 16 / 6.75;
+
+  position: relative;
+  border-radius: var(--fluid-radius-sm);
+  overflow: hidden;
+}
+
+/* ---------- Notched chip ----------
+   The chip is carved into the media, not floated over it: flush to the card's
+   white at the corner (outer corner square, merging with the surface above),
+   convex radius on the inner-facing corner, and concave fillets where white
+   meets photo — the photo keeps its own corner radius flowing around the
+   notch. Fillets are quarter-circle pseudos painted with the card token via
+   radial-gradient (transparent inside the photo's arc, card color outside). */
+
+.chip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--color-bg-primary);
+}
+
+.chip::before,
+.chip::after {
+  content: "";
+  position: absolute;
+  width: var(--fluid-radius-sm);
+  height: var(--fluid-radius-sm);
+}
+
+/* Empty top-left cave — a purely decorative carve with no content, so it
+   needs explicit dimensions (nothing inside to size it). Tune here. */
+.cutout {
+  top: 0;
+  left: 0;
+  width: 18rem;
+  height: 6rem;
+  border-bottom-right-radius: var(--fluid-radius-sm);
+}
+
+/* Photo arc centered on each fillet square's bottom-right; white fills the
+   top-left sliver (adjacent to the cave and the media edge). */
+.cutout::before,
+.cutout::after {
+  background: radial-gradient(
+    circle at 100% 100%,
+    transparent calc(var(--fluid-radius-sm) - 0.5px),
+    var(--color-bg-primary) var(--fluid-radius-sm)
+  );
+}
+
+.cutout::before {
+  top: 0;
+  left: 100%;
+}
+
+.cutout::after {
+  top: 100%;
+  left: 0;
+}
+
+/* CTA cave — holds the live hero's Buttons at their natural size; the cave
+   is content-driven, so it grows exactly as needed to fit them. Padding is
+   tighter than the author cave so it hugs the buttons rather than ballooning. */
+.meta {
+  top: 0;
+  right: 0;
+  gap: var(--space-m); /* matches the live hero's .ctas row */
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding: var(--space-m) var(--space-l);
+  border-bottom-left-radius: var(--fluid-radius-sm);
+}
+
+/* Mirrored: photo arc centered bottom-left; white fills the top-right sliver. */
+.meta::before,
+.meta::after {
+  background: radial-gradient(
+    circle at 0% 100%,
+    transparent calc(var(--fluid-radius-sm) - 0.5px),
+    var(--color-bg-primary) var(--fluid-radius-sm)
+  );
+}
+
+.meta::before {
+  top: 0;
+  right: 100%;
+}
+
+.meta::after {
+  top: 100%;
+  right: 0;
+}
+
+/* Both CTAs render black-filled (accent), overriding Button's gray `primary`.
+   Semantic tokens keep it theme-correct: black on light, inverting to white on
+   dark so it stays legible in the dark cave. Hover → outline. */
+.meta .cta {
+  background-color: var(--color-accent);
+  color: var(--color-bg-primary);
+  border-color: var(--color-accent);
+}
+
+.meta .cta:hover {
+  background-color: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* ---------- Mobile (system reference breakpoint only) ---------- */
+
+@media (max-width: 768px) {
+  .header {
+    padding: var(--space-l) 0 var(--space-2xl);
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-m);
+  }
+
+  .support {
+    max-width: none;
+    text-align: left;
+  }
+
+  .media {
+    --fluid-media-aspect: 4 / 3;
+  }
+
+  /* On narrow screens the CTA notch sits bottom-right, so wrapped buttons
+     don't cover the top of the image. */
+  .meta {
+    top: auto;
+    bottom: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: var(--fluid-radius-sm);
+  }
+
+  .meta::before,
+  .meta::after {
+    background: radial-gradient(
+      circle at 0% 0%,
+      transparent calc(var(--fluid-radius-sm) - 0.5px),
+      var(--color-bg-primary) var(--fluid-radius-sm)
+    );
+  }
+
+  .meta::before {
+    top: auto;
+    bottom: 0;
+    right: 100%;
+  }
+
+  .meta::after {
+    top: auto;
+    bottom: 100%;
+    right: 0;
+  }
+}

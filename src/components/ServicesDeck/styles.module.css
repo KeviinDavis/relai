@@ -1,0 +1,263 @@
+/* ServicesDeck — pinned stacked services deck (after the Trionn services pattern) */
+
+.deck {
+  /* Mapped to Relai tokens. Raw tokens (not the semantic --color-text-* ones)
+     so the component keeps its white-bg / dark-left look regardless of the
+     page theme it sits on. */
+  --white: var(--color-white);
+  --panel-dark: var(--color-black); /* #000 — matches the hero background */
+  --ink: var(--color-black);
+  --ink-soft: var(--color-gray-dark);
+  --light: var(--color-gray-light);
+  --hairline: var(--color-gray-light);
+
+  position: relative;
+  background: var(--white);
+  color: var(--ink-soft);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.list {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Panels stack in DOM order; GSAP slides each one up over the previous */
+.item {
+  position: absolute;
+  inset: 0;
+  background: var(--white);
+  will-change: transform;
+}
+
+/* --- Top seam: center-drawn hairline + spinning plus --- */
+.seam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.seamLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 1px;
+  background: var(--hairline);
+}
+
+.plus {
+  position: relative;
+  width: 13px;
+  height: 13px;
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.split {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Left half: captioned image on alternating panel --- */
+.imageBlock {
+  width: 50%;
+  height: 100%;
+  padding: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-right: 1px solid var(--hairline);
+  background: var(--white);
+  color: var(--ink-soft);
+}
+
+/* Alternating dark left columns (Relai surface token) — the contrast between a
+   dark block and a white one is what makes the stack read with depth as the
+   panels slide over each other. */
+.imageBlock.dark {
+  background: var(--panel-dark);
+  color: var(--light);
+}
+
+.caption {
+  display: block;
+  margin-bottom: 3rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.captionLine {
+  display: block;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  max-width: 44rem;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.imageMobile {
+  display: none;
+}
+
+/* --- Right half: title, description, capabilities --- */
+.contentBlock {
+  width: 50%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  column-gap: 1.5rem;
+  will-change: transform;
+}
+
+.contentInner {
+  grid-column: 2 / span 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.titleBlock {
+  margin-bottom: 6.25rem;
+}
+
+.count {
+  display: block;
+  margin-bottom: 1.5rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.title {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2rem, 2.4vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.description {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.info {
+  max-width: 28rem;
+}
+
+.infoLabel {
+  display: block;
+  margin-bottom: 2.5rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.infoList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.infoItem {
+  position: relative;
+  padding: 1rem 0;
+  color: var(--ink);
+}
+
+.infoItem:first-child {
+  padding-top: 0;
+}
+
+.infoItem:last-child {
+  padding-bottom: 0;
+}
+
+.infoItem p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Separator rule, drawn left → right on panel activation */
+.rule {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--ink-soft);
+  transform-origin: left center;
+}
+
+/* --- Static stacked fallback below md (fidelity pass comes later) --- */
+@media (max-width: 767px) {
+  .list {
+    height: auto;
+    overflow: visible;
+  }
+
+  .item {
+    position: relative;
+    inset: auto;
+  }
+
+  .split {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .imageBlock,
+  .contentBlock {
+    width: 100%;
+    height: auto;
+  }
+
+  .imageBlock {
+    padding: 5rem 1.5rem;
+    border-right: 0;
+  }
+
+  .contentBlock {
+    display: block;
+    padding: 4rem 1.5rem 5rem;
+  }
+
+  .image {
+    display: none;
+  }
+
+  .imageMobile {
+    display: block;
+    width: 100%;
+    border-radius: 0.5rem;
+  }
+
+  .seam {
+    display: none;
+  }
+}

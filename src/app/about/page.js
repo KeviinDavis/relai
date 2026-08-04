@@ -12,8 +12,9 @@ export default function AboutPage() {
       <Hero content={hero} />
       <TextSection content={intro} />
       <SplitSection content={whyRelai} />
-      <Leadership content={leadership} />
       <SplitSection content={mission} />
+      <Leadership content={leadership} />
+
     </>
   );
 }

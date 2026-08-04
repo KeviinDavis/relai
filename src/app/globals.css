@@ -101,7 +101,11 @@ body::before {
   inset: 0;
   z-index: var(--z-overlay);
   pointer-events: none;
-  background-color: var(--color-white);
+  /* White grain on the dark default; the :has() rule below flips it to black on
+     static light routes. --grain-color is an optional override so a scroll-fade
+     wrapper (ThemeFadeZone) can tween the grain in sync with a live theme fade
+     where no static .theme-light body child exists. */
+  background-color: var(--grain-color, var(--color-white));
   -webkit-mask-image: var(--noise-image);
           mask-image: var(--noise-image);
   -webkit-mask-size: 160px 160px;

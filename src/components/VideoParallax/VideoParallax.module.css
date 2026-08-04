@@ -1,0 +1,34 @@
+.wrapper {
+  overflow: hidden;
+  /* Static gutter color shown around the inset video frame. */
+  background-color: var(--color-bg-primary);
+}
+
+/* Inset frame: the video is clipped inward so the wrapper's background shows as
+   a gutter around it, instead of bleeding edge-to-edge. Tune the inset value to
+   taste. */
+.section {
+  position: relative;
+  height: 68.85vh;
+  overflow: hidden;
+  clip-path: inset(var(--space-8xl));
+}
+
+/* Oversized layer clipped by the section. GSAP drifts it vertically for the
+   parallax; the extra height (top:-15% / height:130%) keeps its top and bottom
+   edges outside the section at every point in the travel, so no gaps show. */
+.videoLayer {
+  position: absolute;
+  top: -30%;
+  left: 0;
+  width: 100%;
+  height: 160%;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}

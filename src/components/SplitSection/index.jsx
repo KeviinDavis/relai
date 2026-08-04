@@ -20,17 +20,27 @@ export default function SplitSection({ content = {} }) {
     tone = "light",
     aspectRatio = "4/5",
   } = content;
+  // "inherit" opts out of self-painting so the section reads the ambient theme
+  // tokens (used inside ThemeFadeZone, where the stage fades them); "dark"
+  // keeps the standalone always-black surface.
+  const isInherit = tone === "inherit";
   const isDark = tone === "dark";
   const scope = useRef(null);
   useReveal(scope, [paragraphs.length]);
 
   return (
-    <Section className={`${styles.section} ${isDark ? styles.dark : ""}`}>
+    <Section
+      className={`${styles.section} ${isDark ? styles.dark : ""} ${
+        isInherit ? styles.inherit : ""
+      }`}
+    >
       <Container>
         <div className={`${styles.grid} ${reverse ? styles.reverse : ""}`} ref={scope}>
           <div className={styles.text} data-reveal data-reveal-stagger>
             {eyebrow && (
-              <Eyebrow variant={isDark ? "dark" : "default"}>{eyebrow}</Eyebrow>
+              <Eyebrow variant={isDark || isInherit ? "dark" : "default"}>
+                {eyebrow}
+              </Eyebrow>
             )}
             {title && <h2 className={styles.title}>{title}</h2>}
             {paragraphs.map((p, i) => (

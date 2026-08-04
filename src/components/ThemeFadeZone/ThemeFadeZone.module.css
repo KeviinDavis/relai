@@ -1,0 +1,11 @@
+/* The stage owns the theme tokens (set inline, then tweened by GSAP); every
+   descendant section inherits and fades with them. Purely a positioning
+   context — it paints nothing itself. */
+.stage {
+  position: relative;
+}
+
+/* Zero-height boundary marker — the ScrollTrigger reference point, not visible. */
+.break {
+  height: 0;
+}

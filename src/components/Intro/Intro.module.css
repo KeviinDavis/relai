@@ -1,76 +1,36 @@
+/* Single left-aligned stack: eyebrow → statement → body.
+   Hierarchy comes from type scale (h2 vs lead), not layout offset.
+   Tone-painted surface (bg + text from semantic tokens) so the theme
+   class on the section actually renders — sections stack flush, so the
+   gap to neighbors lives in padding, not margin. */
+
 .section {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
   padding-inline: var(--gutter-sm);
-  padding-block: 0;
-  margin-bottom: var(--space-6xl); /* 60px — gap down to Capabilities */
-}
-
-.top {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--gutter);
-  margin-bottom: 3rem;            /* 48px — source excerpt margin-bottom */
-}
-
-.excerpt {
-  font-size: var(--font-h3);     /* 24px */
-  line-height: 1;
-  max-width: 42rem;
-}
-
-.links {
-  display: none;
-}
-
-.links a:hover {
-  color: var(--color-accent);
-}
-
-.main {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.9375rem;                 /* 15px — source Block_heading margin-bottom */
+  padding-block: var(--space-7xl);
 }
 
 .tag {
-  grid-column: 1;
+  margin-bottom: var(--space-3xl);
+}
+
+.excerpt {
+  font-size: var(--font-h2);      /* 24 → 32, "statements" */
+  line-height: 1.25;
+  max-width: 46rem;
+  margin-bottom: var(--space-5xl);
 }
 
 .body {
-  font-size: var(--font-body);   /* mobile 16px/22px */
-  line-height: 1;
-  max-width: 48rem;
+  font-size: var(--font-lead);    /* 18 → 22 */
+  line-height: 1.6;
+  max-width: 40rem;
+  color: var(--color-text-muted);
 }
 
 @media (min-width: 1024px) {
   .section {
     padding-inline: var(--gutter);
-    /* margin-bottom stays at var(--space-6xl) from the base rule (60px) */
-  }
-
-  .links {
-    flex-shrink: 0;
-    text-align: right;
-    font-size: var(--font-body);
-    color: var(--color-text-muted);
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .main {
-    /* Eyebrow column sized to its content so the tag→paragraph gap is a fixed,
-       tight space (was the empty remainder of a full 1/6 column). */
-    grid-template-columns: max-content minmax(0, 1fr);
-    column-gap: var(--space-4xl);
-  }
-
-  .tag {
-    grid-column: 1 / span 1;
-  }
-
-  .body {
-    grid-column: 2 / -1;
-    font-size: var(--font-h3);   /* 24px / 32px */
-    line-height: 1;
   }
 }

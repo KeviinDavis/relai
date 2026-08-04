@@ -1,0 +1,80 @@
+.root {
+  padding-block: var(--space-m);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* Opt-out of the self-painted surface so a parent stage shows through. */
+.bgNone {
+  background: transparent;
+}
+
+.viewport {
+  --lw-duration: 40s;
+  --lw-gap: var(--space-6xl);
+  --lw-logo-height: var(--space-5xl);
+  overflow: hidden;
+  /* Soft edge fade — mask stops are alpha-only, not themed colors */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: scroll var(--lw-duration) linear infinite;
+}
+
+/* Seam math: gap lives on the group with a matching trailing padding, so
+   each copy's width = items + N gaps and -50% lands pixel-identical.
+   A gap on .track would give 2N-1 gaps and drift the loop. */
+.group {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--lw-gap);
+  margin: 0;
+  padding: 0 var(--lw-gap) 0 0;
+  list-style: none;
+}
+
+.item {
+  flex: none;
+}
+
+.logo {
+  display: block;
+  height: var(--lw-logo-height);
+  width: auto;
+}
+
+.pausable:hover .track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

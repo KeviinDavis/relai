@@ -56,6 +56,408 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-08-03 — Home: single scroll-driven light→dark theme fade (ThemeFadeZone, take 2)
+
+**What:** A new `ThemeFadeZone` wrapper drives one smooth light→dark theme
+transition across the home page. The page reads light through FluidHero →
+LogoWall → FluidCards → FluidStats, fades once around VideoParallax, and stays
+dark through SplitSection → News. A zero-height `<ThemeBreak/>` marker (placed
+before VideoParallax) is the ScrollTrigger reference: at `top 50%` it tweens to
+dark (`onEnter`) and back to light on scroll-up (`onEnterBack`) — the same
+symmetric handler as the `/sandbox/fade` demo (`ScrollThemeFade`).
+
+**Why this differs from the reverted take 1 (below):** take 1 was a wrapper/veil
++ gradient overlay, which couldn't read as a real fade over dense opaque imagery.
+This version tweens the **semantic theme tokens** themselves
+(`--color-bg-primary`, `--color-text-primary`, `--color-stroke`, …) on the stage
+root — GSAP interpolates each token light↔dark via a proxy `{p}` + `onUpdate`
+`setProperty`. Because every section already paints from those tokens, the actual
+content inverts (not an overlay). No new tokens, no new deps (gsap + ScrollTrigger
+already in use). Respects `prefers-reduced-motion` (instant switch).
+
+**Changed:** new `src/components/ThemeFadeZone/`; `page.js` wraps the sections in
+`<ThemeFadeZone>` with `<ThemeBreak/>` at the seam. FluidHero, LogoWall,
+FluidCards, FluidStats, **SplitSection, and News** all gained a `tone="inherit"`
+mode (emit no theme class / paint from ambient tokens) so every section reads the
+stage's animating tokens. `ScrollThemeFade` / `/sandbox/fade` untouched.
+
+**Two fixes after first review:** (1) SplitSection painted a fixed
+`--color-bg-dark` (black in every theme) and News hardcoded `theme-dark`, so the
+lower half stayed black independent of the fade — with VideoParallax honoring the
+light token above it, that produced a hard white→dark seam. Both now inherit the
+stage tokens, so the whole lower zone fades together. (2) On a reload while
+already scrolled past the boundary, `onEnter` never fired (no crossing) and the
+stage stayed stuck light; added an `onRefresh` handler that snaps the theme to
+the correct state for the current scroll position on load/resize.
+
+### 2026-08-03 — Home: reverted the page-wide scroll fade (ThemeFadeZone) entirely
+
+**What:** Removed all of the page scroll-transition work from the home page. The
+`ThemeFadeZone` wrapper/veil approach didn't read as a real fade on dense opaque
+imagery and was scrapped. The home page is back to plain sections, each
+self-painting its own background as before.
+
+**Removed:** the `ThemeFadeZone` component (deleted), its wrapper + `bg="none"`
+props + `[data-fade-trigger]` in `page.js`, and the `.fadeBottom` gradient added
+to `VideoParallax`. The `VideoParallax` inset-frame removal (full-bleed) is kept.
+The inert `bg`/`.bgNone` plumbing still present in FluidHero, LogoWall, FluidCards,
+FluidStats, and News is harmless (defaults to `bg="solid"` = original render) and
+can be purged in a follow-up if desired. A fresh approach to the fade will start
+from zero.
+
+### 2026-08-03 — FluidCards: "platform" content instance (sandbox)
+
+New content instance `src/content/platform.js` rendered through the **unchanged**
+`FluidCards` at `/sandbox/platform` (dark tone, `introPosition="top"`, default
+`showcase` layout — so the fluid hover-expand behaves exactly like the `impact`
+instance). The three cards reuse the real card anatomy (big `code` + body `text`
++ footer `label`); only the copy differs — the feature name sits in the `code`
+slot the way a stat value does in impact.
+
+The one additive change is the **lead card**: when the content carries an
+`eyebrow`/`title` it renders eyebrow + bold title + dim subtext, and when
+`scenarios.image` is omitted it shows a decorative `⋯` chip instead of the
+thumb. That intro row also gets more height for the extra copy — scoped via
+`.scenariosRow:has(.eyebrow)` so the `impact` instance is untouched. New CSS
+classes only: `.eyebrow`, `.leadTitle`, `.leadSubtext`, `.menuChip`.
+
+### 2026-08-03 — FluidStats: new media + stats fluid row (sandbox)
+
+New `FluidStats` component (`src/components/FluidStats/` — `index.jsx` +
+`styles.module.css`) at `/sandbox/fluid-stats`, fed by
+`src/content/fluid-stats.js`. A **separate** take on the "mission in numbers"
+data — FluidCards is untouched. One fluid 4-column row: a media tile (image or
+video, gray placeholder for now) followed by three tall stat cards reusing the
+same `cards` content from `content/impact.js`. All four columns rest equal;
+hovering ANY cell (media tile included) slides the wide `:has()`-driven grid
+slot to it — the same pure-CSS mechanism as FluidCards, extended to four tracks
+with `minmax(0, …)` on both rest and hover states so the track lists interpolate
+instead of snapping. The hovered card fades its description in; the no-reflow
+fixed width is viewport-based (`min(21rem, 46vw - 4.5rem)`) so it can't clip at
+the expanded width on narrow desktops.
+
+- **Content reuse:** `content/fluid-stats.js` re-exports `cards` from
+  `content/impact.js` and adds a `media` export (`type: "image" | "video"`), so
+  the placeholder can become a video by changing content only.
+- **Reference fidelity:** big stat top-left, tall empty middle, small uppercase
+  tracked label bottom-left. No footer hairline or plus icon; the reference's
+  orange accent square was dropped — the palette is mono by contract.
+- **Row height is `min-height: clamp(...)`, not `aspect-ratio`** — height stays
+  pinned while hover redistributes column widths (aspect-ratio would make the
+  row breathe; also why the `Media` primitive wasn't reused).
+- **Sharp corners** (house `--radius-md`), matching the reference.
+- Kept the house patterns: `tone` theme-class inversion, GSAP scroll entrances
+  (stat char-split + media tile move-up) with the reduced-motion bailout,
+  component-owned `<section>` + Container, mobile single-column stack.
+
+### 2026-08-03 — LogoWall: continuous scrolling logo marquee (sandbox)
+
+New `LogoWall` component (`src/components/LogoWall/` — `index.jsx` +
+`LogoWall.module.css`) at `/sandbox/logo-wall`, fed by `src/content/logo-wall.js`.
+A continuously scrolling logo strip: the logo list renders twice inside a
+`width: max-content` flex track animated `translateX(0 → -50%)` linear/infinite,
+so the wrap point is pixel-identical and the loop is seamless. Edges fade out via
+`mask-image: linear-gradient(...)` on the overflow wrapper instead of overlay
+gradient divs. **Why mask over overlays:** the mask hides the marquee's own
+pixels, so it's agnostic to whatever sits behind it — it works unchanged under
+`.theme-light` / `.theme-dark` and the global film-grain overlay, where
+bg-colored overlays would need per-theme colors and z-order care. Mask stops are
+alpha-only (`transparent`/`#000`), not themed colors.
+
+- **Pure CSS, Server Component** — no `"use client"`, no GSAP; the global
+  `prefers-reduced-motion` rule in `globals.css` neutralizes the animation to a
+  static row for free (plus an explicit `animation: none` in the module).
+- **Seam math:** the inter-logo `gap` lives on each `.group` copy with a matching
+  trailing `padding-right`, so each copy's width = items + N gaps and −50% lands
+  exactly. (A `gap` on the track would yield 2N−1 gaps and drift the loop by half
+  a gap per cycle.) The duplicate list is `aria-hidden` with empty `alt`s.
+- **Not edge-to-edge:** a plain semantic `<section>` root + default `Container`,
+  so the strip spans the page minus the standard gutters and fades at the
+  container's inner edge. (Started on the `Section` primitive; removed on
+  review — it stacked its own `padding-block: var(--space-4xl)` and a duplicate
+  bg paint on top of the component's root, inflating the band's height.) Logos render via `next/image` with intrinsic dimensions
+  (Media's `sizes="100vw"` + aspect wrapper is wrong for small logos — matches
+  the ImageRow precedent); CSS caps height (`--space-3xl`) with `width: auto` so
+  mixed aspect ratios align on a common cap height.
+- **Content API:** `{ logos: [{ src, alt, width, height }], duration?,
+  pauseOnHover? }` — duration feeds a `--lw-duration` CSS var (the sanctioned
+  Media-style var pattern), pause-on-hover is `animation-play-state` behind a
+  class. Defaults 40s / off.
+- **Placeholder logos:** ten neutral-gray (`#737373` = `--color-muted`) wordmark
+  SVGs in `public/logos/` with varying widths (90–200 × 40) so the mixed-ratio
+  handling is actually exercised; gray reads on both themes.
+- **Authoring constraint** (noted in a code comment): one list copy must be wider
+  than the viewport (~8+ logos) or the loop exposes a blank region.
+- **`tone="light" | "dark"` prop** (added on iteration): drops the global
+  `theme-light` / `theme-dark` class on the root — the same mechanism as
+  FluidCards / RouteTheme — with the root painting
+  `background: var(--color-bg-primary)` + `color: var(--color-text-primary)`,
+  so the section inverts purely via semantic tokens. Default `light` (matches
+  FluidCards); the gray placeholder logos read on both.
+- **Mounted on the home page** (added on iteration) directly under `Hero`,
+  `tone="light"` (started dark, flipped light on review);
+  `/sandbox/logo-wall` shows the same default light version.
+- **Real logos wired** (added on iteration): thirteen background-removed WebP
+  marks in `public/LogoBGRemoved/` (APM Terminals, Maersk, DP World
+  Santos/Evyap, ONE, Eurogate, Hapag-Lloyd, Port of Rotterdam, Port Houston,
+  South Carolina Ports, Shell, Unifeeder, Westport) replace the gray
+  placeholder SVGs in `content/logo-wall.js`. The files are uniform letterboxed
+  canvases (500×200 / 300×100); at the cap height the first nine-logo batch made
+  one loop half (~1.3k px) narrower than wide viewports — the blank-region
+  failure. Fix: a `repeat` content field stacks the list per loop half (only
+  the first pass carries real alts; repeated passes are `aria-hidden`), and the
+  cap height stepped up `--space-3xl` → `--space-5xl` since letterboxed rasters
+  render smaller than the placeholder wordmarks did. At thirteen logos one pass
+  (~2.4k px) outruns the widest masked area on its own, so content sets
+  `repeat: 1` (component default stays 2). Placeholder SVGs kept in
+  `public/logos/` (unused, per convention).
+
+### 2026-08-03 — Intro: staggered layout → single type-led stack
+
+Restructured the home `Intro` ("Why Relai") from its two-block staggered
+layout (excerpt + right-rail links on top, eyebrow beside an offset body
+below) into one left-aligned stack: eyebrow → excerpt → body. **Why:** on
+desktop the excerpt and body were both `--font-h3`, so the layout offset was
+doing all the hierarchy work; the stack lets type scale carry it instead —
+excerpt steps up to `--font-h2` ("statements") at 1.25 leading, body drops to
+`--font-lead` in `--color-text-muted` at 1.6 leading. The two right-rail
+links (Why Relai / Platform) were dropped as low-value (one anchored to the
+section itself); their data was removed from `content/home.js`. Reveal
+behavior kept (mask on the excerpt, fade on eyebrow/body). No breakpoint
+font overrides needed anymore — both sizes are fluid clamps. Iterate pass:
+Intro gained the project-standard `tone` prop ("light" default | "dark",
+mapped to the global theme classes like FluidHero/FluidCards/LogoWall) and
+the home page renders it `tone="light"`, extending the light band that opens
+the page (FluidHero → LogoWall → Intro) before the dark FluidCards. The
+section now paints its own surface (`--color-bg-primary` +
+`--color-text-primary`, per the Testimonials/LogoWall pattern — without a
+painted bg the theme class would flip text dark over the black page);
+painted sections stack flush, so the old 60px bottom margin became
+`padding-block: var(--space-7xl)` inside the surface.
+
+### 2026-08-03 — Home: FluidHero replaces the Hero
+
+The home page now opens with `FluidHero` (`tone="light"`) instead of the
+GSAP video `Hero` — same copy and CTAs (the FluidHero content file was
+already derived from the live hero's), new carved-media presentation. The
+media is still the neutral gray placeholder pending a final asset (the old
+hero's `Relai.mp4` has no slot yet — FluidHero renders images via the Media
+primitive). The `Hero` component itself stays in the codebase untouched;
+`content/home.js` keeps its `hero` export for now.
+
+### 2026-08-03 — FluidHero: flat carved hero (sandbox)
+
+New `FluidHero` component at `/sandbox/fluid-hero` — a reconstruction of the
+Triloe "Trusted Feedback" hero re-expressed in the Relai system, flattened
+during iteration from the source's card-in-a-frame to a single tone-painted
+surface: the Section IS the component background (no card panel, no frame
+band) → split header (h1 left, right-aligned support paragraph) → media
+block with the live hero's CTA buttons in a top-right chip carved into the
+image as a notch — flush with the surface, concave quarter-circle fillets
+(radial-gradient painted with the surface token) where surface meets image,
+so the image's corner radius flows continuously around the chip. Static
+server component built from existing primitives
+(Section/Container/Eyebrow/Media). Key translations from the source: media
+radius mirrors the FluidCards family's small tier (0.5rem); light by
+default with a `tone="dark"` prop via
+the global theme-scoping classes (all colors are semantic tokens, so dark is
+free — background, text, and caves flip together); the title/support are
+the live home hero's copy (eyebrow and the
+source's author chip were dropped during iteration — the header leads with
+the title, and the top-left carve remains as an empty decorative cutout
+beside the CTA notch, currently over a neutral gray placeholder instead of
+the port photo). Mobile consolidates the source's 768/480 tiers into the system's
+single 768 breakpoint (header stacks, media 4:3, CTA notch moves to the
+bottom-right corner so wrapped buttons don't cover the top of the image).
+Content in `content/fluid-hero.js`; the CTA cave reuses the live home
+hero's actions via the Button primitive at its natural size.
+
+### 2026-08-03 — Rename TrionnServicesDeck → ServicesDeck
+
+Renamed the pinned services-deck component from `TrionnServicesDeck` to
+`ServicesDeck` — same motivation as the earlier `TrionnImpact` → `FluidCards`
+rename: the name carried another company's brand. Folder
+`src/components/TrionnServicesDeck/` → `src/components/ServicesDeck/`, the
+default export, and every reference (`app/product/page.js`,
+`app/sandbox/services-deck/page.js`, `content/services-deck.js` header, prior
+changelog mentions) updated. No behavior or markup change. Note: the name
+`ServicesDeck` was previously used by a scrapped first attempt (deleted
+2026-07-30) — this is a fresh reuse of that name, not a revival of that code.
+Route (`/sandbox/services-deck`) and content file (`content/services-deck.js`)
+already matched the new name.
+
+### 2026-08-03 — ServicesDeck: fix removeChild crash on route change
+
+Navigating away from any page rendering the deck threw
+`NotFoundError: Failed to execute 'removeChild' on 'Node'`. Cause: ScrollTrigger
+`pin: true` wraps the deck's root `<section>` in a `pin-spacer` div; the cleanup
+(`ctx.revert()`) lived in a plain `useEffect`, whose unmount cleanup runs AFTER
+React has already tried to detach the (re-parented) node. Switched setup to the
+`useGSAP` hook (already used by `VideoParallax` / `ScrollThemeFade`), which
+cleans up in a layout effect — the pin-spacer is reverted before React touches
+the DOM. Same matchMedia/timeline/SplitText logic, with `revertOnUpdate: true`
+preserving the re-run-on-prop-change behavior.
+
+### 2026-07-30 — Rename TrionnImpact → FluidCards
+
+Renamed the stat-card component from `TrionnImpact` to `FluidCards` — the name
+carried a "Trionn" association it no longer has (it's Relai mission-stat cards
+with a fluid hover-expand interaction, not tied to that source brand). Folder
+`src/components/TrionnImpact/` → `src/components/FluidCards/`, the default export,
+and every reference (`app/page.js`, `app/sandbox/impact/page.js`,
+`content/impact.js` header, prior changelog mentions) updated. No behavior or
+markup change. The content file stays `content/impact.js` (it names the data
+instance — the mission "in numbers" — not the component).
+
+### 2026-07-30 — ScrollThemeFade: scroll-driven theme fade (sandbox)
+
+Added `src/components/ScrollThemeFade/` (`index.jsx` + `ScrollThemeFade.module.css`),
+mounted at `/sandbox/fade` and fed by a new `src/content/fade.js`. A reconstruction
+of the Signifly scroll-fade: sections are transparent and one shared wrapper owns
+`background-color` + `color`. A `ScrollTrigger` per section (`top 50%` → `bottom 50%`)
+tweens the wrapper to that section's theme as it crosses the viewport-center line,
+firing on both `onEnter` and `onEnterBack` so the fade is symmetric in either scroll
+direction. All content (kicker, arrow, heading, body) is drawn in `currentColor`, so
+it inverts with the fade for free. Honors `prefers-reduced-motion` with an instant swap.
+Built on the same GSAP + Lenis stack as `VideoParallax` — no new deps.
+
+- **Not wired into real content yet** — parked in `/sandbox/` (same pattern as
+  `FluidCards` / `ServicesDeck`) with placeholder demo copy; the effect is
+  what's on show. The global `Header`/`Footer` still wrap the route.
+- **Stripped the source's internal top bar.** The original shipped its own sticky
+  `brand + menu` header (the "chrome inverts" demo); dropped it to rely on the
+  site's global `Header`, and renamed `SigniflyThemeFade` → `ScrollThemeFade`.
+- **Token remap.** The pasted CSS used a foreign token set (`--space-24`,
+  `--text-lg`, `--leading-tight`…) that doesn't exist here — every value was mapped
+  to the project's named scale (`--space-8xl/2xl/l/xs`, `--font-h1/lead/tagline`,
+  `--tracking-display/label`, flat `--leading-*`). The one intrinsic exception is the
+  GSAP-animated theme colors: GSAP tweens literal values, so the `light`/`dark`
+  defaults are the project palette hexes (`#ffffff` / `#000000` = `--color-white` /
+  `--color-black`). Per-section `bg`/`fg` overrides remain supported.
+
+### 2026-07-30 — FluidCards: fluid hover-expand stat cards (sandbox)
+
+Built a fluid hover-expand stat-card section from a supplied "Scenarios +
+Expertise" snippet as `src/components/FluidCards/`
+(`index.jsx` + `styles.module.css`), mounted at
+`/sandbox/impact` and fed by a new `src/content/impact.js`. Two blocks: a
+**Scenarios intro row** (big heading left, gray lead card + thumb right) and a
+row of **three fluid-width cards** whose widths are driven by a `:has()` grid —
+the hovered card slides the wide column to itself and fades its description in,
+while card 1 sits pre-expanded at rest until a sibling is hovered. That
+interaction is pure CSS; GSAP only drives the source's `data-milk-*`
+scroll-entrance reveals (`SplitText` line/char rise + thumb move-up), matching
+the `ServicesDeck` sibling's animation approach.
+
+- **Adapted to Relai, not the source's branding copy.** The source's scenarios
+  (R.1 Re-branding …) are replaced by **three mission stats** from
+  `content/mission.js` — the big card "code" is the stat value (`920+ hrs`,
+  `68%`, `2.4M+`), the footer label is the stat's short title, and the body is
+  its full description. (The fourth mission stat, `11%` emissions, was dropped
+  to land on three per the source's `50/25/25` grid; it's a one-entry re-add.)
+- **Card grid.** Source `50/25/25` ratio kept for three cards — wide column
+  `50%`, two collapsed `25%` each; hover slides the wide column to the hovered
+  card over `0.6s`.
+- **Description without the glitch.** The first pass revealed each card's text
+  with an opacity + `translateY` "grow" that reflowed as the column widened —
+  janky. Reworked so the text is laid out at a **fixed width** (never reflows as
+  the card grows) and only cross-fades in on a short delay once the width has
+  settled; the narrow card clips + fades it out. No transform, no reflow.
+- **No card thumbnails.** The stat cards carry no image (removed on review);
+  only the intro lead card keeps its small gray placeholder thumb
+  (`/placeholders/impact-thumb.svg`, swap `scenarios.image.src` for real art).
+- **Inverts with the theme (`tone` prop).** `--milk-*` are mapped on the root to
+  Relai's **semantic** tokens (`--color-bg-primary/-secondary`,
+  `--color-text-primary/-secondary`, `--color-stroke-muted`); a `tone="light" |
+  "dark"` prop drops the global `theme-light` / `theme-dark` class on the root
+  (same mechanism as `RouteTheme` / `Header`), flipping those tokens for the
+  subtree. Light = white page / warm-gray cards; dark = black page / warm
+  near-black cards. `currentColor` on the plus icon + hairlines flip for free.
+  The source's rounded corners (`--milk-radius`) are kept scoped to this
+  component for fidelity even though the global system is sharp.
+- **Mounted on the home page** between `Hero` and `VideoParallax`, `tone="dark"`;
+  the `/sandbox/impact` route still shows the default light version.
+- **`layout` prop — two card arrangements, one component.** `layout="showcase"`
+  (default) is the asymmetric `50/25/25` row with card 1 open at rest;
+  `layout="grid"` is a tidy equal `1fr/1fr/1fr` grid where every card rests
+  collapsed and each still expands + reveals its description on hover (fluid
+  kept, just symmetric). Chosen over a second component because the card unit,
+  styles, theme invert, and reveals are all shared — a variant is a `layout`
+  class on the root + a handful of scoped grid overrides, vs duplicating all of
+  it. Both layouts keep the "mission in numbers" intro block beneath the cards.
+- **Reveal robustness.** Reveals use `gsap.from` + `immediateRender:false` +
+  `once` + a `ScrollTrigger.refresh()`, so the visible state is the resting
+  state — above-the-fold elements animate in on load and content is never left
+  hidden. Reduced motion bails out and leaves everything visible.
+- **Convention notes:** width is constrained with the existing `Container`
+  primitive; raw `<img>` kept for the intro thumb (matches the sibling + source,
+  lint warns only). Sizes were scaled down from the source px values so the
+  block fits the viewport in three columns. Mobile stacks both rows into one
+  column and renders every card in its expanded (description-shown) state.
+
+### 2026-07-30 — VideoParallax: scroll-driven full-bleed video parallax
+
+Added `src/components/VideoParallax/` (`index.jsx` + `VideoParallax.module.css`)
+from a supplied framer-motion snippet (`GaroaVideoScroll`). The effect pins a
+120vh video to the viewport (`position: fixed`, `z-index: -1`) and clips it to a
+90vh section via `clip-path`, so the section is a moving window; as it scrolls
+through the viewport the video drifts ±8.33% vertically.
+
+- **Rebuilt on the project's stack, not the snippet's.** framer-motion isn't a
+  dependency here — the parallax was reimplemented with `useGSAP` + a scrubbed
+  `ScrollTrigger` (matching `Hero`/`SmoothScroll`), so no new dep. The scrub range
+  `start:"top bottom"`/`end:"bottom top"` mirrors framer's offset
+  `["start end","end start"]`; `yPercent ±8.33` ≈ the source's ±10vh on a 120vh
+  video. Reduced-motion short-circuits the parallax.
+- **Convention fixes:** renamed to `VideoParallax` with `index.jsx` +
+  `VideoParallax.module.css` (snippet used `styles.module.css`); dropped the
+  `0.75rem` bottom rounding (radius system is sharp — all `--radius-*` are `0`);
+  removed the hardcoded `-0.8rem` margin and demo `.spacer`/`#111` classes.
+- **Src:** defaults to the home hero video `/exampleimages/example1.mp4`;
+  overridable via the `src` prop.
+- Standalone component — not yet mounted on a page.
+
+### 2026-07-30 — Customer story on the home page (SplitSection)
+
+Added a customer-story section to the home page directly above `News` by
+reusing the existing `SplitSection` primitive — no new component. Fed it a
+`customerStory` content object (`tone: "dark"`, eyebrow, title, two paragraphs,
+placeholder `portcontainers.jpg`). Copy respects the Series B guardrails
+(no client name; only "under four months / one port / one carrier network").
+
+- Reversed an earlier attempt at a bespoke `CustomerStory` component (deleted):
+  it diverged from the SplitSection layout instead of matching it. The section
+  should read identically to the other split sections, so SplitSection is the
+  right vehicle — fill it in, don't fork it.
+
+### 2026-07-30 — ServicesDeck: pinned stacked services deck (sandbox)
+
+Dropped in the `ServicesDeck` (then `TrionnServicesDeck`, renamed 2026-08-03)
+library component **verbatim** (the Trionn
+services-deck pattern) at `/sandbox/services-deck` — the first `app/sandbox/*`
+route. Five full-height panels stack inside one pinned ScrollTrigger; scroll
+scrubs a master timeline that slides each panel up over the previous (`yPercent`
+100→0) while the covered panel's right column drifts up (`-100`) for depth
+(~1.8vh of scroll per transition). Past ~85% of a slide each panel's paused
+entrance plays — top seam hairline draws, plus icon spins 360°, caption
+de-blurs word-by-word (`SplitText`), capability rules draw left→right; scrolling
+back resets it so it replays. Below 768px it degrades to a static stacked flow.
+
+- **Replaces a scrapped first attempt** (an unrelated, earlier `ServicesDeck`)
+  that diverged from the real Trionn layout/mechanics — deleted.
+- **Verbatim over convention, by request** — kept the component's own scoped CSS
+  variables (`--white/--panel-dark/…` on `.deck`, so no globals/token pollution),
+  plain `<img loading="lazy">`, and the `useEffect`/`gsap.context` setup as given.
+  Known accepted deviations from the repo contract: `<img>` instead of `next/image`
+  (two lint warnings, not errors), raw rem values instead of Relai tokens, no
+  `Section`/`Container` wrapper, and no `prefers-reduced-motion` gate.
+- **Content:** the Trionn demo copy verbatim (AI & Intelligent Automation …
+  WordPress Development) in `src/content/services-deck.js`.
+- **Imagery:** neutral gray placeholder (`/placeholders/services-deck.svg`) on
+  every panel — swap in real media later. All panels `dark: false` (flip per
+  panel to darken a left image block).
+- SplitText ships with GSAP 3.15 (`gsap/SplitText`) — no new dependency.
+
 ### 2026-07-30 — Header: frosted glass pill restyle
 
 Restyled the desktop nav from a links-only bar into a single frosted glass
@@ -1287,6 +1689,13 @@ images, SVGs, fonts, and videos all serve 200.
 
 ## 4. Open Items
 
+- **LogoWall logos are full-color rasters.** The thirteen
+  `public/LogoBGRemoved/*.webp` marks keep their brand colors. The home
+  instance now runs `tone="light"`, where color marks generally read fine; if
+  a dark placement ever returns, some marks may sit low-contrast against black
+  — supply a white/mono set per theme or force monochrome in CSS (e.g.
+  `filter: brightness(0) invert(1)` on `.logo` under `theme-dark`). The
+  `-removebg-preview` filenames are as-supplied; rename for tidiness if wanted.
 - **Line-height is a flat `1` everywhere**, including multi-line body copy (FAQ
   answers, form text, footer, testimonials). This is the intended tight house
   style, but a few long-paragraph spots may read cramped — flag any specific

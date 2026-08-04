@@ -13,7 +13,7 @@ export const hero = {
   ],
   media: {
     type: "video",
-    src: "/exampleimages/example1.mp4",
+    src: "/exampleimages/Relai.mp4",
     alt: "Placeholder for the Relai hero background video — a port terminal at dusk.",
   },
 };
@@ -26,10 +26,26 @@ export const intro = {
   capsule: "Why Relai",
   body:
     "Relai began with a simple observation: the supply chain doesn't break in transit — it breaks at the handoffs. Between ship and port. Port and yard. Yard and truck. Each seam runs on its own aging system, and freight loses time, money, and fuel in the gaps. Relai closes them — coordinating every handoff in one platform built for how freight actually moves.",
-  links: [
-    { label: "Why Relai", href: "/#why-relai" },
-    { label: "Platform", href: "/product" },
+};
+
+// Component: SplitSection (customer story)
+// Ground-level proof tied to the Series B story — the unnamed large West Coast
+// terminal operator. Guardrails: don't name the client; don't invent metrics
+// beyond "under four months / one port / one carrier network."
+export const customerStory = {
+  eyebrow: "Customer Story",
+  title:
+    "One of the largest terminal operators on the West Coast went live on Relai in under four months.",
+  paragraphs: [
+    "Across a single port and one carrier network, the team went from disconnected systems to one coordinated flow.",
+    "Your team stays lean. Your data stays clean. Your freight keeps moving.",
   ],
+  tone: "inherit",
+  reverse: true,
+  media: {
+    src: "/exampleimages/footer.jpg",
+    alt: "A West Coast port terminal in operation.",
+  },
 };
 
 // Component: Capabilities

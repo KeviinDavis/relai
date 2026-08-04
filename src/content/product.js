@@ -14,7 +14,7 @@ export const hero = {
   tag: "[ PLATFORM ]",
   text:
     "Vessel tracking, terminal operations, drayage, and emissions — unified into one real-time system built for global logistics.",
-  actions: [{ label: "Book a demo", href: "/book-a-demo", variant: "solid" }],
+  actions: [{ label: "Book a demo", href: "/book-a-demo", variant: "primary" }],
   media: {
     type: "image",
     src: "/exampleimages/example4.png",
