@@ -35,16 +35,16 @@ export const intro = {
 export const customerStory = {
   eyebrow: "Customer Story",
   title:
-    "One of the largest terminal operators on the West Coast went live on Relai in under four months.",
+    "APM Terminals went live on Relai across its West Coast gateway in under four months.",
   paragraphs: [
-    "Across a single port and one carrier network, the team went from disconnected systems to one coordinated flow.",
+    "Across a single terminal and one carrier network, the team replaced disconnected systems with one coordinated flow.",
     "Your team stays lean. Your data stays clean. Your freight keeps moving.",
   ],
   tone: "inherit",
   reverse: true,
   media: {
     src: "/exampleimages/footer.jpg",
-    alt: "A West Coast port terminal in operation.",
+    alt: "APM Terminals' West Coast container terminal in operation.",
   },
 };
 

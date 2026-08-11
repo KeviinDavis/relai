@@ -1,0 +1,244 @@
+/* BoardHero — Structure A. The theme-light section IS the stage (primary
+   surface = the same white the rest of the light phase sits on; the global
+   grain supplies the noise — a darker panel surface here would read as a
+   mismatched band above LogoWall). The
+   board separates from it via its own 1px edge + radius only — no shadow, no
+   mat. Desktop is one clipped viewport: copy row up top, the 1360px board
+   centered below, bleeding off the section's bottom edge. Mobile stacks
+   headline → fit-to-width board → carrier trust strip pinned to the bottom.
+
+   Three reference values have no token equivalent and stay local knobs:
+   the hero-only ink/edge/logo grays of the source design. The 8px CTA radius
+   and the 104px headline are also deliberate hero-local departures from the
+   sharp/system scale — this component reconstructs a specific artwork. */
+
+.hero {
+  --hero-ink: #2c2c2c; /* subhead ink — between text-primary and gray-dark */
+  --hero-edge: #d6d6d3; /* structural hairline, matches the board's edge tier */
+  --hero-logo: #8f8f8f; /* monochrome carrier wordmarks */
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-block: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+/* ---------- Copy row ---------- */
+
+/* Double class beats the Container primitive's own padding without !important;
+   ≈80px inline at 1440 (the reference gutter), fluid below. */
+.copy.copy {
+  padding-inline: min(5rem, 5.55vw);
+}
+
+.copy {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 3.75rem;
+  padding-top: 9.375rem;
+}
+
+.title {
+  margin: 0;
+  /* 44px at 390 → 104px at 1440, then capped. */
+  font-size: clamp(2.75rem, 1.357rem + 5.714vw, 6.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.025em;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  max-width: 60%;
+}
+
+.aside {
+  width: 28.75rem;
+  flex: none;
+  padding-top: 0.75rem;
+}
+
+.sub {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.42;
+  letter-spacing: normal;
+  color: var(--hero-ink);
+}
+
+.subMobile {
+  display: none;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-s);
+  margin-top: 1.375rem;
+}
+
+/* CTA pair — scoped overrides of the Button primitive (StageHero idiom). */
+.actions .cta {
+  height: 2.875rem;
+  padding: 0 1.375rem;
+  border-radius: 0.5rem;
+  font-size: var(--font-btn);
+  font-weight: var(--weight-medium);
+  letter-spacing: normal;
+}
+
+.actions .ctaPrimary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: transparent;
+}
+
+.actions .ctaPrimary:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.actions .ctaGhost {
+  background-color: transparent;
+  color: var(--color-black);
+  border-color: var(--hero-edge);
+}
+
+.actions .ctaGhost:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* ---------- Board placement ---------- */
+
+/* Fixed 1360 design, centered; narrower desktops overflow both sides evenly
+   (never reflow), and the section's fixed height clips the bottom bleed. */
+.boardRow {
+  flex: none;
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-6xl);
+}
+
+.boardStage {
+  flex: none;
+}
+
+/* ---------- Carrier trust strip (mobile only) ---------- */
+
+.trustWrap {
+  display: none;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 767px) {
+  .copy {
+    flex-direction: column;
+    /* Column direction: stretch, or the text blocks size to max-content and
+       run off the viewport instead of wrapping. */
+    align-items: stretch;
+    gap: 0;
+    padding-top: calc(var(--nav-height) + 1.375rem);
+  }
+
+  .copy.copy {
+    padding-inline: var(--space-l);
+  }
+
+  .title {
+    max-width: none;
+  }
+
+  .aside {
+    width: auto;
+    padding-top: 0;
+  }
+
+  .sub {
+    display: none;
+  }
+
+  .subMobile {
+    display: block;
+    margin: 0.625rem 0 0;
+    font-size: var(--font-body-sm);
+    line-height: 1.34;
+    letter-spacing: normal;
+    color: var(--hero-ink);
+  }
+
+  .actions {
+    gap: 0.625rem;
+    margin-top: 0.875rem;
+  }
+
+  .actions .cta {
+    height: 2.625rem;
+    padding: 0 1.125rem;
+  }
+
+  /* The scaler publishes --board-scale/--board-height; until it runs, the
+     aspect-ratio approximates the board's natural 1360×700 box so first
+     paint reserves the right space. */
+  .boardRow {
+    display: block;
+    overflow: hidden;
+    margin: 1.375rem var(--gutter-sm) 0;
+    aspect-ratio: 1360 / 700;
+    height: var(--board-height, auto);
+  }
+
+  .boardStage {
+    width: 85rem;
+    transform-origin: top left;
+    /* Pre-hydration fallback computes the same ratio in CSS (length division
+       via tan∘atan2); the measured value then takes over. */
+    transform: scale(var(--board-scale, calc(tan(atan2(100vw - 2 * var(--gutter-sm), 85rem)))));
+  }
+
+  .trustWrap {
+    display: block;
+    margin-top: auto;
+  }
+
+  .trust {
+    border-top: 1px solid var(--hero-edge);
+    margin-top: 2rem;
+    padding: 0.875rem 0.25rem 1.375rem;
+  }
+
+  .trustEyebrow {
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .trustLogos {
+    list-style: none;
+    margin: 0.6875rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+  }
+
+  .trustLogos li {
+    font-weight: var(--weight-bold);
+    font-size: 0.8125rem;
+    letter-spacing: 0.01em;
+    color: var(--hero-logo);
+  }
+}
+
+/* Desktop keeps a hard viewport height so the board visibly bleeds off the
+   section's bottom edge (the fold IS the crop). */
+@media (min-width: 768px) {
+  .hero {
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+  }
+}

@@ -5,13 +5,14 @@
 //
 // Two blocks:
 //   1. Scenarios intro row — big heading (left) + gray lead card w/ thumb (right).
-//   2. Fluid-width cards — a :has()-driven grid where the hovered card grows and
-//      reveals its description. `layout="showcase"` keeps card 1 pre-expanded at
-//      rest; `layout="grid"` rests every card collapsed in an equal grid. That
-//      interaction is pure CSS; GSAP here only drives the scroll-entrance
-//      reveals (line/char split + thumb move-up) hinted by the data-milk-* hooks.
+//   2. Fluid-width cards — a :has()-driven grid where the clicked (active) card
+//      grows and reveals its description. Expansion is click-driven, not hover, so
+//      scrolling past the section never expands/collapses cards; one card is
+//      always open (card 1 at rest). The active card carries an `.active` class
+//      and the CSS keys off it. GSAP here only drives the scroll-entrance reveals
+//      (line split + thumb move-up) hinted by the data-milk-* hooks.
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
@@ -39,6 +40,10 @@ export default function FluidCards({
   introPosition = "bottom", // "bottom" = cards then intro; "top" = intro then cards
 }) {
   const rootRef = useRef(null);
+  // Which fluid card is expanded. Click-driven (not hover) so scrolling past the
+  // section never expands/collapses cards. One card is always open — card 1 at
+  // rest; clicking another switches which is open.
+  const [activeIndex, setActiveIndex] = useState(0);
   // Invert with the theme system: put the global theme class on the root so it
   // flips the semantic tokens for this subtree (light = white, dark = black).
   const themeClass =
@@ -101,12 +106,23 @@ export default function FluidCards({
   // Dynamic-width cards.
   const cardsBlock = (
     <div className={styles.cards}>
-      {cards.map((card) => (
-        <article key={card.code} className={styles.card}>
+      {cards.map((card, i) => (
+        <article
+          key={card.code}
+          className={`${styles.card} ${i === activeIndex ? styles.active : ""}`}
+          role="button"
+          tabIndex={0}
+          aria-expanded={i === activeIndex}
+          onClick={() => setActiveIndex(i)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setActiveIndex(i);
+            }
+          }}
+        >
           <div className={styles.cardBody}>
-            <h2 className={styles.cardCode} data-milk-split="chars">
-              {card.code}
-            </h2>
+            <h2 className={styles.cardCode}>{card.code}</h2>
             <div className={styles.cardText}>
               <p>{card.text}</p>
             </div>

@@ -1,0 +1,262 @@
+/* CompositeHero — glass board over blue-hour footage. Three separate clips,
+   never shared: .frame clips the VIDEO to the contained panel; .boardLayer (a
+   second box with the same inset/radius) clips the board's right/bottom BLEED
+   to the frame's rounded rect; the glass board clips its own corners. The
+   stage itself clips nothing.
+   The board's backdrop-filter samples the video through .boardLayer because
+   overflow+radius don't create a backdrop root — NEVER put opacity, filter,
+   or mask on .boardLayer/.boardMount or the blur goes blind to the footage.
+   Cross-file ties are always broken with compounds (.stage.stage …, .lead …)
+   — the StageHero idiom — never with bundle order. */
+
+.stage {
+  /* Contained panel on the light page surface (the reference framing).
+     FULL-BLEED FLIP: zero these two knobs. */
+  --hero-inset: var(--space-xs);
+  --hero-frame-radius: 1rem;
+
+  padding: var(--hero-inset);
+  /* The surround IS the page background — the same surface the rest of the
+     light phase sits on (StageHero/BoardHero idiom); the global grain
+     (body::before) supplies the noise. */
+  background-color: var(--color-bg-primary);
+}
+
+/* Section's hero variant pins the first child to inset 0; pull it in by the
+   frame inset, round, and clip. (0,3,0) beats the primitive's (0,2,0). */
+.stage.stage > :first-child {
+  inset: var(--hero-inset);
+  border-radius: var(--hero-frame-radius);
+  overflow: hidden;
+  background-color: var(--color-bg-dark); /* pre-poster paint */
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay = the Container primitive (Section lifts it to z-index 2). Its
+   min-height gives the section its height and anchors the copy column. */
+.overlay {
+  min-height: calc(100vh - 2 * var(--hero-inset));
+}
+
+/* ---------- Copy column — locked bottom-left ---------- */
+
+.lead {
+  position: absolute;
+  z-index: 1;
+  left: var(--gutter);
+  bottom: clamp(var(--space-5xl), 5vw, var(--space-7xl));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* The reference breathes: tag, headline, and CTA sit far apart. */
+  gap: var(--space-8xl);
+  max-width: 31.875rem; /* 510px — never grows into the board's zone */
+}
+
+/* Frosted tag pill on footage. .lead scope (0,2,0) beats the Eyebrow variant
+   rule (0,1,0). 11px/0.16em are reference-local departures (BoardHero idiom:
+   this component reconstructs a specific artwork). */
+.lead .eyebrow {
+  color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+}
+
+.title {
+  margin: 0;
+  /* 44px at 390 → capped at the reference's 90px. */
+  font-size: clamp(2.75rem, 1.4rem + 5.4vw, 5.625rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  /* The specified legibility device over footage — no scrim. */
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Frosted-white CTA pill, dark text. Hover is (0,3,0) so it beats Button's
+   .solid:hover (0,2,0) regardless of bundle order. */
+.lead .cta {
+  height: 3.25rem;
+  gap: var(--space-xs);
+  padding: 0 var(--space-xl);
+  font-size: var(--font-body);
+  font-weight: var(--weight-medium);
+  letter-spacing: normal;
+  color: #141414;
+  background-color: rgba(244, 244, 242, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.5rem;
+}
+
+.lead .cta:hover {
+  color: #141414;
+  background-color: rgba(244, 244, 242, 0.95);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+/* ---------- Board layer — clip box + bleeding mount ---------- */
+
+/* Same inset box as the frame, so the bleed crops on the frame's rounded
+   edge. Painted above the copy but pointer-dead; the mount re-enables, so
+   clicks fall through to the CTA and board hovers still work.
+   (0,3,0) beats the hero variant's `> :not(:first-child)` (0,2,0). */
+.stage.stage .boardLayer {
+  position: absolute;
+  inset: var(--hero-inset);
+  z-index: 2;
+  border-radius: var(--hero-frame-radius);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Bottom-right origin makes the negative offsets literal bleed distances
+   past the frame edge (the reference's right:-170px / bottom:-36px on a
+   ~980px board — 1360 × 0.72 ≈ 979). Scale + offsets tune as one group. */
+.boardMount {
+  position: absolute;
+  right: -1.625rem;
+  bottom: -2.25rem;
+  transform: scale(0.72);
+  transform-origin: bottom right;
+  pointer-events: auto;
+}
+
+/* ---------- Mobile ----------
+   NOT a shrunk desktop: the hero stops being full-screen and splits into two
+   zones (the Quartr mobile idiom). The copy sits on the clean page background
+   at the TOP — dark-on-light, no longer white-over-footage — and the video +
+   glass board become a CONTAINED, rounded panel below, the video reading
+   through the glass. Desktop (the full-bleed composite) is untouched above;
+   everything here is override-only. */
+
+@media (max-width: 767px) {
+  .stage.stage {
+    /* Contained visual-panel height + radius — the mobile tuning knobs.
+       --board-mat is the band of video that shows AROUND the dashboard (the
+       board layer insets from the video frame by this much on every side). */
+    --mobile-scene-h: clamp(20rem, 55vh, 28rem);
+    --mobile-scene-r: 0.75rem;
+    --board-mat: var(--space-m);
+
+    position: relative;
+    flex-direction: column;
+    align-items: stretch;
+    min-height: auto; /* drop the 100svh — hero is content-height now */
+    overflow: hidden; /* clip the board's bleed inside its panel */
+    /* Zero the desktop inset padding on the sides/bottom so the video panel
+       reaches the viewport edges (top keeps room for the nav). */
+    padding: calc(var(--nav-height) + var(--space-m)) 0 0;
+  }
+
+  /* Copy zone — top, on the clean bg. margin-bottom reserves the space the
+     absolutely-positioned visual panel occupies below it. */
+  .overlay {
+    min-height: 0;
+    min-width: 0;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0;
+    margin-bottom: calc(var(--mobile-scene-h) + var(--space-2xl));
+  }
+
+  .lead {
+    position: static;
+    margin-top: 0;
+    padding-bottom: 0;
+    max-width: 100%; /* line-box stays within the frame → headline wraps */
+    gap: var(--space-l);
+  }
+
+  /* Copy flips dark-on-light (it's no longer over footage). Per-element so the
+     Container's theme-dark stays intact for anything else. */
+  .lead .eyebrow {
+    color: #141414;
+    background-color: transparent;
+    border-color: rgba(0, 0, 0, 0.28);
+  }
+
+  .title {
+    color: #141414;
+    text-shadow: none;
+  }
+
+  .lead .cta {
+    color: var(--color-white);
+    background-color: var(--color-black);
+    border-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .lead .cta:hover {
+    color: var(--color-white);
+    background-color: #1a1a1a;
+    border-color: transparent;
+  }
+
+  /* Contained visual panel. The video frame and the board layer are pinned to
+     the SAME bottom-anchored box, so the board overlays the footage (they're
+     DOM siblings — matching absolute geometry co-locates them without a JSX
+     change; desktop still needs .frame as the Section's first child).
+     Override the desktop `.stage.stage > :first-child { inset: hero-inset }`;
+     same (0,3,0) specificity → wins by source order. */
+  .stage.stage > :first-child {
+    inset: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--mobile-scene-h);
+    border-radius: 0; /* full-bleed — panel reaches the viewport edges */
+    z-index: 0;
+  }
+
+  .stage.stage .boardLayer {
+    /* Inset from the video frame by --board-mat on every side, so a band of
+       footage shows AROUND the dashboard — the board floats on the video
+       backdrop (Quartr's product-on-photo), instead of covering it. */
+    position: absolute;
+    inset: auto;
+    left: var(--board-mat);
+    right: var(--board-mat);
+    bottom: var(--board-mat);
+    height: calc(var(--mobile-scene-h) - 2 * var(--board-mat));
+    border-radius: calc(var(--mobile-scene-r) - 0.125rem);
+    overflow: hidden;
+    pointer-events: auto;
+    z-index: 2; /* over the z-0 video */
+  }
+
+  /* Large-and-bleeding inside the panel: readable scale, anchored top-left,
+     console off the panel's right edge. Scale + --mobile-scene-h are the
+     mobile tuning group.
+     RED-ROW FLIP: the flagged row lives in the console (far right) and bleeds
+     off here. To re-crop onto the console so it reads, swap left:0 → right:0
+     and transform-origin: top left → top right. */
+  .boardMount {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 85rem;
+    transform: scale(0.62);
+    transform-origin: top left;
+  }
+}

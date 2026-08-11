@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Full-res source clips kept locally; only optimized versions ship in /public
+_video-originals/

@@ -56,6 +56,393 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-08-11 — Home video payload: compress + lazy-load the two background clips
+
+**What:** Cut the home page's video weight ahead of the prod push. Both clips were
+raw **4K (3840×2160)** exports with dead audio/data tracks. Re-encoded both to 1080p
+H.264 (audio stripped, `+faststart`), and deferred the below-the-fold parallax clip.
+
+- **Hero** (`CompositeHero12` → `HeroVideo`, `about.mp4`): 4K **4.6 MB → 1080p 2.9 MB** (−37%).
+- **Parallax** (`VideoParallax`, `Relai.mp4`): 4K **11 MB → 1080p 2.8 MB** (−75%).
+- **Lazy-load** `VideoParallax`: it's below the fold, so nothing downloads until an
+  `IntersectionObserver` (rootMargin `100%`) says the section is ~one viewport away.
+  Added a `parallax-poster.jpg` (frame 0) that paints immediately, and reduced-motion
+  users never fetch the video at all — the poster stands in.
+- **Home-load video transfer: ~15.6 MB → ~2.9 MB** on first paint (hero only); the
+  parallax's 2.8 MB now loads on scroll-approach instead of up front, on every visit.
+
+**Why MP4-only (dropped the planned WebM/AV1 second source):** measured it — for this
+already-tightly-compressed, grainy background footage a second format did **not** earn
+its keep. VP9 came out *larger* than H.264 on both clips; AV1 was larger on `about` and
+only −7% on `Relai`. Shipping a bigger-or-marginal, Safari-limited, higher-decode format
+for a lazy-loaded clip wasn't worth the asymmetry — H.264 is smallest-or-equal everywhere
+and universal. The compression itself was the real win.
+
+**Hosting note:** left on Vercel's CDN (already global + cached + range-requests). A
+dedicated video CDN (Cloudinary/R2/Mux) was considered and deferred — the CDN benefit is
+already covered by Vercel; revisit only if bandwidth limits or adaptive bitrate are needed.
+
+**Assets:** 4K originals moved to `_video-originals/` (gitignored) so only the optimized
+1080p files ship in `/public`. Re-encode: `ffmpeg -i src -vf scale=-2:1080 -c:v libx264
+-crf 30 -preset slow -pix_fmt yuv420p -movflags +faststart -an out.mp4` (Relai used `-crf 29`).
+
+**Follow-up — poster images (the actual LCP fix):** a dev-mode Lighthouse run scored 77
+but flagged LCP **2.9 s** + "improve image delivery −528 KiB". Root cause was the *poster*,
+not the videos: the hero poster was a **4K JPG (585 KB)** set via `<video poster>` (which
+`next/image` can't optimize), and it's the LCP element. Re-encoded both posters to **1080p
+AVIF** (`sips -s format avif`): hero **585 KB → 119 KB (−80%)**, parallax **261 KB → 141 KB**.
+Chose AVIF over an optimized JPEG (2.5× smaller for this detailed scene) — the only cost is
+Safari <16.4 not painting the poster, which degrades gracefully since the autoplay video's
+first frame fills in. The rest of that Lighthouse run (minify/unused-JS, −622 KiB) is
+`next dev` noise that disappears on the Vercel prod build. `libwebp`/`cwebp` weren't
+available locally, hence AVIF via macOS `sips`.
+
+### 2026-08-11 — FluidCards: click-to-expand + drop the card-number enter animation
+
+**What:** Two desktop tweaks to `FluidCards`. (1) The big card numbers no longer rise
+in char-by-char on scroll — removed the `data-milk-split="chars"` hook from `cardCode`
+so the numbers render statically. The intro heading + lead-card line reveals are
+untouched. (2) Cards now expand on **click** instead of hover: added an `activeIndex`
+state (`useState`, default 0 so card 1 is open at rest), each card is an accessible
+toggle (`role="button"`, `tabIndex`, `aria-expanded`, Enter/Space handler) carrying an
+`.active` class, and every `:hover` selector in the CSS now keys off `.active`.
+
+**Why:** Hover-expand fired as the cursor swept over cards while scrolling past the
+section — visually noisy and disorienting. Click makes expansion intentional; keeping
+one card always open preserves the showcase's resting look. The char-rise on the
+numbers read as gratuitous on this section specifically.
+
+**How:** The old pure-CSS pre-expanded-first-card and `.cards:hover .card:not(:hover)`
+collapse rules were deleted — state now owns the resting state (card 1 `.active` on
+mount; non-active cards rest collapsed). Mobile is unchanged: the `max-width: 767px`
+block still forces all cards full-width/open and overrides `.active`, so tapping has no
+visible effect there. `layout="grid"` instances now rest with card 1 open (was
+all-collapsed) — a deliberate, minor consequence of "always one open".
+
+### 2026-08-10 — Sandbox: `CompositeHero12` — mobile Variant 12 (live-activity stack)
+
+**What:** `CompositeHero12` at `/sandbox/hero-mobile-12` (labeled `Mobile variant 12`) — the
+composite hero rebuilt as the **live-activity treatment at ALL widths**. It **replaces the
+desktop composite hero for this route only** (production and every other hero untouched). A dark,
+dimmed, **contained video panel** (inset + rounded on the page surround, not edge-to-edge); centered copy (**descriptive headline → supporting paragraph
+→ compact CTA**); and a **live-activity stack** of four frosted event pills landing over the
+footage like iOS live activities. The three rear pills are ordinary events, progressively narrower
++ more faded (`79%`/`0.30`, `86%`/`0.44`, `93%`/`0.72`), peeking up behind the **front breach
+pill** — `TCLU 209844-1` / `Last free day · Pier T` / **`$1,260`**, the single accent (3px inset
+red edge + a pulsing red dot). Caption `3 due today · $4,240 exposure · tap to open` under the
+stack. The **only** looping motion is the red breach dot's pulse (gated by
+`prefers-reduced-motion`); the pills themselves don't animate. **Copy:** headline _"Connect every vessel, terminal, yard, and truck in
+real time"_ + paragraph _"Relai is the coordination layer for modern freight — turning the
+handoffs that cause demurrage and idle into one intelligent, real-time flow."_ (Relai's own
+positioning; not re-authored). Pills derive from the real `content/dashboard.js` (feed rows +
+the flagged console row + stats). **Everything scales fluidly via `clamp()` from phone → desktop**
+— headline ~28→~56px, paragraph 16→~24px, copy columns + the `40rem` pill stack widen with caps,
+and the content is vertically **centered** (it fills the viewport on phones and centers on desktop,
+so there's no dead space). A uniform `rgba(0,0,0,0.6)` dim (`.frame::after`) keeps the white text
++ pills legible over the bright footage; the `[ FREIGHT ]` tag is hidden. Built on
+`Section`/`Container`/`Eyebrow`/`Button`/`HeroVideo` — the old desktop `BoardScaler`/`Dashboard`
+board is gone (the pills carry the data). _(Earlier iterations kept a byte-for-byte desktop hero
+with a mobile-only variant branch; per request this was promoted to the universal treatment above.)_
+**Now live on the home page:** `app/page.js` mounts `CompositeHero12` (the other hero candidates
+stay commented out), and Header `MOBILE_LIGHT_ROUTES` drops `/` so the wordmark stays white over
+the dark video on mobile (the old CompositeHero's light two-zone mobile no longer runs on home).
+
+**Why / decisions:** Duplicate-not-rebuild (approved) — copying rather than sharing guarantees
+the production `CompositeHero` and its desktop rendering are literally untouched, and keeps this
+variant from colliding with the parallel sibling variants editing the repo at the same time.
+`/sandbox/hero-mobile-12` registered in `RouteTheme` `LIGHT_ROUTES` (one additive line,
+mirroring the composite-hero registration) so the desktop page theme + film grain match the
+canonical hero exactly — the grain flip is driven by `body:has(> .theme-light)` (RouteTheme's
+region), not the hero Section's own `theme-light`, so registration is what makes the surround
+byte-identical. The Header needs no change: the route is absent from both `LIGHT_ROUTES` and
+`MOBILE_LIGHT_ROUTES`, so it renders the white RELAI wordmark + frosted menu toggle over the
+dark video on desktop AND mobile — Variant 12 keeps the video behind everything (no light
+two-zone flip), unlike production. Glass numbers (alpha `0.82`, `blur(24px) saturate(1.05)`,
+edge `rgba(255,255,255,0.55)`, muted `#6b6b6b`, fg `#141414`, accent `#de4a3b`, mono stack,
+`@supports` near-opaque `0.95` fallback) were pulled from the real `Dashboard.module.css
+.board.glass`, not re-derived from the mock. The data invariant (7 at risk · 3 due today ·
+Pier T · $4,240 · one red breach) is unchanged.
+
+### 2026-08-10 — New `HeroMobile11`: composite hero, desktop-identical, with a segmented-sheet mobile (sandbox)
+
+**What:** A sandbox variant at `/sandbox/hero-mobile-11` that DUPLICATES the
+`CompositeHero` — desktop renders byte-for-byte identically (the source's desktop
+CSS is copied verbatim; only the `@media (max-width:767px)` block is rewritten).
+Below 767px the variant diverges from CompositeHero's Quartr two-zone treatment:
+the blue-hour footage stays FULL-BLEED behind everything, the copy stays WHITE
+over it (frosted `[ FREIGHT ]` chip → ~50px two-line "Redefining Freight" →
+frosted CTA, pinned to the bottom of the video zone), the desktop bleeding board
+is dropped, and a frosted **segmented bottom sheet** (`MobileSheet`) takes its
+place — a grab handle + an iOS-style `Feed | Console | Exceptions` segmented
+control (active = white fill + hairline border, **no shadow**; the red `3`
+Exceptions badge is the single accent on screen). Feed (default) reflows the real
+feed rows with row-1's source shown inline and every status tappable to reveal its
+real attribution (`TTI Pier T · EDI 322`, `CBP ACE`, `APM gate OCR`,
+`Marine Exchange AIS`, `LBCT N4 · EDI 322`), plus the auto-summary card with a
+**gray** pulsing live dot. Console = the query/answer/stats + risk list with the
+one red breach row (2px inset red left edge + red "Today"; the two other due-today
+rows are black). Exceptions = the 3 breaching Pier T containers. A fixed
+`Mobile variant 11` corner tag labels the page.
+
+**Why/decisions:** The board can't be reflowed from its fixed 1360px three-pane
+layout into a phone column via CSS, so the sheet is new markup that reads the SAME
+`content/dashboard.js` data (7 at risk / 3 due today at Pier T / $4,240 exposure —
+re-exported verbatim through `content/hero-mobile-11.js`, never re-authored). The
+sheet's glass palette MIRRORS the Dashboard glass skin's own component-local values
+(`rgba(244,244,242,0.82)` over `backdrop-filter: blur(24px) saturate(1.05)`, bright
+`rgba(255,255,255,0.55)` edge, lifted `#6b6b6b` muted, dark hairlines, mono stack,
+radius tiers) with the same `@supports not (backdrop-filter)` → `0.95` near-opaque
+fallback, so it composites over the footage identically to the desktop board.
+Production `CompositeHero` / `Dashboard` are untouched. Deliberately touches NO
+shared files: the hero is self-contained (`Section` carries inline `theme-light`,
+`Container` inline `theme-dark`), so desktop is identical without registering the
+route in `RouteTheme`/`Header`; leaving the route unregistered also gives the
+correct white wordmark + frosted menu over the dark video top, and keeps the
+parallel mobile variants collision-free. Trade-off: the page area below the hero
+(global Footer) renders dark — invisible behind the full-viewport hero, and a
+one-line `RouteTheme.LIGHT_ROUTES` add is the follow-up if full page parity is
+wanted. Reduced motion holds the video on its poster and stops the live-dot pulse.
+
+**Changed:** new `src/components/HeroMobile11/` (`index.jsx`, `HeroMobile11.module.css`,
+`MobileSheet.jsx`, `MobileSheet.module.css`), `src/content/hero-mobile-11.js`
+(re-export + `meta`), and `src/app/sandbox/hero-mobile-11/page.js`. `HeroVideo` is
+reused from `CompositeHero`. No global/token/architecture edits.
+
+_Iteration (mobile copy → Quartr-style centered):_ the mobile copy block is now
+centered (chip / headline / description / CTA), a one-line product description was
+added beneath the headline (`content/hero-mobile-11.js` `description`, condensed
+from the live home-hero `text`; `display: none` on desktop so desktop stays
+byte-identical), and a **progressive blur** (five stacked layers, blur ramping
+downward, finished with a soft glass wash) is pinned to the bottom edge so the
+hero fades out instead of hard-stopping (the Quartr faded-product-shot idiom). All
+mobile-only; desktop untouched.
+
+### 2026-08-10 — Sandbox: `HeroMobile6` — mobile Variant 6 (bottom-sheet peek)
+
+**What:** A sandboxed duplicate of the composite hero at `/sandbox/hero-mobile-6`
+(labeled `Mobile variant 6`) for phone-width A/B comparison against sibling variants.
+Desktop is byte-for-byte the live hero — the new `HeroMobile6` component reuses the
+same primitives (`Section`/`Container`/`Eyebrow`/`Button`/`HeroVideo`/`BoardScaler`/
+`Dashboard` glass) and the same desktop CSS, verbatim. Only the `<768px` branch differs:
+the video goes full-bleed behind everything, the copy stays white-over-footage (`[ FREIGHT ]`
+→ "Redefining Freight" → frosted CTA), the right-bleeding board is hidden, and the same
+feed **reflows** into a frosted **bottom sheet** that peeks up from the viewport bottom —
+grab handle, a **gray** pulsing live dot + `Live operations · Port of Long Beach`, a red
+`3 due today` (the single accent), then `Today` + the real feed rows (mono carrier mark +
+ID, dotted-underline state, location, right-aligned age). Each row's state is a real
+`<button>` that reveals that row's SOURCE attribution on tap (row 0 open by default); the
+list overflows the sheet with a soft bottom fade. New `MobileSheet` client component +
+its CSS module carry the sheet; a co-located `page.module.css` holds the fixed corner tag.
+
+**Why / decisions:** Duplicate-not-rebuild (approved) — copying rather than sharing
+guarantees the production `CompositeHero` and its desktop rendering are literally untouched,
+and keeps this variant from colliding with the parallel sibling variants editing the repo at
+the same time. `/sandbox/hero-mobile-6` registered in `RouteTheme` `LIGHT_ROUTES` (one
+additive line, mirroring the composite-hero registration) so the desktop page theme/grain
+match exactly. The Header needs no change: the route is absent from `MOBILE_LIGHT_ROUTES`, so
+it renders the white RELAI wordmark + frosted menu toggle over the dark video — Variant 6's
+nav. Glass numbers (alpha `0.82`, `blur(24px) saturate(1.05)`, edge `rgba(255,255,255,0.55)`,
+muted `#6b6b6b`, accent `#de4a3b`, mono stack, `@supports` near-opaque fallback) were pulled
+from the real `Dashboard.module.css .board.glass`, not re-derived from the mock. The data
+invariant (7 at risk · 3 due today · Pier T · $4,240) is unchanged — the sheet reads
+`content/dashboard.js` verbatim. Reduced-motion gates the pulse; states are keyboard-accessible.
+
+### 2026-08-07 — `CompositeHero` mobile: Quartr-style two-zone restructure (supersedes the earlier mobile treatment)
+
+**What:** Mobile (≤767px) is no longer a shrunk desktop. It stops being full-screen
+and splits into two zones (the Quartr mobile idiom): the copy sits on the clean
+page background at the TOP — dark `[ FREIGHT ]` tag, dark "Redefining Freight",
+solid-black CTA (no longer white-over-footage) — and the video + glass board become
+a CONTAINED, rounded panel below, the footage reading through the glass. The video
+frame and board layer are pinned to the same bottom-anchored box so the board
+overlays the video without a JSX change (desktop still needs the frame as the
+Section's first child). Tuning knobs: `--mobile-scene-h` (panel height) and the
+board's `scale(0.62)`. Desktop is byte-identical — every change is override-only in
+the mobile `@media` block.
+
+**Header:** the shared Header's logo color is route-based, not background-aware, so a
+light mobile top would render its white wordmark white-on-white. Added a
+viewport-aware, top-of-page-only light flag (`MOBILE_LIGHT_ROUTES` = `/` +
+`/sandbox/composite-hero`, gated on a `matchMedia("(max-width:767px)")` state and
+`!scrolled`): the logo goes dark only at the top of these routes on mobile, reverting
+to the normal white logo once scrolled so it stays legible over the dark sections
+below (home is dark by default), with the flip masked by the existing hide-on-scroll.
+Desktop and all other routes are untouched.
+
+**Why:** Reference-driven — Quartr's mobile hero keeps the video/product contained
+rather than full-bleed, which reads cleaner and more legible on a phone; applied the
+same to Relai. This replaces the prior "large-and-bleeding board stacked under
+white-over-footage copy" mobile pass.
+
+### 2026-08-07 — New `CompositeHero`: glass board over blue-hour video (sandbox) + Dashboard glass skin
+
+**What:** A third board-hero structure at `/sandbox/composite-hero`: a
+contained blue-hour port video panel (slim inset + 1rem radius on the light
+`--color-bg-secondary` surround), the copy column locked bottom-left on the
+footage (frosted `[ FREIGHT ]` tag, white 90px "Redefining Freight" at
+0.92/-0.03em with a soft text-shadow, frosted-white 52px CTA pill), and the
+existing `Dashboard` wearing a new **frosted-glass skin**, scaled ~0.72 and
+bleeding off the frame's right + bottom edges. The skin is a `skin="glass"`
+prop on `Dashboard`: same structure/content, translucent surface set —
+`rgba(244,244,242,α)` board over `backdrop-filter: blur(24px) saturate(1.05)`,
+transparent feed/console panes, faint-tint chrome/nav/footer, dark hairlines,
+muted lifted `#737373→#6b6b6b` for glass legibility. The board alpha is ONE
+variable (`--board-glass-alpha`, 0.82; usable ~0.70–0.90) and an `@supports`
+fallback raises it to 0.95 where `backdrop-filter` doesn't exist. Two glass-only
+motion beats: the footer live dot goes red with a radial pulse, and the top
+feed row cycles a "just arrived" light wash. Reduced motion stops both, the
+tooltip transition, AND video autoplay (a hero-local `"use client"` `HeroVideo`
+pauses to the poster — frame 0 of the clip, extracted via ffmpeg, so the still
+is pixel-identical). Mobile is the A-structure trade: copy stacks on the
+footage, board goes `BoardScaler` fit-to-width below it (full board = red flag
+row always in the crop).
+
+**Why/decisions:** The board can't be rebuilt or rasterized, so glass is a
+token swap scoped `.board.glass` in `Dashboard.module.css` — the opaque board
+renders byte-identical everywhere else, and the reduced-motion block re-kills
+the glass animations at matching specificity (the (0,2,0) glass rules would
+otherwise beat the base (0,1,0) kill even inside the media query). Layering
+uses three separate clips (frame→video, board-layer→bleed, board→corners)
+because one shared `overflow` would either crop the bleed or unclip the video;
+the board layer sits above the copy but `pointer-events: none` (mount
+re-enables), so the CTA stays clickable and board hovers work. The tooltip
+goes near-opaque solid rather than nested blur — the board's own filter makes
+it a backdrop root, so a nested `backdrop-filter` could never sample the video.
+`transform-origin: bottom right` makes the mount's negative offsets literal
+bleed distances. The brief's "#F4F4F2 noise-white" token doesn't exist;
+`--color-bg-secondary` (#f3f2ee) + the global grain stands in (confirmed).
+Full-bleed framing stays a one-edit flip (zero `--hero-inset` +
+`--hero-frame-radius`). The nav pill stays the site Header; the route is
+light in `RouteTheme` but deliberately NOT in the Header's own light set —
+the wordmark must stay white over the dark footage (the `/product` precedent).
+
+### 2026-08-06 — New `ProductHero`: Structure D homepage hero — the board IS the hero (sandbox)
+
+**What:** The product-dominant counterpart to `BoardHero`, at
+`/sandbox/product-hero`. Same reusable `Dashboard` (one component, placed —
+never re-invented), opposite emphasis: compact CENTERED copy (70px→40px
+"Redefining Freight" at 0.98/-0.025em, one-line subhead, CTA pair), then the
+full 1360px board starts high, dominates the viewport, and bleeds off the
+hero's bottom edge — noticeably more board than Structure A. The hero holds a
+hard 100svh on every breakpoint: the fold is the crop.
+
+**Why/decisions:** Mobile is the deliberate D trade — the board stays BIG
+(fixed `scale(0.78)`, origin top-left, anchored 20px from the left) so the
+left nav + activity feed lead sharp and legible while the Console runs off the
+right edge; big-and-readable beats small-and-complete, so no `BoardScaler`
+fit-to-width here (that's A's move) and no carrier trust strip (also A-only —
+the board itself fills D's lower viewport). The ghost CTA is desktop-only;
+mobile keeps the single primary. Copy/CTA/edge values reuse BoardHero's local
+knobs (`--hero-ink`, `--hero-edge`, 8px CTA radius). The nav pill stays the
+site Header. Data fix while porting: the console table's demurrage column now
+actually sums to the quoted $4,240 exposure (the +1d row was $640 in the
+reference HTML, leaving the column at $3,640 — the brief's consistency rule
+wins over the mock, so it's $1,240 now), and the table's location cells
+dropped mono (mono is for IDs/codes/values; location names are words).
+`/sandbox/product-hero` registered in the RouteTheme/Header light-route sets.
+
+### 2026-08-06 — New `BoardHero` + `Dashboard`: Structure A homepage hero over the live ops board (sandbox)
+
+**What:** Two new components at `/sandbox/board-hero`. `Dashboard` is the Relai
+ops board as a reusable artifact: a fixed 1360px, three-pane product UI (nav
+234px / activity feed 1fr / Console 1.75fr) — window chrome, searchable left
+nav with saved views, a live activity feed whose statuses reveal per-feed
+source-attribution cards on hover/focus (TTI Pier T EDI, CBP ACE, APM gate
+OCR, Marine Exchange AIS, LBCT N4), and a Console pane with query, answer,
+metrics strip, and a demurrage-risk table. `BoardHero` (Structure A) places it:
+headline-led copy row ("Redefining Freight" at 104px / 460px subhead + CTA
+pair), then the full board centered below, bleeding off the hero's bottom edge
+on desktop; on mobile the *same DOM instance* renders fit-to-width via a
+measured CSS transform (`BoardScaler`, scale = available / 1360), with a
+monochrome carrier trust strip anchored beneath. The reference's floating nav
+pill is the existing site Header — not duplicated.
+
+**Why/decisions:** Depth in the board is tone-only (surface → chrome → inset →
+hover planes, two hairline weights), no shadows; exactly one accent exists —
+the breaching table row's 2px inset red edge + red "Today" (the other two
+due-today rows are emphasized black, the live dot stays gray). The board's
+palette/radius/mono scale is deliberately *not* the site token set — it's an
+opaque product artifact that must not theme-flip, so its values live as
+component-scoped custom properties on the board root (FluidCards local-knob
+idiom); same for the hero's three reference grays and its 8px CTA radius,
+which intentionally departs from the sharp radius system. Data is internally
+consistent (7 at risk / 3 due today at Pier T / $4,240 total) and lives in
+`content/dashboard.js`. `/sandbox/board-hero` is registered in the
+RouteTheme/Header light-route sets so the global chrome and grain read
+dark-on-light. Reduced motion disables the live-dot pulse and tooltip
+transition.
+
+### 2026-08-03 — New `StageHero`: full-bleed video hero with floating glass cards (sandbox)
+
+**What:** A new hero component distinct from `FluidHero`. Where FluidHero puts its
+copy *outside* a contained image (split header + notches carved into the media),
+`StageHero` is cinematic and *inverted*: a full-viewport looping video is the
+stage, and the content floats over it — a top-left feature callout card
+("Ship-to-Shore Crane / STS-07"), a bottom-left headline stack (eyebrow +
+oversized H1 + white-pill "Get Started" CTA), a bottom-right support card, and a
+right-edge vertical "Scroll to explore" hint. Reconstructs the "Smart Ports"
+reference. Lives at `/sandbox/stage-hero` (not yet wired into the home page).
+
+**Why these choices:** Reuses the `Section` `hero` variant as-is — it already
+makes the first child the absolute background and everything after it a z-lifted
+overlay — so the video (`Media type="video"`) drops in as the first child with no
+new layout code. The floating cards reuse the **existing** `--color-nav-glass`
+token + `backdrop-filter: blur(12px)` (the frosted nav-pill treatment); each card
+is scoped `theme-light` in the markup so it renders dark-contents-on-light-glass,
+exactly the nav pill's "always light glass whatever the route theme" idiom — no
+new glass token invented. The root is scoped `theme-dark` so the headline/eyebrow
+read white over the footage. The ↗ arrows reuse the Explore/News link glyph.
+A bottom gradient scrim (`color-mix` on `--color-black`, no raw rgba) keeps the
+white headline legible over bright frames. No client JS — the `<video>` autoplay
+attrs are declarative, so the whole thing prerenders static. CTA/Eyebrow overrides
+are scoped `.lead .cta` / `.lead .eyebrow` (0,2,0) to deterministically beat the
+primitives' single-class rules (the same technique FluidHero uses).
+
+**Changed:** new `src/components/StageHero/` (`index.jsx` + `StageHero.module.css`),
+`src/content/stage-hero.js` (content object + `meta`), and
+`src/app/sandbox/stage-hero/page.js` (sandbox route, mirrors the fluid-hero one).
+No global/token/architecture edits. Background is `exampleimages/Relai.mp4`.
+
+**Assumptions (flagged, easy to flip in iteration):** name `StageHero`; cards use
+light-glass + dark text (nav-pill pairing) rather than the reference's white card
+text, a consequence of reusing `--color-nav-glass`; hotspot/reticle markers
+omitted per scope; CTA/card hrefs point at `/product` as placeholders.
+_Iteration:_ glass cards gained rounded corners via a local `--stage-radius`
+knob (0.75rem, the FluidCards family tier) — the FluidHero/FluidCards local-knob
+idiom, global SHARP radius untouched. The stage itself is now a framed card
+rather than full-bleed: a slim `--stage-inset` gutter (`--space-xs`) on all
+sides lets the page background show through, with `--stage-frame-radius` (1rem)
+rounding the video frame; the hero still fits one viewport
+(`min-height: calc(100vh - 2 * inset)` overriding Section's `hero` 100vh).
+Copy swapped from the Velox reference to the live Relai hero (`content/home.js`):
+title/tag/media and the leading action ("See the Platform") map straight across,
+the support card takes the hero text's first sentence, and the feature callout
+becomes the Terminal Orchestration capability (no asset-code line — the
+component skips its conditional `code` slot).
+**StageHero now mounts as the home hero**, replacing FluidHero (kept commented
+in `page.js` for easy revert, same precedent as FluidStats).
+**Theming model settled after iteration:** the hero CONTENT is theme-invariant —
+the overlay carries `theme-dark` in the markup, so headline/cards/scrim keep the
+cinematic dark treatment in every mode. The `tone` prop
+(`"light"` default | `"dark"` | `"inherit"`) changes exactly one thing: the
+painted surround behind the video. The gutter became `padding` +
+`background-color: var(--color-bg-primary)` on the section — a margin gutter
+showed the *page* background, which the component couldn't control (it read
+dark on home); the video pulls in via
+`.stage.stage > :first-child { inset: var(--stage-inset) }` (0,3,0 over the
+Section primitive's `.hero > :first-child` inset: 0), and the scrim is rounded
+to the frame radius so its dark gradient can't square over a light surround.
+Home mounts `tone="light"` → white frame around the dark hero, matching the
+zone's opening phase; `tone="inherit"` would let just the surround track the
+fade. Section's border-box `100vh` includes the padding, so the framed hero
+stays exactly one viewport.
+_Bugfix:_ the hero bled under LogoWall on short viewports — Media's fill mode
+sets `aspect-ratio: 16/9`, and on an abspos box the auto height resolves from
+the ratio instead of the bottom inset, so the wrapper outgrew the section
+(masked before by the removed `overflow: hidden`; visible because positioned
+elements paint over later in-flow backgrounds). Fixed with `aspect-ratio: auto`
+in the frame rule, restoring inset-driven stretch.
+
 ### 2026-08-03 — Home: single scroll-driven light→dark theme fade (ThemeFadeZone, take 2)
 
 **What:** A new `ThemeFadeZone` wrapper drives one smooth light→dark theme
@@ -1689,6 +2076,11 @@ images, SVGs, fonts, and videos all serve 200.
 
 ## 4. Open Items
 
+- **StageHero content is dark-only by design.** The `tone` prop themes just the
+  frame surround behind the video; the overlay content (headline, glass cards,
+  scrim, CTA) is intentionally pinned to the dark treatment via a `theme-dark`
+  scope in the markup. If a content-level light variant is ever wanted, the
+  cards/CTA/scrim need repainting from semantic tokens first.
 - **LogoWall logos are full-color rasters.** The thirteen
   `public/LogoBGRemoved/*.webp` marks keep their brand colors. The home
   instance now runs `tone="light"`, where color marks generally read fine; if

@@ -8,7 +8,16 @@ import styles from "./RouteTheme.module.css";
 // the semantic token set so the whole page reads dark-on-white. Every other
 // route keeps the dark default. Mirrors the theme-scoping note in tokens.css
 // ("light on About/Book-a-Demo"); add a route here to make it white.
-const LIGHT_ROUTES = new Set(["/about", "/book-a-demo", "/product"]);
+const LIGHT_ROUTES = new Set([
+  "/about",
+  "/book-a-demo",
+  "/product",
+  "/sandbox/board-hero",
+  "/sandbox/product-hero",
+  "/sandbox/composite-hero",
+  "/sandbox/hero-mobile-6",
+  "/sandbox/hero-mobile-12",
+]);
 
 // Prefix-matched light routes — every article under /news/ is a white,
 // editorial page (Hero + NewsArticleContent).

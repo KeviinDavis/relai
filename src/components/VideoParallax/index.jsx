@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,8 +13,49 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 // vertically, so the section acts as a moving window onto it. Rebuilt on the
 // project's GSAP + Lenis stack (see SmoothScroll), which keeps ScrollTrigger in
 // sync with smooth scroll automatically.
-export default function VideoParallax({ src = "/exampleimages/Relai.mp4" }) {
+//
+// The clip lives below the fold, so its bytes are deferred: nothing loads until
+// the section nears the viewport (IntersectionObserver), and reduced-motion
+// users never download it at all — the poster stands in.
+export default function VideoParallax({
+  src = "/exampleimages/Relai.mp4",
+  poster = "/exampleimages/parallax-poster.avif",
+}) {
   const scope = useRef(null);
+  const videoRef = useRef(null);
+  const [load, setLoad] = useState(false);
+
+  // Defer the download until the section is within ~one viewport of entering,
+  // and only for motion-OK users. Once armed, load() + play() the freshly
+  // mounted <source> children.
+  useEffect(() => {
+    const section = scope.current;
+    if (!section) return;
+
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduced) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setLoad(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "100% 0px" }
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!load || !video) return;
+    video.load();
+    video.play().catch(() => {});
+  }, [load]);
 
   useGSAP(
     () => {
@@ -52,16 +93,18 @@ export default function VideoParallax({ src = "/exampleimages/Relai.mp4" }) {
       <div ref={scope} className={styles.section}>
         <div className={styles.videoLayer}>
           <video
+            ref={videoRef}
             className={styles.video}
             data-parallax-video
-            src={src}
-            autoPlay
+            poster={poster}
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="none"
             aria-hidden="true"
-          />
+          >
+            {load && <source src={src} type="video/mp4" />}
+          </video>
         </div>
       </div>
     </div>

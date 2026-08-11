@@ -46,6 +46,14 @@
   margin-bottom: 0.625rem;
 }
 
+/* When the intro is the FIRST thing in the section (introPosition "top" — e.g.
+   the home platform block sitting directly under the logo-wall marquee), drop
+   the top hairline so the marquee flows into it instead of looking boxed. The
+   intro-at-bottom case (impact section) keeps its divider. */
+.scenariosRow:first-child {
+  border-top: 0;
+}
+
 .scenariosHeading {
   margin: 0;
   font-size: clamp(2.375rem, 3.5vw, 3.125rem);
@@ -145,8 +153,8 @@
 /* ---------- 2. Dynamic-width cards ----------
    Three cards at the source's ratio: the wide column is 50%, the two collapsed
    columns 25% each. Gaps are 0.625rem (10px); each column subtracts its share
-   of the 20px of total gutter so the row always sums to 100%. Hovering a card
-   slides the wide column to it. */
+   of the 20px of total gutter so the row always sums to 100%. Clicking a card
+   (adds .active) slides the wide column to it. */
 
 .cards {
   display: grid;
@@ -159,14 +167,14 @@
   transition: grid-template-columns 0.6s var(--milk-ease);
 }
 
-.cards:has(.card:nth-child(2):hover) {
+.cards:has(.card:nth-child(2).active) {
   grid-template-columns:
     calc(25% - 5px)
     calc(50% - 10px)
     calc(25% - 5px);
 }
 
-.cards:has(.card:nth-child(3):hover) {
+.cards:has(.card:nth-child(3).active) {
   grid-template-columns:
     calc(25% - 5px)
     calc(25% - 5px)
@@ -177,6 +185,12 @@
   background: var(--milk-gray);
   border-radius: var(--milk-radius);
   overflow: hidden;
+  cursor: pointer;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 2px;
 }
 
 .cardBody {
@@ -203,8 +217,9 @@
 
 /* The description is always laid out at the wide-column width, so it never
    reflows as the card grows — that reflow is what made the reveal look glitchy.
-   The narrow card clips it (card is overflow:hidden) and fades it out; hovering
-   just fades it back in once the width has settled. No transform, no reflow. */
+   The narrow card clips it (card is overflow:hidden) and fades it out; activating
+   the card just fades it back in once the width has settled. No transform, no
+   reflow. */
 .cardText {
   width: 21rem;
   color: var(--milk-text-dim);
@@ -217,7 +232,7 @@
   line-height: 1.4;
 }
 
-.card:hover .cardText {
+.card.active .cardText {
   opacity: 1;
   transition-delay: 0.25s;
   transition-duration: 0.5s;
@@ -255,59 +270,30 @@
   height: 100%;
 }
 
-.card:hover .cardIcon {
+.card.active .cardIcon {
   transform: scale(0);
-}
-
-/* Card 1 is "expanded" at rest: description shown, icon hidden… */
-.card:first-child:not(:hover) .cardText {
-  opacity: 1;
-}
-
-.card:first-child:not(:hover) .cardIcon {
-  transform: scale(0);
-}
-
-/* …until any other card is hovered — then it collapses like the rest. */
-.cards:hover .card:not(:hover) .cardText {
-  opacity: 0;
-  transition-delay: 0s;
-}
-
-.cards:hover .card:not(:hover) .cardIcon {
-  transform: scale(1);
 }
 
 /* ---------- Layout variant: "grid" (structured) ----------
-   Equal columns at rest (no pre-expanded first card); hovering a card still
-   grows it and reveals its description, so the fluid interaction is kept — it
-   just starts from a tidy, symmetric grid. minmax(0,1fr) keeps the columns
-   even despite the fixed-width description clipped inside each card. */
+   Equal columns at rest; the active card still grows and reveals its description,
+   so the fluid interaction is kept — it just starts from a tidy, symmetric grid.
+   minmax(0,1fr) keeps the columns even despite the fixed-width description clipped
+   inside each card. */
 
 .layoutGrid .cards {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.layoutGrid .cards:has(.card:nth-child(1):hover) {
+.layoutGrid .cards:has(.card:nth-child(1).active) {
   grid-template-columns: 1.7fr 0.65fr 0.65fr;
 }
 
-.layoutGrid .cards:has(.card:nth-child(2):hover) {
+.layoutGrid .cards:has(.card:nth-child(2).active) {
   grid-template-columns: 0.65fr 1.7fr 0.65fr;
 }
 
-.layoutGrid .cards:has(.card:nth-child(3):hover) {
+.layoutGrid .cards:has(.card:nth-child(3).active) {
   grid-template-columns: 0.65fr 0.65fr 1.7fr;
-}
-
-/* No pre-expanded first card in the grid — every card rests collapsed
-   (description hidden, plus icon shown) and opens only on hover. */
-.layoutGrid .card:first-child:not(:hover) .cardText {
-  opacity: 0;
-}
-
-.layoutGrid .card:first-child:not(:hover) .cardIcon {
-  transform: scale(1);
 }
 
 /* ---------- Mobile: stack the intro row and cards into one column ---------- */

@@ -1,0 +1,793 @@
+/* Relai ops board — fixed light product-UI palette, scoped to the board root.
+   These are NOT page-theme tokens on purpose: the board is an opaque artifact
+   that renders identically on any page theme (its dark twin would be a
+   variant here, not a token flip). Depth is tone, never shadow:
+   surface #fff → chrome #F7F7F6 → insets #EDEDEB → hover #F4F4F2, with two
+   hairline weights (rows #E7E7E5, structural edges #D6D6D3) and #FAFAFA
+   table-header fill. Exactly ONE accent (#DE4A3B) exists in the whole board:
+   the breaching table row's inset left border + its "Today" value. */
+
+.board {
+  --board-fg: #000000;
+  --board-muted: #737373;
+  --board-accent: #de4a3b;
+  --board-surface: #ffffff;
+  --board-chrome: #f7f7f6;
+  --board-sunken: #ededeb;
+  --board-hover: #f4f4f2;
+  --board-line: #e7e7e5;
+  --board-edge: #d6d6d3;
+  --board-thead: #fafafa;
+  /* Board radius tier: window 12 / cards+fields 8 / rows+marks 6 / chips 4 */
+  --board-r-lg: 0.75rem;
+  --board-r-md: 0.5rem;
+  --board-r-sm: 0.375rem;
+  --board-r-xs: 0.25rem;
+  --board-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  width: 85rem; /* fixed 1360px design — placement contexts scale, never reflow */
+  background: var(--board-surface);
+  border: 1px solid var(--board-edge);
+  border-radius: var(--board-r-lg);
+  color: var(--board-fg);
+  font-family: var(--font-primary);
+  font-size: 0.78125rem; /* 12.5px */
+  line-height: 1.4;
+  text-align: left;
+}
+
+/* ---------- Window chrome ---------- */
+
+.chrome {
+  height: 2.3125rem;
+  background: var(--board-chrome);
+  border-bottom: 1px solid var(--board-edge);
+  border-radius: var(--board-r-lg) var(--board-r-lg) 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0 0.875rem;
+}
+
+.chromeDot {
+  width: 0.5625rem;
+  height: 0.5625rem;
+  background: var(--board-edge);
+  border-radius: 50%;
+  flex: none;
+}
+
+.crumb {
+  margin-left: 0.625rem;
+  color: var(--board-muted);
+  font-size: 0.71875rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.crumb b {
+  color: var(--board-fg);
+  font-weight: var(--weight-semibold);
+}
+
+/* ---------- Pane grid ---------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: 14.625rem minmax(0, 1fr) minmax(0, 1.75fr);
+  min-height: 41.25rem;
+}
+
+.pane {
+  padding: 1rem 1rem 0;
+}
+
+.nav {
+  background: var(--board-chrome);
+  border-radius: 0 0 0 var(--board-r-lg);
+  display: flex;
+  flex-direction: column;
+}
+
+.mid,
+.right {
+  border-left: 1px solid var(--board-edge);
+  background: var(--board-surface);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0.875rem;
+}
+
+/* ---------- Left nav ---------- */
+
+.brand {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.125rem 0.25rem 0.9375rem;
+}
+
+.word {
+  font-weight: var(--weight-bold);
+  font-size: 1.0625rem;
+  letter-spacing: 0.14em; /* the wordmark is the ONLY wide tracking on board */
+}
+
+.brand small {
+  display: block;
+  margin-top: 0.1875rem;
+  color: var(--board-muted);
+  font-size: 0.6875rem;
+}
+
+.switcher {
+  color: var(--board-muted);
+  font-size: 0.75rem;
+  padding-top: 0.1875rem;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 1.8125rem;
+  padding: 0 0.5625rem;
+  margin-bottom: 0.9375rem;
+  background: var(--board-sunken);
+  border: 1px solid var(--board-line);
+  border-radius: var(--board-r-md);
+  color: var(--board-muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.kbd {
+  margin-left: auto;
+  font-size: 0.65625rem;
+}
+
+.navList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  height: 1.875rem;
+  padding: 0 0.5625rem;
+  color: var(--board-muted);
+  font-size: 0.78125rem;
+  border: 1px solid transparent;
+  border-radius: var(--board-r-sm);
+}
+
+.navItem:hover {
+  background: var(--board-hover);
+}
+
+.navItemActive,
+.navItemActive:hover {
+  color: var(--board-fg);
+  font-weight: var(--weight-medium);
+  background: var(--board-surface);
+  border-color: var(--board-edge);
+}
+
+.count {
+  margin-left: auto;
+  font-family: var(--board-mono);
+  font-size: 0.6875rem;
+  color: var(--board-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.navItemActive .count {
+  color: var(--board-fg);
+}
+
+.navGroup {
+  font-size: 0.625rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+  padding: 1rem 0.5625rem 0.4375rem;
+}
+
+.subItem {
+  display: flex;
+  align-items: center;
+  height: 1.6875rem;
+  padding: 0 0.5625rem;
+  color: var(--board-muted);
+  font-size: 0.75rem;
+  border-radius: var(--board-r-sm);
+}
+
+.subItem:hover {
+  background: var(--board-hover);
+}
+
+.navSpacer {
+  flex: 1 1 auto;
+  min-height: 0.75rem;
+}
+
+.operator {
+  display: flex;
+  align-items: center;
+  gap: 0.5625rem;
+  padding: 0.6875rem 0.25rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid var(--board-edge);
+  color: var(--board-muted);
+  font-size: 0.75rem;
+}
+
+.operator i {
+  width: 1.1875rem;
+  height: 1.1875rem;
+  background: var(--board-sunken);
+  border: 1px solid var(--board-line);
+  border-radius: var(--board-r-sm);
+  flex: none;
+}
+
+.operator span {
+  margin-left: auto;
+}
+
+/* ---------- Shared pane header ---------- */
+
+.paneHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+}
+
+.paneHead h2 {
+  margin: 0;
+  font-size: 0.78125rem;
+  font-weight: var(--weight-semibold);
+  line-height: 1.4;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--board-muted);
+  font-size: 0.71875rem;
+}
+
+/* ---------- Activity feed ---------- */
+
+.dayLabel {
+  font-size: 0.625rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+  padding: 0.5625rem 0 0.1875rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.75rem 1fr auto;
+  align-items: center;
+  gap: 0.6875rem;
+  padding: 0.5625rem 0.375rem;
+  border-top: 1px solid var(--board-line);
+  border-radius: var(--board-r-sm);
+}
+
+.row:hover {
+  background: var(--board-hover);
+}
+
+.mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: none;
+  background: var(--board-sunken);
+  border: 1px solid var(--board-line);
+  border-radius: var(--board-r-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--board-mono);
+  font-size: 0.5625rem;
+  color: var(--board-muted);
+}
+
+.rowId {
+  font-family: var(--board-mono);
+  font-size: 0.75rem;
+  color: var(--board-fg);
+}
+
+.rowSub {
+  margin-top: 0.1875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+}
+
+.rowMeta {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.metric {
+  font-size: 0.65625rem;
+  color: var(--board-muted);
+  font-family: var(--board-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.age {
+  color: var(--board-muted);
+  font-size: 0.71875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.dotSep {
+  color: var(--board-edge);
+}
+
+.loc {
+  color: var(--board-muted);
+  font-size: 0.71875rem;
+}
+
+/* ---------- Status trigger + source-attribution card ---------- */
+
+.stateWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Micro-caps, not a pill; dotted underline advertises the hover. */
+.state {
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+  font-weight: var(--weight-medium);
+  border-bottom: 1px dotted var(--board-edge);
+  padding-bottom: 1px;
+  cursor: default;
+}
+
+.state:focus-visible {
+  outline: 2px solid var(--board-fg);
+  outline-offset: 2px;
+}
+
+.sourceCard {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.375rem);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+  padding: 0.5rem 0.625rem;
+  background: var(--board-surface);
+  border: 1px solid var(--board-edge);
+  border-radius: var(--board-r-md);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-0.125rem);
+  transition: opacity var(--transition-base), transform var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.stateWrap:hover .sourceCard,
+.stateWrap:focus-within .sourceCard {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.sourceLabel {
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+  font-weight: var(--weight-medium);
+}
+
+.sourceValue {
+  font-family: var(--board-mono);
+  font-size: 0.6875rem;
+  color: var(--board-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Auto-summary ---------- */
+
+.summary {
+  background: var(--board-sunken);
+  border: 1px solid var(--board-line);
+  border-radius: var(--board-r-md);
+  padding: 0.6875rem 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.summary p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--board-fg);
+  line-height: 1.5;
+}
+
+.summaryMeta {
+  margin-top: 0.375rem;
+  font-size: 0.625rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+}
+
+/* ---------- Console ---------- */
+
+.query {
+  align-self: flex-end;
+  max-width: 74%;
+  background: var(--board-sunken);
+  border: 1px solid var(--board-line);
+  border-radius: var(--board-r-md);
+  padding: 0.5rem 0.6875rem;
+  font-size: 0.78125rem;
+  margin-bottom: 0.75rem;
+}
+
+.answer {
+  color: var(--board-fg);
+  font-size: 0.78125rem;
+  margin-bottom: 0.5625rem;
+}
+
+.answer b {
+  font-weight: var(--weight-semibold);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem 1rem;
+  margin-bottom: 0.875rem;
+  padding: 0.5625rem 0.6875rem;
+  background: var(--board-thead);
+  border: 1px solid var(--board-line);
+  border-radius: var(--board-r-md);
+  color: var(--board-muted);
+  font-size: 0.6875rem;
+}
+
+.stats b {
+  color: var(--board-fg);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+  margin-left: 0.3125rem;
+}
+
+.tableWrap {
+  border: 1px solid var(--board-edge);
+  border-radius: var(--board-r-md);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.colId {
+  width: 30%;
+}
+
+.colState {
+  width: 18%;
+}
+
+.colLoc {
+  width: 16%;
+}
+
+.colLfd {
+  width: 16%;
+}
+
+.colDem {
+  width: 20%;
+}
+
+.table th {
+  text-align: left;
+  font-weight: var(--weight-medium);
+  font-size: 0.625rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+  padding: 0.5625rem;
+  background: var(--board-thead);
+  border-bottom: 1px solid var(--board-edge);
+}
+
+.table td {
+  padding: 0.625rem 0.5625rem;
+  border-bottom: 1px solid var(--board-line);
+  font-size: 0.75rem;
+  vertical-align: top;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+th.num,
+td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cellId {
+  font-family: var(--board-mono);
+  font-size: 0.71875rem;
+  color: var(--board-fg);
+}
+
+.cellSub {
+  margin-top: 0.1875rem;
+  color: var(--board-muted);
+  font-size: 0.65625rem;
+  font-family: var(--board-mono);
+}
+
+.cellState {
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+}
+
+.cellLoc {
+  color: var(--board-muted);
+}
+
+.cellLfd,
+.cellDem {
+  color: var(--board-muted);
+  font-family: var(--board-mono);
+}
+
+/* Due today but not breaching — emphasized BLACK, never red. */
+.cellToday {
+  color: var(--board-fg);
+  font-weight: var(--weight-medium);
+}
+
+/* THE one accent: 2px inset red edge on the breaching row + its red Today.
+   The row's demurrage value intentionally stays muted. */
+.flag td:first-child {
+  box-shadow: inset 2px 0 0 var(--board-accent);
+}
+
+.flag .cellLfd {
+  color: var(--board-accent);
+  font-weight: var(--weight-semibold);
+}
+
+.ask {
+  margin-top: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.0625rem;
+  padding: 0 0.375rem 0 0.6875rem;
+  background: var(--board-sunken);
+  border: 1px solid var(--board-line);
+  border-radius: var(--board-r-md);
+  color: var(--board-muted);
+  font-size: 0.75rem;
+}
+
+.send {
+  margin-left: auto;
+  width: 1.4375rem;
+  height: 1.4375rem;
+  flex: none;
+  background: var(--board-fg);
+  color: var(--board-surface);
+  border-radius: 0.3125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Footer ---------- */
+
+.foot {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.0625rem;
+  padding: 0 1rem;
+  background: var(--board-chrome);
+  border-top: 1px solid var(--board-edge);
+  border-radius: 0 0 var(--board-r-lg) var(--board-r-lg);
+  color: var(--board-muted);
+  font-size: 0.6875rem;
+}
+
+/* Muted gray on purpose — the board never goes green. */
+.live {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--board-muted);
+  flex: none;
+  animation: boardPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes boardPulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.footItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footSep {
+  color: var(--board-edge);
+}
+
+.clock {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live {
+    animation: none;
+  }
+
+  .sourceCard {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   GLASS SKIN — skin="glass". The board composited over footage:
+   same structure/content, translucent surface set. Every rule
+   below requires .glass; the opaque default renders unchanged.
+   ============================================================ */
+
+.board.glass {
+  /* THE tuning dial: board-background alpha. Usable ~0.70 (more port
+     shows through) to ~0.90 (crisper data); placement contexts may
+     override on a wrapper. */
+  --board-glass-alpha: 0.82;
+
+  /* Muted lifted from #737373 for this skin only — translucent glass over
+     a photo needs the extra contrast. */
+  --board-fg: #141414;
+  --board-muted: #6b6b6b;
+  /* Panes go clear (they show the board's glass) … */
+  --board-surface: transparent;
+  /* … while chrome bar / left nav / footer take a faint tint. */
+  --board-chrome: rgba(0, 0, 0, 0.03);
+  --board-sunken: rgba(0, 0, 0, 0.045);
+  --board-hover: rgba(0, 0, 0, 0.035);
+  --board-line: rgba(0, 0, 0, 0.09);
+  --board-edge: rgba(0, 0, 0, 0.14);
+  --board-thead: rgba(255, 255, 255, 0.28);
+  --board-r-lg: 0.875rem; /* 14px — chrome/nav/foot corners track the var */
+
+  background: rgba(244, 244, 242, var(--board-glass-alpha));
+  -webkit-backdrop-filter: blur(24px) saturate(1.05);
+  backdrop-filter: blur(24px) saturate(1.05);
+  border-color: rgba(255, 255, 255, 0.55); /* the bright glass edge */
+  overflow: hidden;
+}
+
+/* Surfaces the var cascade can't reach: these read --board-surface or
+   --board-thead in the base skin, which glass reassigns. */
+.glass .navItemActive,
+.glass .navItemActive:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.glass .stats {
+  background: var(--board-sunken);
+}
+
+/* Tooltip must stay legible over footage — near-opaque solid, NOT a nested
+   backdrop-filter: the board's own filter makes it a backdrop root, so a
+   nested blur could never sample the video anyway. */
+.glass .sourceCard {
+  background: rgba(244, 244, 242, 0.97);
+}
+
+.glass .send {
+  color: #f4f4f2;
+}
+
+/* The "something's happening" cue: the live dot goes red here (the opaque
+   board keeps gray) with a soft radial pulse. */
+.glass .live {
+  background: var(--board-accent);
+  animation: glassLivePulse 2.4s ease-out infinite;
+}
+
+@keyframes glassLivePulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--board-accent) 45%, transparent);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.5rem transparent;
+  }
+}
+
+/* "Just arrived": the top feed row cycles a brief light wash, implying the
+   feed is live. Adjacent sibling — the day label immediately precedes row 1.
+   (While the wash runs, the animation outranks the row's hover tint on the
+   top row only — accepted for a demo board.) */
+.glass .dayLabel + .row {
+  animation: glassArrive 7s ease-out infinite;
+}
+
+@keyframes glassArrive {
+  0% {
+    background-color: transparent;
+  }
+
+  4%,
+  10% {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  28%,
+  100% {
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Re-kill required: the base block disables .live at (0,1,0), but the
+     glass motion rules are (0,2,0) and would win — match them here. */
+  .glass .live {
+    animation: none;
+    box-shadow: none;
+  }
+
+  .glass .dayLabel + .row {
+    animation: none;
+  }
+}
+
+/* No backdrop-filter → no blur to carry the fine data; raise the glass to
+   near-opaque so it never renders see-through and unreadable. Old Safari
+   only knows the prefixed form, hence the OR. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .board.glass {
+    --board-glass-alpha: 0.95;
+  }
+}

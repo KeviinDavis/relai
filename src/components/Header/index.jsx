@@ -16,21 +16,38 @@ const menuLinks = [nav.home, ...nav.primary, nav.cta];
 // layout.js), so it doesn't inherit the route's theme class — it sets its own
 // here so the always-on logo reads the right foreground (dark-on-light /
 // light-on-dark). Mirrors LIGHT_ROUTES in RouteTheme.
-const LIGHT_ROUTES = new Set(["/about", "/book-a-demo"]);
+const LIGHT_ROUTES = new Set([
+  "/about",
+  "/book-a-demo",
+  "/sandbox/board-hero",
+  "/sandbox/product-hero",
+]);
 
 // Prefix-matched light routes — must mirror LIGHT_PREFIXES in RouteTheme so the
 // logo/links pick the dark foreground on the white /news/<slug> article pages.
 // (The bare /news index stays dark and is intentionally not matched here.)
 const LIGHT_PREFIXES = ["/news/"];
 
+// Routes whose hero is dark-topped on DESKTOP but light-topped on MOBILE (the
+// original CompositeHero: full-bleed video on desktop, clean light copy zone on
+// mobile). The logo goes dark only at the TOP of these routes on mobile; once
+// scrolled it reverts to the normal (route) theme so it stays legible over the
+// dark sections below. (Home "/" is NOT here: it now runs CompositeHero12, whose
+// mobile is a dark video — the logo stays white over it.)
+const MOBILE_LIGHT_ROUTES = new Set(["/sandbox/composite-hero"]);
+
 export default function Header() {
   const pathname = usePathname();
-  const light =
+  const routeLight =
     LIGHT_ROUTES.has(pathname) ||
     LIGHT_PREFIXES.some((prefix) => pathname.startsWith(prefix));
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [mobile, setMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const light =
+    routeLight || (mobile && !scrolled && MOBILE_LIGHT_ROUTES.has(pathname));
 
   // Frost on scroll (> 40), plus a "smart header": the whole bar leaves upward
   // on scroll-down (past a small threshold) and returns on any scroll-up.
@@ -46,6 +63,16 @@ export default function Header() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Track the mobile breakpoint so the dark-topped-on-desktop heroes above can
+  // flip the logo dark where their mobile top is light.
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 767px)");
+    const apply = () => setMobile(query.matches);
+    apply();
+    query.addEventListener("change", apply);
+    return () => query.removeEventListener("change", apply);
   }, []);
 
   const closeMenu = () => setMenuOpen(false);

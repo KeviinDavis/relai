@@ -1,0 +1,283 @@
+/* StageHero — cinematic framed video hero. The footage is the stage
+   (Section's `hero` variant makes the <video> the absolute background); the
+   headline stack and the frosted-glass info cards float over it, always in
+   the fixed dark treatment (the overlay is scoped `theme-dark` in the markup;
+   card glass keeps the nav-pill token --color-nav-glass with a `theme-light`
+   rescope per card). The tone prop changes ONE thing: the surround behind the
+   video — the section paints its own padding frame from --color-bg-primary,
+   which the root's tone class scopes (light → white frame, dark → black,
+   inherit → tracks ThemeFadeZone). Cards round via local radius knobs — the
+   FluidHero/FluidCards family idiom — while the global card radius stays
+   SHARP. */
+
+.stage {
+  /* Radius knob for the floating glass — mirrors the FluidCards family tier
+     (--milk-radius = 0.75rem). Tune here. */
+  --stage-radius: 0.75rem;
+  /* Framed stage: slim inset separating the video from the viewport edges,
+     painted by the section itself (padding, not margin) so the tone owns the
+     surround; plus the frame's own rounding — a larger tier than the cards. */
+  --stage-inset: var(--space-xs);
+  --stage-frame-radius: 1rem;
+
+  padding: var(--stage-inset);
+  /* The ONE tone-driven surface. Section's border-box 100vh includes the
+     padding, so the framed hero is exactly one viewport. */
+  background-color: var(--color-bg-primary);
+}
+
+/* Section's hero variant pins the first child (the Media wrapper) to inset 0 —
+   the padding box. Pull it in by the frame inset and round it; the painted
+   padding shows as the surround. Compound (0,3,0) outranks the primitive's
+   `.hero > :first-child` (0,2,0); Media's own wrapper overflow clips the
+   video to the radius. */
+.stage.stage > :first-child {
+  inset: var(--stage-inset);
+  border-radius: var(--stage-frame-radius);
+  /* Media's fill mode sets aspect-ratio (16/9 default) — on an abspos box the
+     auto HEIGHT resolves from the ratio, not the bottom inset, so on any
+     viewport shorter than ~16:9 the wrapper pokes out below the section and
+     bleeds under the next component. Auto restores inset-driven stretch. */
+  aspect-ratio: auto;
+}
+
+/* Overlay = the Container primitive (Section lifts it to z-index 2). It holds
+   the full-height positioning context for the corner regions and a bottom
+   scrim that keeps the white headline legible over bright footage. */
+.overlay {
+  min-height: calc(100vh - 2 * var(--stage-inset));
+}
+
+.overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Rounded with the frame so the dark gradient never squares over the
+     light surround's corners. */
+  border-radius: var(--stage-frame-radius);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-black) 55%, transparent),
+    transparent 42%
+  );
+}
+
+/* ---------- Floating glass cards ---------- */
+
+.card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  padding: var(--space-l);
+  color: var(--color-text-primary);
+  text-decoration: none;
+  background-color: var(--color-nav-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-radius: var(--stage-radius);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--color-black) 12%, transparent);
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.card:hover {
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--color-black) 18%, transparent);
+}
+
+.card:hover .arrow {
+  transform: translate(2px, -2px);
+}
+
+/* Top-left feature callout */
+.feature {
+  position: absolute;
+  top: calc(var(--nav-height) + var(--space-l));
+  left: var(--gutter);
+  width: clamp(17rem, 24vw, 21rem);
+}
+
+.cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+}
+
+.cardLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--font-body-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+}
+
+.mark {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+}
+
+.featureCode {
+  font-size: var(--font-h3);
+  line-height: var(--leading-h3);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.cardBody {
+  margin: 0;
+  font-size: var(--font-body-sm);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+}
+
+/* Bottom-right support card — the corner arrow floats so the copy wraps
+   around it (block, not flex, so the float takes). */
+.support {
+  position: absolute;
+  right: var(--gutter);
+  bottom: clamp(var(--space-5xl), 9vw, var(--space-8xl));
+  display: block;
+  width: clamp(18rem, 26vw, 23rem);
+}
+
+.support > .arrow {
+  float: right;
+  margin: 0 0 var(--space-xs) var(--space-m);
+}
+
+/* ---------- Headline stack (directly on the footage) ---------- */
+
+.lead {
+  position: absolute;
+  z-index: 1;
+  left: var(--gutter);
+  bottom: clamp(var(--space-5xl), 9vw, var(--space-8xl));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-l);
+  max-width: min(90vw, 34rem);
+}
+
+/* Eyebrow reads muted-gray by default (built for light surfaces); on the dark
+   footage it becomes a light frosted chip. .lead scope (0,2,0) beats the
+   Eyebrow variant rule (0,1,0). */
+.lead .eyebrow {
+  color: var(--color-text-primary);
+  border-color: var(--color-stroke-light);
+  background-color: color-mix(in srgb, var(--color-black) 28%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-display);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+}
+
+/* CTA — white pill with a monochrome circular arrow badge. .lead scope (0,2,0)
+   overrides Button's `.solid`/`.button` rules (0,1,0). */
+.lead .cta {
+  height: 3.25rem;
+  gap: var(--space-s);
+  padding: 0 0.5rem 0 var(--space-l);
+  font-size: var(--font-body);
+  font-weight: var(--weight-medium);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: transparent;
+  border-radius: var(--radius-full);
+}
+
+.lead .cta:hover {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: transparent;
+}
+
+.ctaBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-black);
+  color: var(--color-white);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.lead .cta:hover .ctaBadge {
+  transform: translateX(3px);
+}
+
+.ctaArrow {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* ---------- Shared arrow glyph + right-edge scroll hint ---------- */
+
+.arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0, 1);
+}
+
+.scrollHint {
+  position: absolute;
+  z-index: 1;
+  right: var(--space-xs);
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  font-size: var(--font-tagline);
+  letter-spacing: var(--tracking-label);
+  color: var(--color-text-secondary);
+}
+
+/* ---------- Mobile (system reference breakpoint) ----------
+   The `hero` variant drops its 100vh below 768px, so the overlay keeps the
+   full-screen stage and reflows the absolute corner regions into a single
+   stacked column: feature up top, headline + support pushed to the bottom. */
+
+@media (max-width: 768px) {
+  .overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-l);
+    padding-block: calc(var(--nav-height) + var(--space-m)) var(--space-3xl);
+  }
+
+  .feature,
+  .lead,
+  .support {
+    position: static;
+    inset: auto;
+    width: auto;
+    max-width: none;
+  }
+
+  /* Absorbs the free space above so the headline + support sit at the bottom
+     while the feature card stays up top. */
+  .lead {
+    margin-top: auto;
+  }
+
+  .scrollHint {
+    display: none;
+  }
+}

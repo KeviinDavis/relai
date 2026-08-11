@@ -1,0 +1,316 @@
+/* CompositeHero12 — SANDBOX (/sandbox/hero-mobile-12 only).
+   This route uses the live-activity "variant 12" treatment at ALL widths — it
+   REPLACES the desktop composite hero for this route only (no other hero is
+   touched). A dark, dimmed, CONTAINED video panel (inset + rounded on the page
+   surround, not edge-to-edge); centered copy (descriptive headline → paragraph →
+   CTA); the frosted live-activity pill stack landing over the footage. Everything
+   scales fluidly via clamp() from phone → desktop.
+   Glass/red/mono values are the real Dashboard `.board.glass` values, reused as
+   local vars. Nothing here touches production. */
+
+/* ---------- Stage: contained dark video panel ----------
+   The hero stays CONTAINERIZED (not edge-to-edge): a video panel inset from the
+   page edges + rounded, sitting on the light page surround (the reference
+   framing). `.stage.stage` (0,2,0) beats the Section `hero` variant (0,1,0); the
+   doubled selector on `> :first-child` (0,3,0) beats the primitive's (0,2,0). */
+.stage.stage {
+  --hero-inset: var(--space-xs);
+  --hero-frame-radius: 1rem;
+
+  min-height: 100svh;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: var(--hero-inset); /* the surround (page bg) around the panel */
+  background-color: var(--color-bg-primary);
+}
+
+/* Video panel → the scene behind everything, inset + rounded + clipped (the
+   hero variant pins the first child to inset 0; we pull it in by the inset). */
+.stage.stage > :first-child {
+  inset: var(--hero-inset);
+  border-radius: var(--hero-frame-radius);
+  overflow: hidden;
+  background-color: var(--color-bg-dark); /* pre-poster paint */
+  z-index: 0;
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Uniform dim so the white copy + pills stay legible over the bright footage.
+   Paints above the video, below the copy (the overlay is lifted to z-index 2). */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* ---------- Copy + stack — one centered column ----------
+   Vertically centered at all widths: when the content ≈ the viewport (phones)
+   it fills; when it's shorter (desktop) it centers, so there's no dead space.
+   The asymmetric top padding clears the fixed nav. */
+.overlay {
+  min-height: calc(100svh - 2 * var(--hero-inset));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(var(--space-2xl), 5vw, var(--space-6xl));
+  padding-top: calc(var(--nav-height) + var(--space-l));
+  padding-bottom: clamp(var(--space-l), 4vw, var(--space-4xl));
+}
+
+/* Copy column — white over footage, centered, fluid. */
+.lead {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(var(--space-m), 2.5vw, var(--space-xl));
+  max-width: 100%;
+  z-index: 1;
+}
+
+/* [ FREIGHT ] tag stays hidden in this treatment. */
+.lead .eyebrow {
+  display: none;
+}
+
+/* Descriptive headline — white + shadow over the footage. Phone ~28px → desktop
+   ~56px; the column widens with it so it wraps to a few tidy lines. */
+.title {
+  margin: 0;
+  font-size: clamp(1.625rem, 3.5vw + 0.8rem, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
+  max-width: clamp(18rem, 60vw, 44rem);
+}
+
+/* Product paragraph — muted white, legible over footage. Phone 16px → ~24px;
+   column widens on the larger screens. */
+.description {
+  margin: 0;
+  max-width: clamp(22rem, 62vw, 40rem);
+  font-size: clamp(1rem, 1.3vw + 0.6rem, 1.5rem);
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.86);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.28);
+}
+
+/* Frosted-white CTA — compact on phones, scales up a touch for desktop. */
+.lead .cta {
+  height: clamp(2.5rem, 3.6vw, 3rem);
+  gap: var(--space-2xs);
+  padding: 0 clamp(var(--space-s), 1.5vw, var(--space-l));
+  font-size: clamp(var(--font-btn), 1.1vw, var(--font-body));
+  font-weight: var(--weight-medium);
+  letter-spacing: normal;
+  color: #141414;
+  background-color: rgba(244, 244, 242, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.5rem;
+}
+
+.lead .cta:hover {
+  color: #141414;
+  background-color: rgba(244, 244, 242, 0.95);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+/* ---------- Live-activity pill stack ----------
+   Glass/red/mono are the REAL board's values (Dashboard.module.css .board.glass
+   + the breach accent), pinned here as local vars so the pills read exactly like
+   the ops board over footage. */
+.activityStack {
+  --v12-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --v12-accent: #de4a3b; /* the board's single breach red */
+  --v12-glass-alpha: 0.82; /* .board.glass background alpha */
+  --v12-fg: #141414; /* glass-context foreground */
+  --v12-muted: #6b6b6b; /* glass-context muted (lifted from #737373) */
+  --v12-line: rgba(0, 0, 0, 0.09); /* --board-line */
+  --v12-inset: rgba(0, 0, 0, 0.045); /* --board-sunken */
+  --v12-edge: rgba(255, 255, 255, 0.55); /* the bright glass edge */
+
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  /* Cap + center so the stack stays a tidy column (aligned to the paragraph
+     column) instead of sprawling; phones are narrower than this → full-width. */
+  width: 100%;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+/* No backdrop-filter → raise the pill glass to near-opaque so the data never
+   renders see-through (mirrors the board's own fallback). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .activityStack {
+    --v12-glass-alpha: 0.95;
+  }
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding: 0.875rem 0.9375rem;
+  background-color: rgba(244, 244, 242, var(--v12-glass-alpha));
+  -webkit-backdrop-filter: blur(24px) saturate(1.05);
+  backdrop-filter: blur(24px) saturate(1.05);
+  border: 1px solid var(--v12-edge);
+  border-radius: 1rem;
+}
+
+/* Stack geometry — rear pills narrower + more faded, peeking up behind the
+   front one via a slight vertical overlap. */
+.pillBack4 {
+  width: 79%;
+  margin: 0 auto -0.5rem;
+  opacity: 0.3;
+}
+
+.pillBack3 {
+  width: 86%;
+  margin: 0 auto -0.5rem;
+  opacity: 0.44;
+}
+
+.pillBack2 {
+  width: 93%;
+  margin: 0 auto -0.5rem;
+  opacity: 0.72;
+  transform: scale(0.99);
+}
+
+.pillFront {
+  position: relative;
+  z-index: 2;
+}
+
+/* The single accent: 3px inset red left-edge on the breach. */
+.pillFlag {
+  box-shadow: inset 3px 0 0 var(--v12-accent);
+}
+
+/* Carrier mark chip (mono 3-char code). */
+.mark {
+  width: 1.875rem;
+  height: 1.875rem;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--v12-line);
+  border-radius: 0.375rem;
+  background-color: var(--v12-inset);
+  font-family: var(--v12-mono);
+  font-size: 0.5625rem;
+  color: var(--v12-muted);
+}
+
+/* Red live dot on the breach — pulses (real board's live-dot cue). */
+.redlive {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  background-color: var(--v12-accent);
+  animation: v12Pulse 2.2s ease-out infinite;
+}
+
+.ptxt {
+  flex: 1;
+  min-width: 0;
+}
+
+.pid {
+  font-family: var(--v12-mono);
+  font-size: 0.8125rem;
+  color: var(--v12-fg);
+}
+
+.pst {
+  margin-top: 0.1875rem;
+  font-size: 0.5625rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--v12-muted);
+}
+
+/* Right-aligned metric — age or amount. */
+.prt {
+  font-size: 0.75rem;
+  color: var(--v12-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.prtRed {
+  color: var(--v12-accent);
+  font-weight: var(--weight-semibold);
+  font-family: var(--v12-mono);
+}
+
+/* Caption under the stack, over the video. */
+.stackCap {
+  margin-top: 0.875rem;
+  text-align: center;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Fixed sandbox label — module-scoped, never page-level. */
+.variantTag {
+  position: fixed;
+  left: var(--space-s);
+  bottom: var(--space-s);
+  z-index: var(--z-modal);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background-color: rgba(0, 0, 0, 0.72);
+  color: var(--color-white);
+  font-size: var(--font-tagline);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/* Breach dot pulse — the real glassLivePulse ring, in the breach red. The ONLY
+   looping motion on the stack (the front pill itself does not animate). */
+@keyframes v12Pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--v12-accent) 45%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.4375rem transparent;
+  }
+}
+
+/* Motion gating — kill the dot pulse. */
+@media (prefers-reduced-motion: reduce) {
+  .redlive {
+    animation: none;
+  }
+}

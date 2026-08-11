@@ -1,0 +1,149 @@
+/* ProductHero — Structure D. The theme-light section IS the stage (primary
+   surface = the same white the rest of the light phase sits on; the global
+   grain supplies the noise — a darker panel surface here would read as a
+   mismatched band above LogoWall). The
+   board separates from it via its own 1px edge + radius only — no shadow, no
+   mat. The whole hero is one clipped viewport: because the copy is compact
+   and centered, the board starts high and owns most of the fold, bleeding
+   off the bottom (desktop) or off the bottom AND right (mobile).
+
+   Two reference values have no token equivalent and stay local knobs
+   (BoardHero's idiom): the hero-only subhead ink and the structural hairline.
+   The 8px CTA radius and the headline's 0.98/-0.025em setting are deliberate
+   hero-local departures from the sharp/system scale — this component
+   reconstructs a specific artwork. */
+
+.hero {
+  --hero-ink: #2c2c2c; /* subhead ink — between text-primary and gray-dark */
+  --hero-edge: #d6d6d3; /* structural hairline, matches the board's edge tier */
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding-block: 0;
+  /* Hard viewport height on EVERY breakpoint — the fold IS the crop; the
+     board must never fully fit. svh keeps mobile URL bars honest. */
+  height: 100vh;
+  height: 100svh;
+}
+
+/* ---------- Copy — compact, centered ---------- */
+
+.copy {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 8.125rem; /* 130px — clears the fixed nav pill */
+}
+
+.title {
+  margin: 0;
+  /* 40px at 390 → 70px at 1440, then capped. */
+  font-size: clamp(2.5rem, 1.804rem + 2.857vw, 4.375rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+}
+
+.sub {
+  margin: 1rem 0 0;
+  max-width: 38.75rem;
+  font-size: 1.125rem;
+  line-height: 1.42;
+  letter-spacing: normal;
+  color: var(--hero-ink);
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* CTA pair — scoped overrides of the Button primitive (StageHero idiom). */
+.actions .cta {
+  height: 2.875rem;
+  padding: 0 1.375rem;
+  border-radius: 0.5rem;
+  font-size: var(--font-btn);
+  font-weight: var(--weight-medium);
+  letter-spacing: normal;
+}
+
+.actions .ctaPrimary {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: transparent;
+}
+
+.actions .ctaPrimary:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+.actions .ctaGhost {
+  background-color: transparent;
+  color: var(--color-black);
+  border-color: var(--hero-edge);
+}
+
+.actions .ctaGhost:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+}
+
+/* ---------- Board placement ---------- */
+
+/* Fixed 1360 design, centered by the column's cross axis; narrower desktops
+   overflow both sides evenly (never reflow), and the section's fixed height
+   clips the bottom bleed. */
+.boardRow {
+  flex: none;
+  margin-top: 2.75rem; /* 44px under the CTAs */
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 767px) {
+  .copy {
+    padding-top: calc(var(--nav-height) + 1.5rem);
+  }
+
+  .sub {
+    margin-top: 0.5625rem;
+    max-width: 18.75rem;
+    font-size: var(--font-body-sm);
+    line-height: 1.34;
+  }
+
+  .actions {
+    margin-top: 0.875rem;
+  }
+
+  .actions .cta {
+    height: 2.625rem;
+    padding: 0 1.125rem;
+  }
+
+  /* Single primary CTA on mobile — the ghost button is desktop-only. */
+  .actions .ctaGhost {
+    display: none;
+  }
+
+  /* The deliberate D trade: the board stays BIG (fixed 0.78 of the 1360
+     design), anchored left so nav + feed lead sharp and legible while the
+     Console bleeds off the right; the section clips right + bottom. Never
+     fit-to-width here — that's Structure A. */
+  .boardRow {
+    align-self: flex-start;
+    margin: 2rem 0 0 1.25rem;
+    transform: scale(0.78);
+    transform-origin: top left;
+  }
+}
