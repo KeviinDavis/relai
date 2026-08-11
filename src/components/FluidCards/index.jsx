@@ -9,17 +9,16 @@
 //      grows and reveals its description. Expansion is click-driven, not hover, so
 //      scrolling past the section never expands/collapses cards; one card is
 //      always open (card 1 at rest). The active card carries an `.active` class
-//      and the CSS keys off it. GSAP here only drives the scroll-entrance reveals
-//      (line split + thumb move-up) hinted by the data-milk-* hooks.
+//      and the CSS keys off it. GSAP here only drives the scroll-entrance
+//      thumb move-up hinted by the data-milk-moveup hook.
 
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
 import Container from "@/components/Container";
 import styles from "./styles.module.css";
 
-gsap.registerPlugin(ScrollTrigger, SplitText);
+gsap.registerPlugin(ScrollTrigger);
 
 function PlusIcon() {
   return (
@@ -58,28 +57,7 @@ export default function FluidCards({
     // never touch it.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const splits = [];
     const ctx = gsap.context(() => {
-      // Split-text reveals: lines / chars rise into place, per the source's
-      // data-milk-split hooks. gsap.from + immediateRender:false means the
-      // element's natural (visible) state is the resting state — if a trigger
-      // somehow never fires, content is never left hidden.
-      root.querySelectorAll("[data-milk-split]").forEach((el) => {
-        const type = el.getAttribute("data-milk-split") === "chars" ? "chars" : "lines";
-        const split = new SplitText(el, { type });
-        splits.push(split);
-        const targets = type === "chars" ? split.chars : split.lines;
-        gsap.from(targets, {
-          yPercent: 110,
-          autoAlpha: 0,
-          duration: 0.8,
-          stagger: type === "chars" ? 0.03 : 0.08,
-          ease: "power3.out",
-          immediateRender: false,
-          scrollTrigger: { trigger: el, start: "top 90%", once: true },
-        });
-      });
-
       // Thumbnails rise into place (data-milk-moveup).
       root.querySelectorAll("[data-milk-moveup]").forEach((el) => {
         gsap.from(el, {
@@ -97,10 +75,7 @@ export default function FluidCards({
       ScrollTrigger.refresh();
     }, root);
 
-    return () => {
-      ctx.revert();
-      splits.forEach((s) => s.revert());
-    };
+    return () => ctx.revert();
   }, [scenarios, cards]);
 
   // Dynamic-width cards.
@@ -143,7 +118,7 @@ export default function FluidCards({
   // title + dim subtext + decorative menu chip (platform) — driven by content.
   const introBlock = (
     <div className={styles.scenariosRow}>
-      <h2 className={styles.scenariosHeading} data-milk-split="lines">
+      <h2 className={styles.scenariosHeading}>
         {scenarios.heading}
       </h2>
       <div className={styles.scenariosCard}>
@@ -152,15 +127,15 @@ export default function FluidCards({
         ) : null}
         {scenarios.title ? (
           <>
-            <h3 className={styles.leadTitle} data-milk-split="lines">
+            <h3 className={styles.leadTitle}>
               {scenarios.title}
             </h3>
-            <p className={styles.leadSubtext} data-milk-split="lines">
+            <p className={styles.leadSubtext}>
               {scenarios.description}
             </p>
           </>
         ) : (
-          <h3 className={styles.scenariosLead} data-milk-split="lines">
+          <h3 className={styles.scenariosLead}>
             {scenarios.description}
           </h3>
         )}
