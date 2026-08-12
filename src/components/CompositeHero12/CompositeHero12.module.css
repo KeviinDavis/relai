@@ -8,14 +8,14 @@
    Glass/red/mono values are the real Dashboard `.board.glass` values, reused as
    local vars. Nothing here touches production. */
 
-/* ---------- Stage: contained dark video panel ----------
-   The hero stays CONTAINERIZED (not edge-to-edge): a video panel inset from the
-   page edges + rounded, sitting on the light page surround (the reference
-   framing). `.stage.stage` (0,2,0) beats the Section `hero` variant (0,1,0); the
-   doubled selector on `> :first-child` (0,3,0) beats the primitive's (0,2,0). */
+/* ---------- Stage: full-bleed dark video panel ----------
+   The hero is edge-to-edge: the video panel fills the full viewport width and
+   height (inset 0, radius 0) — no page surround, no rounded frame.
+   `.stage.stage` (0,2,0) beats the Section `hero` variant (0,1,0); the doubled
+   selector on `> :first-child` (0,3,0) beats the primitive's (0,2,0). */
 .stage.stage {
-  --hero-inset: var(--space-xs);
-  --hero-frame-radius: 1rem;
+  --hero-inset: 0;
+  --hero-frame-radius: 0;
 
   min-height: 100svh;
   flex-direction: column;
@@ -25,8 +25,8 @@
   background-color: var(--color-bg-primary);
 }
 
-/* Video panel → the scene behind everything, inset + rounded + clipped (the
-   hero variant pins the first child to inset 0; we pull it in by the inset). */
+/* Video panel → the scene behind everything, full-bleed + clipped (the hero
+   variant pins the first child to inset 0; the inset var is now 0 too). */
 .stage.stage > :first-child {
   inset: var(--hero-inset);
   border-radius: var(--hero-frame-radius);

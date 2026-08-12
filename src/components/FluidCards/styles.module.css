@@ -4,16 +4,16 @@
    `theme-dark` class on this root (same mechanism as RouteTheme / Header),
    flipping the semantic tokens for its subtree. Light = white page / warm-gray
    cards; dark = black page / warm near-black cards.
-   The rounded corners are kept locally for fidelity (Relai's global system is
-   sharp), scoped to this component only. */
+   Corners are sharp (radius 0) to match Relai's global system and stay
+   consistent with the full-bleed hero. */
 
 .impact {
   --milk-gray: var(--color-bg-secondary); /* lifted card / panel fill */
   --milk-text-dim: var(--color-text-secondary); /* dim body text */
   --milk-border: var(--color-stroke-muted); /* intro row hairline */
   --milk-border-soft: var(--color-stroke-muted); /* card footer hairline */
-  --milk-radius: 0.75rem;
-  --milk-radius-sm: 0.5rem;
+  --milk-radius: 0;
+  --milk-radius-sm: 0;
   --milk-ease: cubic-bezier(0.4, 0, 0.2, 1);
 
   background: var(--color-bg-primary);
