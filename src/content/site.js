@@ -11,13 +11,13 @@
 export const meta = {
   // metadataBase intentionally omitted until the Relai domain is live.
   title: {
-    default: "Relai — Redefining Freight",
-    template: "%s — Relai",
+    default: "Relai, Redefining Freight",
+    template: "%s, Relai",
   },
   description:
-    "Relai is the first unified platform for port and freight logistics—connecting vessel, terminal, yard, and truck into a single, real-time system.",
+    "Relai is the first unified platform for port and freight logistics, connecting vessel, terminal, yard, and truck into a single, real-time system.",
   openGraph: {
-    title: "Relai — Redefining Freight",
+    title: "Relai, Redefining Freight",
     description:
       "A modern, cloud-native freight-logistics coordination platform built for speed, visibility, and coordination.",
     type: "website",
@@ -40,7 +40,7 @@ export const meta = {
 // the two bars can never drift. "Book a Demo" is the CTA — the right-side
 // filled button on both bars. "Contact" opens the modal.
 export const nav = {
-  brand: { href: "/", label: "Relai", ariaLabel: "Relai — home" },
+  brand: { href: "/", label: "Relai", ariaLabel: "Relai home" },
   primary: [
     { label: "Product", href: "/product" },
     { label: "Mission", href: "/mission" },
@@ -63,7 +63,7 @@ export const footer = {
   heading: "The future of freight",
   lead: "Relai", // rendered <strong> ahead of the body
   body:
-    "is a cloud-native coordination platform built for terminals, carriers, and freight operators. With a unified, real-time interface and tools that adapt to any network, Relai gives the supply chain the visibility and control to move faster — and cleaner.",
+    "is a cloud-native coordination platform built for terminals, carriers, and freight operators. With a unified, real-time interface and tools that adapt to any network, Relai gives the supply chain the visibility and control to move faster and cleaner.",
   card: {
     href: "/book-a-demo",
     image: {

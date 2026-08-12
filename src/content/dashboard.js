@@ -94,7 +94,7 @@ export const dashboard = {
   console: {
     title: "Console",
     tools: ["History ⌄"],
-    query: "Containers at demurrage risk — Long Beach, next 48h",
+    query: "Containers at demurrage risk, Long Beach, next 48h",
     // Bold-by-segment so the component never parses markup out of strings.
     answer: [
       { text: "7 containers", strong: true },

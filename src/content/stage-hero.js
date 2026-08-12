@@ -10,9 +10,9 @@
 // analog to the reference's crane callout.
 
 export const meta = {
-  title: "Stage Hero — Sandbox",
+  title: "Stage Hero, Sandbox",
   description:
-    "Full-bleed video hero with floating frosted-glass cards, rebuilt on the Relai system — Section hero stage, nav-glass card treatment.",
+    "Full-bleed video hero with floating frosted-glass cards, rebuilt on the Relai system, Section hero stage, nav-glass card treatment.",
 };
 
 export const stageHero = {
@@ -27,7 +27,7 @@ export const stageHero = {
   media: {
     type: "video",
     src: "/exampleimages/about.mp4",
-    alt: "Placeholder for the Relai hero background video — a port terminal at dusk.",
+    alt: "Placeholder for the Relai hero background video, a port terminal at dusk.",
   },
 
   // Top-left feature callout — the Terminal Orchestration capability
@@ -42,7 +42,7 @@ export const stageHero = {
 
   // Bottom-right support card — first sentence of the live hero text.
   support: {
-    text: "Relai is the first unified platform for port and freight logistics — connecting vessel, terminal, yard, and truck into a single, real-time system.",
+    text: "Relai is the first unified platform for port and freight logistics, connecting vessel, terminal, yard, and truck into a single, real-time system.",
     href: "/product",
   },
 

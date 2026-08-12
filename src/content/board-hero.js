@@ -5,16 +5,16 @@
 // here. textMobile is the reference's shortened mobile subhead, not new copy.
 
 export const meta = {
-  title: "Board Hero — Sandbox",
+  title: "Board Hero, Sandbox",
   description:
     "Structure A homepage hero: headline-led copy over the full Relai ops board, bleeding off the fold on desktop, fit-to-width with a carrier trust strip on mobile.",
 };
 
 export const boardHero = {
   title: "Redefining Freight",
-  text: "Relai is the first unified platform for port and freight logistics — connecting vessel, terminal, yard, and truck into a single, real-time system.",
+  text: "Relai is the first unified platform for port and freight logistics, connecting vessel, terminal, yard, and truck into a single, real-time system.",
   textMobile:
-    "The first unified platform for port and freight logistics — vessel, terminal, yard, and truck in one real-time system.",
+    "The first unified platform for port and freight logistics: vessel, terminal, yard, and truck in one real-time system.",
   actions: [
     { label: "See the Platform", href: "/product", variant: "primary" },
     { label: "Book a demo", href: "/book-a-demo", variant: "ghost" },

@@ -6,9 +6,9 @@
 // not the content.
 
 export const meta = {
-  title: "Theme Fade — Sandbox",
+  title: "Theme Fade, Sandbox",
   description:
-    "Scroll-driven theme fade — the page background and text invert as each section crosses the viewport center.",
+    "Scroll-driven theme fade: the page background and text invert as each section crosses the viewport center.",
 };
 
 export const sections = [
@@ -16,7 +16,7 @@ export const sections = [
     theme: "light",
     kicker: "Scroll to begin",
     heading: "The page reads the section you're looking at.",
-    body: "One wrapper owns the background and text color. Every section is transparent — nothing here paints its own backdrop.",
+    body: "One wrapper owns the background and text color. Every section is transparent. Nothing here paints its own backdrop.",
   },
   {
     theme: "dark",
@@ -34,6 +34,6 @@ export const sections = [
     theme: "dark",
     kicker: "Chrome inverts for free",
     heading: "The kicker, arrow and text are all drawn in currentColor.",
-    body: "Because everything inherits the wrapper's color, it flips with the fade automatically — no per-element theming.",
+    body: "Because everything inherits the wrapper's color, it flips with the fade automatically, no per-element theming.",
   },
 ];

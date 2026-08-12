@@ -8,9 +8,9 @@
 export { cards } from "@/content/impact";
 
 export const meta = {
-  title: "Fluid Stats — Sandbox",
+  title: "Fluid Stats, Sandbox",
   description:
-    "The mission in numbers — a media tile and three fluid stat cards in one row.",
+    "The mission in numbers: a media tile and three fluid stat cards in one row.",
 };
 
 // Media tile (column 1). type: "image" | "video".

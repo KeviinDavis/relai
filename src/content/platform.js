@@ -10,9 +10,9 @@
 // decorative menu chip. The existing impact instance is unaffected.
 
 export const meta = {
-  title: "Platform — Sandbox",
+  title: "Platform, Sandbox",
   description:
-    "The unified platform for port and freight logistics — one coordinated flow from open water to the final mile.",
+    "The unified platform for port and freight logistics: one coordinated flow from open water to the final mile.",
 };
 
 // Intro row: big heading (left) + lead panel (right). Eyebrow + bold title +

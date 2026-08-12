@@ -5,7 +5,7 @@
 export const meta = {
   title: "Mission",
   description:
-    "The coordination layer for global freight — built to move the world's cargo with less idle, less waste, and less carbon.",
+    "The coordination layer for global freight, built to move the world's cargo with less idle, less waste, and less carbon.",
 };
 
 // Component: Hero (dark)
@@ -22,7 +22,7 @@ export const hero = {
   media: {
     type: "image",
     src: "/exampleimages/portcontainers.png",
-    alt: "Placeholder for the Relai mission background video — a port at dusk.",
+    alt: "Placeholder for the Relai mission background video, a port at dusk.",
   },
 };
 
@@ -47,7 +47,7 @@ export const stats = {
       value: "2.4M+",
       label: "Container moves a year",
       description:
-        "Relai coordinates over two million container handoffs annually across its launch network — every one tracked from ship to truck.",
+        "Relai coordinates over two million container handoffs annually across its launch network, every one tracked from ship to truck.",
     },
     {
       value: "11%",
@@ -82,7 +82,7 @@ export const explore = {
 export const partner = {
   title: "Shape the future of global freight",
   text:
-    "The supply chain is being rebuilt for a lower-carbon, real-time world — and it will take operators, carriers, and ports moving together. If your organization is ready to coordinate freight differently, we'd like to talk.",
+    "The supply chain is being rebuilt for a lower-carbon, real-time world, and it will take operators, carriers, and ports moving together. If your organization is ready to coordinate freight differently, we'd like to talk.",
   actions: [{ label: "Partner With Relai", href: "/book-a-demo", variant: "light" }],
 };
 

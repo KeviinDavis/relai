@@ -83,8 +83,8 @@ export default function ContactForm({
       <div className={styles.success}>
         <h3 className={styles.successTitle} ref={confirmRef} tabIndex={-1}>
           {name
-            ? `Thanks, ${name} — we’ll be in touch.`
-            : "Thanks — we’ll be in touch."}
+            ? `Thanks, ${name}, we’ll be in touch.`
+            : "Thanks, we’ll be in touch."}
         </h3>
         <p className={styles.successText}>
           A member of the Relai team will reach out to schedule your walkthrough.

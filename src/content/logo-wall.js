@@ -1,5 +1,5 @@
 export const meta = {
-  title: "Logo Wall — Sandbox",
+  title: "Logo Wall, Sandbox",
   description: "Continuously scrolling logo strip with soft edge fades.",
 };
 

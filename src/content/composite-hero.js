@@ -5,9 +5,9 @@
 // content/dashboard.js — this file only carries the scene and the copy column.
 
 export const meta = {
-  title: "Composite Hero — Sandbox",
+  title: "Composite Hero, Sandbox",
   description:
-    "Blue-hour video hero with the frosted-glass ops board bleeding off the right — copy column locked left, one red beat in the console.",
+    "Blue-hour video hero with the frosted-glass ops board bleeding off the right, copy column locked left, one red beat in the console.",
 };
 
 export const compositeHero = {
@@ -20,6 +20,6 @@ export const compositeHero = {
   media: {
     src: "/exampleimages/about.mp4",
     poster: "/exampleimages/composite-hero-poster.avif",
-    alt: "Placeholder for the Relai hero background video — a port terminal at dusk.",
+    alt: "Placeholder for the Relai hero background video: a port terminal at dusk.",
   },
 };

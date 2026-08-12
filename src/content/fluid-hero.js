@@ -5,15 +5,15 @@
 // (Eyebrow omitted — the header leads with the title.)
 
 export const meta = {
-  title: "Fluid Hero — Sandbox",
+  title: "Fluid Hero, Sandbox",
   description:
-    "Card-in-a-frame feedback hero rebuilt on the Relai system — FluidCards radius family, live home-hero copy.",
+    "Card-in-a-frame feedback hero rebuilt on the Relai system: FluidCards radius family, live home-hero copy.",
 };
 
 export const fluidHero = {
   title: "Redefining Freight",
   support:
-    "Relai is the first unified platform for port and freight logistics — connecting vessel, terminal, yard, and truck into a single, real-time system. Built for the modern supply chain, Relai turns the handoffs that slow freight down into one coordinated, intelligent flow.",
+    "Relai is the first unified platform for port and freight logistics, connecting vessel, terminal, yard, and truck into a single, real-time system. Built for the modern supply chain, Relai turns the handoffs that slow freight down into one coordinated, intelligent flow.",
   // Temporary neutral placeholder — restore /exampleimages/portcontainers.jpg
   // (alt: "Stacked shipping containers at a port terminal") for the real image.
   media: {

@@ -7,9 +7,9 @@
 // reference's floating nav pill is the site Header — not repeated here.
 
 export const meta = {
-  title: "Product Hero — Sandbox",
+  title: "Product Hero, Sandbox",
   description:
-    "Structure D homepage hero: compact centered copy over the full Relai ops board — the board dominates the viewport and bleeds off the fold (desktop) or off bottom + right with nav and feed leading (mobile).",
+    "Structure D homepage hero: compact centered copy over the full Relai ops board. The board dominates the viewport and bleeds off the fold (desktop) or off bottom + right with nav and feed leading (mobile).",
 };
 
 export const productHero = {

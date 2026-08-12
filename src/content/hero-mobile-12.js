@@ -4,9 +4,9 @@
 // this variant stays a faithful duplicate, not a re-authored hero.
 
 export const meta = {
-  title: "Composite Hero — Mobile Variant 12",
+  title: "Composite Hero, Mobile Variant 12",
   description:
-    "Sandbox: desktop identical to the live composite hero; below the breakpoint the board becomes a live-activity stack — frosted event pills landing over the video, one red breach.",
+    "Sandbox: desktop identical to the live composite hero; below the breakpoint the board becomes a live-activity stack, frosted event pills landing over the video, one red breach.",
 };
 
 // Mobile-only headline + paragraph, shown centered on the mobile branch. Desktop
@@ -18,4 +18,4 @@ export const mobileTitle =
   "Connect every vessel, terminal, yard, and truck in real time";
 
 export const description =
-  "Relai is the coordination layer for modern freight — turning the handoffs that cause demurrage and idle into one intelligent, real-time flow.";
+  "Relai is the coordination layer for modern freight, turning the handoffs that cause demurrage and idle into one intelligent, real-time flow.";

@@ -5,7 +5,7 @@
 export const meta = {
   title: "Book a Demo",
   description:
-    "Book a demo with Relai's team and see how Relai coordinates your network end to end — and where it can cut idle time, cost, and emissions.",
+    "Book a demo with Relai's team and see how Relai coordinates your network end to end, and where it can cut idle time, cost, and emissions.",
 };
 
 // Component: Hero
@@ -13,7 +13,7 @@ export const hero = {
   tag: "[ DEMO ]",
   title: "Get a closer look at Relai",
   text:
-    "Ready for the full Relai experience? Book a demo with our team and see how Relai coordinates your network end to end. We'll walk you through the platform live — and show you where it can cut idle time, cost, and emissions across your freight.",
+    "Ready for the full Relai experience? Book a demo with our team and see how Relai coordinates your network end to end. We'll walk you through the platform live and show you where it can cut idle time, cost, and emissions across your freight.",
 };
 
 // Component: FormSection

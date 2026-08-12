@@ -4,9 +4,9 @@
 // The panel number ([ 01 / 04 ]) is derived from position in the component.
 
 export const meta = {
-  title: "Services Deck — Sandbox",
+  title: "Services Deck, Sandbox",
   description:
-    "From sea to road, Relai coordinates every leg — then measures what it saves.",
+    "From sea to road, Relai coordinates every leg, then measures what it saves.",
 };
 
 // Images intentionally empty for now — the left column renders without art.
@@ -21,7 +21,7 @@ export const services = [
     title: "Vessel Intelligence",
     caption: "Sees the vessel before the port does.",
     description:
-      "AIS position, weather and berth windows fused into one arrival picture — updated continuously, shared by everyone planning against it.",
+      "AIS position, weather and berth windows fused into one arrival picture, updated continuously, shared by everyone planning against it.",
     dark: true,
     image: image("Vessel Intelligence"),
     capabilities: [
@@ -35,7 +35,7 @@ export const services = [
     title: "Terminal Orchestration",
     caption: "Sequences the terminal around reality.",
     description:
-      "Berth, crane, yard and gate planned against real arrivals instead of the published schedule — and replanned the moment conditions change.",
+      "Berth, crane, yard and gate planned against real arrivals instead of the published schedule, and replanned the moment conditions change.",
     image: image("Terminal Orchestration"),
     capabilities: [
       "Crane & equipment telemetry",
@@ -62,7 +62,7 @@ export const services = [
     title: "Emissions & Idle",
     caption: "Turns saved hours into reported numbers.",
     description:
-      "Idle hours, fuel burn and emissions per move, measured where the coordination happens — so every gain becomes a number you can report.",
+      "Idle hours, fuel burn and emissions per move, measured where the coordination happens, so every gain becomes a number you can report.",
     image: image("Emissions & Idle"),
     capabilities: [
       "Idle hours per call",
