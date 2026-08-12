@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Container from "@/components/Container";
+import CountUp from "@/components/CountUp";
 import styles from "./styles.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -97,7 +98,9 @@ export default function FluidCards({
           }}
         >
           <div className={styles.cardBody}>
-            <h2 className={styles.cardCode}>{card.code}</h2>
+            <h2 className={styles.cardCode}>
+              <CountUp value={card.code} />
+            </h2>
             <div className={styles.cardText}>
               <p>{card.text}</p>
             </div>
@@ -114,8 +117,9 @@ export default function FluidCards({
   );
 
   // Scenarios intro: big heading (left) + lead card (right). The lead card has
-  // two shapes: a single lead paragraph + thumb (impact), or an eyebrow + bold
-  // title + dim subtext + decorative menu chip (platform) — driven by content.
+  // two shapes: a single lead paragraph (impact), or an eyebrow + bold title +
+  // dim subtext (platform) — driven by content. An optional thumb renders only
+  // when the content supplies an `image`.
   const introBlock = (
     <div className={styles.scenariosRow}>
       <h2 className={styles.scenariosHeading}>
@@ -143,11 +147,7 @@ export default function FluidCards({
           <div className={styles.scenariosThumb} data-milk-moveup>
             <img src={scenarios.image.src} alt={scenarios.image.alt} />
           </div>
-        ) : (
-          <span className={styles.menuChip} aria-hidden="true">
-            &#8943;
-          </span>
-        )}
+        ) : null}
       </div>
     </div>
   );

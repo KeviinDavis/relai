@@ -53,7 +53,7 @@ export default function Home() {
       <VideoParallax />
 
       {/* <FluidStats media={media} cards={cards} tone="inherit" /> */}
-      <FluidCards scenarios={impactScenarios} cards={cards} tone="inherit" introPosition="bottom" />
+      <FluidCards scenarios={impactScenarios} cards={cards} tone="inherit" introPosition="top" />
       {/* <ThemeBreak /> */}
       <SplitSection content={customerStory} />
       <News content={news} tone="inherit" />

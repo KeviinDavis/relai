@@ -5,23 +5,20 @@
 // cards. The card "code" is the big stat value, the footer "label" is the
 // stat's short title, and the body "text" is the full description.
 //
-// The intro thumb is a neutral gray placeholder — swap `scenarios.image.src`
-// for real art later. (The stat cards carry no image.)
+// The intro card carries no image — just the heading + lead paragraph.
+// (The stat cards carry no image either.)
 
 export const meta = {
-  title: "Impact — Sandbox",
+  title: "Impact, Sandbox",
   description:
-    "The mission in numbers — three figures that describe the problem Relai exists to fix.",
+    "The mission in numbers: three figures that describe the problem Relai exists to fix.",
 };
 
-const placeholder = (alt) => ({ src: "/placeholders/impact-thumb.svg", alt });
-
-// Intro row: big heading (left) + gray lead card with a small thumb (right).
+// Intro row: big heading (left) + lead card with the mission paragraph (right).
 export const scenarios = {
   heading: "The mission in numbers",
   description:
-    "Every port, vessel, and terminal runs on its own factors. But three numbers describe the problem Relai exists to fix — and the scale it now moves at.",
-  image: placeholder("Mission impact overview"),
+    "Every port, vessel, and terminal runs on its own factors. But three numbers describe the problem Relai exists to fix and the scale it now moves at.",
 };
 
 // Fluid-width cards — the first sits pre-expanded at rest; hovering any other
@@ -42,6 +39,6 @@ export const cards = [
   {
     code: "2.4M+",
     label: "Container moves a year",
-    text: "Relai coordinates over two million container handoffs annually across its launch network — every one tracked from ship to truck.",
+    text: "Relai coordinates over two million container handoffs annually across its launch network, every one tracked from ship to truck.",
   },
 ];
