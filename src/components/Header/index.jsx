@@ -84,9 +84,18 @@ export default function Header() {
           scrolled ? styles.scrolled : ""
         } ${hidden ? styles.hidden : ""}`}
       >
-        <Link href={nav.brand.href} className={styles.logo} aria-label={nav.brand.ariaLabel}>
-          <Logo height={22} />
-        </Link>
+        {/* Mobile/tablet: a full-width frosted glass bar (same treatment as the
+            desktop pill) holding the wordmark; the hamburger nests over its
+            right end. Hidden at >= 1024px where the centered pill takes over. */}
+        <div className={styles.mobileBar}>
+          <Link
+            href={nav.brand.href}
+            className={`${styles.logo} theme-light`}
+            aria-label={nav.brand.ariaLabel}
+          >
+            <Logo height={22} />
+          </Link>
+        </div>
 
         {/* Desktop pill: wordmark + primary links + the filled CTA, all inside
             one frosted glass capsule. The glass is always light, so the
@@ -122,29 +131,16 @@ export default function Header() {
           (outside <header>) so they sit above the menu's modal layer and stay
           interactive while the menu is open. All hidden at >= 1024px. */}
       <div
-        className={`${styles.menuToggle} ${light ? "theme-light" : "theme-dark"} ${
+        className={`${styles.menuToggle} theme-light ${
           hidden && !menuOpen ? styles.hidden : ""
         }`}
       >
         <MenuToggle open={menuOpen} onToggle={() => setMenuOpen((v) => !v)} />
       </div>
 
-      {/* The in-nav logo is hidden under the open panel (it's below the modal
-          layer), so render a copy above it. The open frost is always light, so
-          scope it `theme-light` — the Logo reads --color-text-primary, which
-          flips to black there, so it themes itself dark-on-frost. It reveals
-          with the menu links via a clipped drop-in (see Header.module.css). */}
-      {menuOpen && (
-        <Link
-          href={nav.brand.href}
-          className={`${styles.menuLogo} theme-light`}
-          aria-label={nav.brand.ariaLabel}
-          onClick={closeMenu}
-        >
-          <Logo height={22} className={styles.menuLogoMark} />
-        </Link>
-      )}
-
+      {/* No separate over-menu logo: the menu now unrolls BELOW the nav bar, so
+          the persistent mobile bar (with its own wordmark) stays visible as the
+          header over the open menu. */}
       <MobileMenu
         open={menuOpen}
         onClose={closeMenu}

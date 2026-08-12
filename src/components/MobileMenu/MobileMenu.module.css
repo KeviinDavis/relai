@@ -1,7 +1,7 @@
 /* ============================================================
    MobileMenu — standalone, parent-controlled full-screen overlay.
-   Panel slides right-to-left in / left-to-right out (GSAP drives the
-   transform on .menuBg). Links + tagline reveal with a vertical clip
+   Panel unrolls downward from the nav on open and rolls back up on close
+   (GSAP drives clip-path on .menuBg). Links + tagline reveal with a vertical clip
    stagger. Background reuses the project's frosted-menu treatment
    (--color-nav-glass + backdrop blur), so the foreground is dark.
    ============================================================ */
@@ -25,14 +25,18 @@
 
 .menuBg {
   position: absolute;
-  inset: 0;
+  top: var(--nav-height);
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: -1;
   background-color: var(--color-nav-glass);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  /* INITIAL = parked off-screen to the right. */
-  transform: translateX(100%);
-  will-change: transform;
+  /* INITIAL = fully clipped from the bottom, so the panel unrolls downward
+     from the top (the nav) when it opens. */
+  clip-path: inset(0% 0% 100% 0%);
+  will-change: clip-path;
 }
 
 .menuLinks {

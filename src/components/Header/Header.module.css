@@ -20,16 +20,35 @@
   pointer-events: auto;
 }
 
-/* Standalone wordmark — pinned top-left, mobile only (desktop puts the brand
-   inside the pill). Reads the theme foreground (the header sets its own theme
-   class) so it stays legible on both the dark and light routes. */
+/* Wordmark inside the mobile glass bar (desktop puts the brand inside the
+   centered pill instead). Forced `theme-light` in the markup so it paints dark
+   on the always-light glass, matching the desktop wordmark. */
 .logo {
-  position: absolute;
-  top: 20px;
-  left: var(--gutter-sm);
   display: flex;
   align-items: center;
   color: var(--color-text-primary);
+}
+
+/* Mobile/tablet frosted glass bar, full-bleed edge-to-edge across the top
+   (translucent white glass + blur, no radius) with the wordmark at the left
+   and the hamburger over the right. Hidden at >= 1024px where the centered
+   .navGroup pill takes over. Lives inside the fixed header so it leaves
+   upward with the smart-header on scroll-down. */
+.mobileBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+  background-color: var(--color-nav-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: var(--color-black);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 0;
 }
 
 /* Frosted glass capsule — always horizontally centered on desktop, no movement
@@ -99,65 +118,21 @@
    menu is open (the menu itself is the components/MobileMenu overlay). */
 .menuToggle {
   position: fixed;
-  top: var(--space-m);
-  right: var(--gutter-sm);
+  top: calc((var(--nav-height) - 2.5rem) / 2);
+  right: var(--space-xl);
   z-index: calc(var(--z-modal) + 1);
   transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 /* Leaves upward with the bar on scroll-down (clears its own top offset too). */
 .menuToggle.hidden {
-  transform: translateY(calc(-100% - var(--space-m)));
-}
-
-/* Brand mark shown over the open menu — mirrors the nav logo's top-left spot,
-   above the modal layer. The element carries the `theme-light` class (see
-   Header/index.jsx), so the Logo reads --color-text-primary = black and paints
-   itself dark on the light frost — no explicit color needed here. */
-.menuLogo {
-  position: fixed;
-  top: var(--space-l);
-  left: var(--gutter-sm);
-  z-index: calc(var(--z-modal) + 1);
-  display: flex;
-  align-items: center;
-  /* Clip for the drop-in reveal — the mark slides down into view from here. */
-  overflow: hidden;
-}
-
-/* Reveals in step with the menu links (see MobileMenu): the same clipped
-   vertical drop, timed to the links' 0.25s start / 0.55s duration. `both`
-   holds the mark parked above the clip until the reveal fires. */
-.menuLogoMark {
-  animation: menuLogoReveal 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.25s both;
-}
-
-@keyframes menuLogoReveal {
-  from {
-    transform: translateY(-110%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-/* Menu opens instantly under reduced motion, so reveal the logo immediately too. */
-@media (prefers-reduced-motion: reduce) {
-  .menuLogoMark {
-    animation: none;
-  }
+  transform: translateY(calc(-100% - var(--gutter)));
 }
 
 @media (min-width: 1024px) {
-  .menuLogo {
-    display: none;
-  }
-}
-
-@media (min-width: 1024px) {
-  /* The wordmark lives inside the pill on desktop; the standalone top-left
-     mark is mobile-only. */
-  .logo {
+  /* The wordmark lives inside the centered pill on desktop; the mobile glass
+     bar is hidden. */
+  .mobileBar {
     display: none;
   }
 

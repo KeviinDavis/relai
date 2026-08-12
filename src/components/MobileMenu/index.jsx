@@ -20,9 +20,9 @@ const twoDigit = (n) => String(n).padStart(2, "0");
  * matchMedia "is mobile" guard is needed here; the panel relies on mount /
  * unmount.
  *
- * Motion: the panel slides in right-to-left and back out to the right; the
- * links + tagline reveal with a vertical clip stagger (drop in from the top of
- * their clip). Under prefers-reduced-motion the panel still opens/closes — just
+ * Motion: the panel unrolls downward from the nav (clip-path grows from the
+ * top) and rolls back up on close; the links + tagline reveal with a vertical
+ * clip stagger (drop in from the top of their clip). Under prefers-reduced-motion the panel still opens/closes — just
  * instantly, since the menu is functional rather than decorative.
  */
 export default function MobileMenu({ open, onClose, links = [], tagline }) {
@@ -61,17 +61,26 @@ export default function MobileMenu({ open, onClose, links = [], tagline }) {
         hasBeenOpened.current = true;
 
         if (reduce) {
-          gsap.set(bg, { x: 0 });
+          gsap.set(bg, { clipPath: "inset(0% 0% 0% 0%)" });
           gsap.set(reveals, { visibility: "visible", yPercent: 0 });
           return;
         }
 
+        // Park the reveals BEFORE the timeline renders — a synchronous gsap.set
+        // (applied in this pre-paint layout effect) rather than a deferred
+        // tl.set(), so the link text never paints at its resting position for a
+        // frame before the panel unrolls. That one-frame flash is the bug.
+        gsap.set(anchors, { visibility: "visible", yPercent: -110 });
+        if (tagP) gsap.set(tagP, { visibility: "visible", yPercent: -110 });
+
         const tl = gsap.timeline();
         menuTl.current = tl;
-        tl.set(anchors, { visibility: "visible", yPercent: -110 }, 0);
-        if (tagP) tl.set(tagP, { visibility: "visible", yPercent: -110 }, 0);
-        // Panel slides in from the right edge.
-        tl.to(bg, { x: 0, duration: 0.55, ease: "power3.inOut" }, 0);
+        // Panel unrolls downward from the nav (top), growing to full height.
+        tl.to(
+          bg,
+          { clipPath: "inset(0% 0% 0% 0%)", duration: 0.55, ease: "power3.inOut" },
+          0
+        );
         // Links + tagline drop into their clip once the panel is moving.
         tl.to(
           anchors,
@@ -91,7 +100,7 @@ export default function MobileMenu({ open, onClose, links = [], tagline }) {
       if (!hasBeenOpened.current) return;
 
       if (reduce) {
-        gsap.set(bg, { x: "100%" });
+        gsap.set(bg, { clipPath: "inset(0% 0% 100% 0%)" });
         gsap.set(reveals, { visibility: "hidden" });
         return;
       }
@@ -104,8 +113,12 @@ export default function MobileMenu({ open, onClose, links = [], tagline }) {
         { yPercent: -110, stagger: 0.02, duration: 0.3, ease: "power2.in" },
         "-=0.2"
       );
-      // Panel slides back out to the right.
-      tl.to(bg, { x: "100%", duration: 0.5, ease: "power3.inOut" }, "-=0.15");
+      // Panel rolls back up into the nav.
+      tl.to(
+        bg,
+        { clipPath: "inset(0% 0% 100% 0%)", duration: 0.5, ease: "power3.inOut" },
+        "-=0.15"
+      );
       tl.set(anchors, { visibility: "hidden" });
       if (tagP) tl.set(tagP, { visibility: "hidden" });
     },
