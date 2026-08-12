@@ -1,9 +1,17 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Section from "@/components/Section";
 import Container from "@/components/Container";
 import Eyebrow from "@/components/Eyebrow";
 import Button from "@/components/Button";
 import HeroVideo from "@/components/CompositeHero/HeroVideo";
 import styles from "./CompositeHero12.module.css";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 // Up-right link affordance — same glyph the StageHero/News link arrows use.
 function ArrowIcon({ className = "" }) {
@@ -57,19 +65,51 @@ export default function CompositeHero12({
 }) {
   const { eyebrow, title, cta, media } = content;
 
+  // Scroll-driven vertical parallax on the hero footage — the exact same drift
+  // as VideoParallax, reused off the project's GSAP + Lenis stack. The video
+  // layer is taller than its clipping frame; as the hero crosses the viewport it
+  // drifts ±16.66% of its own height, so the frame reads as a moving window onto
+  // it.
+  const scope = useRef(null);
+  useGSAP(
+    () => {
+      const reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+      if (reduced) return;
+
+      const layer = scope.current.querySelector("[data-parallax-video]");
+      gsap.fromTo(
+        layer,
+        { yPercent: -16.66 },
+        {
+          yPercent: 16.66,
+          ease: "none",
+          scrollTrigger: {
+            trigger: scope.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
+    },
+    { scope }
+  );
+
   // Reflow the real board data (never re-authored) into the four pills + caption.
   const feed = board.feed.rows;
   const back2 = feed[0]; // MSCU 774918-5 · Discharged · Pier T · 4m
   const back3 = feed[1]; // Booking LB-30219 · Customs cleared · 22m
   const back4 = feed[2]; // Drayage #8841 · Gate-out · APM Terminal · 1h
   const breach = board.console.table.rows.find((r) => r.flag) ?? board.console.table.rows[0];
-  const stat = (label) => board.console.stats.find((s) => s.label === label)?.value;
-  const caption = `${stat("Due today")} due today · ${stat("Exposure")} exposure · tap to open`;
 
   return (
     <Section variant="hero" className={`theme-light ${styles.stage}`}>
-      <div className={styles.frame}>
-        <HeroVideo className={styles.video} src={media.src} poster={media.poster} />
+      <div ref={scope} className={styles.frame}>
+        <div className={styles.videoLayer} data-parallax-video>
+          <HeroVideo className={styles.video} src={media.src} poster={media.poster} />
+        </div>
       </div>
 
       <Container className={`theme-dark ${styles.overlay}`}>
@@ -118,7 +158,6 @@ export default function CompositeHero12({
             metric={breach.dem}
             metricRed
           />
-          <div className={styles.stackCap}>{caption}</div>
         </div>
       </Container>
 

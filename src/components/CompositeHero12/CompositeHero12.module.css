@@ -17,7 +17,10 @@
   --hero-inset: 0;
   --hero-frame-radius: 0;
 
-  min-height: 100svh;
+  /* Cropped shorter than the full viewport: a less-portrait frame means the
+     landscape footage is scaled up less by object-fit:cover, so it reads at a
+     calmer zoom (on phones the content height is the floor). */
+  min-height: 70svh;
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
@@ -35,12 +38,23 @@
   z-index: 0;
 }
 
-.video {
+/* Oversized layer clipped by the frame. GSAP drifts it vertically for the
+   parallax; the extra height (top:-30% / height:160%) keeps its top and bottom
+   edges outside the frame at every point in the ±16.66% travel, so no gaps show.
+   Same geometry as VideoParallax. */
+.videoLayer {
   position: absolute;
-  inset: 0;
+  top: -30%;
+  left: 0;
+  width: 100%;
+  height: 160%;
+}
+
+.video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 /* Uniform dim so the white copy + pills stay legible over the bright footage.
@@ -58,7 +72,7 @@
    it fills; when it's shorter (desktop) it centers, so there's no dead space.
    The asymmetric top padding clears the fixed nav. */
 .overlay {
-  min-height: calc(100svh - 2 * var(--hero-inset));
+  min-height: calc(70svh - 2 * var(--hero-inset));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -268,16 +282,6 @@
   color: var(--v12-accent);
   font-weight: var(--weight-semibold);
   font-family: var(--v12-mono);
-}
-
-/* Caption under the stack, over the video. */
-.stackCap {
-  margin-top: 0.875rem;
-  text-align: center;
-  font-size: 0.625rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Fixed sandbox label — module-scoped, never page-level. */
