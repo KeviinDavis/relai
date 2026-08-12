@@ -11,8 +11,10 @@
 
 .viewport {
   --lw-duration: 40s;
-  --lw-gap: var(--space-6xl);
-  --lw-logo-height: var(--space-5xl);
+  /* Fluid so the marquee shrinks on phones and reaches full size by ~desktop:
+     gap 2rem → 3.75rem, logo 2.25rem → 3rem. */
+  --lw-gap: clamp(var(--space-2xl), 5vw, var(--space-6xl));
+  --lw-logo-height: clamp(var(--space-3xl), 4.5vw, var(--space-5xl));
   overflow: hidden;
   /* Soft edge fade — mask stops are alpha-only, not themed colors */
   -webkit-mask-image: linear-gradient(
