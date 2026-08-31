@@ -1,0 +1,434 @@
+/* MobileSheet — VARIANT 11. The board reflowed into a frosted phone sheet.
+   The glass palette below MIRRORS the Dashboard glass skin verbatim
+   (Dashboard.module.css `.board.glass`, lines ~681-793) — same alphas, blur,
+   bright edge, lifted muted, radius tiers, mono stack, and the near-opaque
+   backdrop-less fallback — so the sheet composites over the footage identically
+   to the desktop board. These are compositing values, not page-theme tokens
+   (the board owns them the same way), hence the local rgba/hex here. */
+
+.sheet {
+  --sheet-glass-alpha: 0.82;
+  --sheet-fg: #141414;
+  --sheet-muted: #6b6b6b;
+  --sheet-accent: #de4a3b;
+  --sheet-sunken: rgba(0, 0, 0, 0.045);
+  --sheet-line: rgba(0, 0, 0, 0.09);
+  --sheet-edge: rgba(0, 0, 0, 0.14);
+  --sheet-thead: rgba(255, 255, 255, 0.28);
+  --sheet-source: rgba(244, 244, 242, 0.97);
+  --sheet-r-lg: 0.875rem;
+  --sheet-r-md: 0.5rem;
+  --sheet-r-sm: 0.375rem;
+  --sheet-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  margin-top: var(--space-l);
+  padding: 0.625rem var(--space-l)
+    calc(var(--space-l) + env(safe-area-inset-bottom, 0px));
+  color: var(--sheet-fg);
+  font-family: var(--font-primary);
+
+  background: rgba(244, 244, 242, var(--sheet-glass-alpha));
+  -webkit-backdrop-filter: blur(24px) saturate(1.05);
+  backdrop-filter: blur(24px) saturate(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.55); /* the bright glass edge */
+  border-bottom: 0;
+  border-radius: var(--sheet-r-lg) var(--sheet-r-lg) 0 0;
+}
+
+/* No backdrop-filter → raise to near-opaque so the fine data never renders
+   see-through and unreadable (mirrors the board's fallback). */
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .sheet {
+    --sheet-glass-alpha: 0.95;
+  }
+}
+
+.handle {
+  width: 2.5rem;
+  height: 0.25rem;
+  border-radius: 0.1875rem;
+  background: rgba(0, 0, 0, 0.18);
+  margin: 0 auto 0.875rem;
+}
+
+/* ---------- Segmented control ---------- */
+
+.seg {
+  display: flex;
+  gap: 0.125rem;
+  padding: 0.1875rem;
+  margin-bottom: 0.875rem;
+  background: var(--sheet-sunken);
+  border: 1px solid var(--sheet-line);
+  border-radius: 0.5625rem;
+}
+
+.segItem {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.4375rem 0;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: var(--sheet-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--sheet-r-sm);
+  cursor: pointer;
+}
+
+/* Active = white fill + a hairline border, NO shadow (design-system rule). */
+.on,
+.on:hover {
+  color: var(--sheet-fg);
+  font-weight: var(--weight-medium);
+  background: #ffffff;
+  border-color: var(--sheet-edge);
+}
+
+/* THE single accent on the screen. */
+.badge {
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.25rem;
+  border-radius: 0.5rem;
+  background: var(--sheet-accent);
+  color: #ffffff;
+  font-size: 0.5625rem;
+  font-weight: var(--weight-semibold);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Panes ---------- */
+
+.pane {
+  min-height: 0;
+}
+
+.dayLabel {
+  font-size: 0.625rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--sheet-muted);
+  padding: 0.125rem 0 0.25rem;
+}
+
+/* ---------- Feed ---------- */
+
+.frow {
+  display: grid;
+  grid-template-columns: 1.875rem 1fr auto;
+  gap: 0.6875rem;
+  align-items: flex-start;
+  padding: 0.6875rem 0;
+  border-top: 1px solid var(--sheet-line);
+}
+
+.dayLabel + .frow {
+  border-top: 0;
+}
+
+.mark {
+  width: 1.875rem;
+  height: 1.875rem;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sheet-sunken);
+  border: 1px solid var(--sheet-line);
+  border-radius: var(--sheet-r-sm);
+  font-family: var(--sheet-mono);
+  font-size: 0.5625rem;
+  color: var(--sheet-muted);
+}
+
+.fbody {
+  min-width: 0;
+}
+
+.fid {
+  font-family: var(--sheet-mono);
+  font-size: 0.8125rem;
+  color: var(--sheet-fg);
+}
+
+.fsub {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  flex-wrap: wrap;
+}
+
+/* Micro-caps status trigger; dotted underline advertises the tap. */
+.state {
+  font-family: inherit;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheet-muted);
+  font-weight: var(--weight-medium);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px dotted var(--sheet-edge);
+  padding: 0 0 1px;
+  cursor: pointer;
+}
+
+.state:focus-visible {
+  outline: 2px solid var(--sheet-fg);
+  outline-offset: 2px;
+}
+
+.sep {
+  color: var(--sheet-edge);
+}
+
+.loc {
+  color: var(--sheet-muted);
+  font-size: 0.75rem;
+}
+
+.age {
+  color: var(--sheet-muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inline source reveal — an inset field (not a floating tooltip), aligned
+   under the id. Near-opaque so the attribution stays legible on any footage. */
+.source {
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  background: var(--sheet-sunken);
+  border: 1px solid var(--sheet-line);
+  border-radius: var(--sheet-r-md);
+}
+
+.sourceLabel {
+  font-size: 0.5625rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--sheet-muted);
+  font-weight: var(--weight-medium);
+}
+
+.sourceValue {
+  margin-top: 0.1875rem;
+  font-family: var(--sheet-mono);
+  font-size: 0.6875rem;
+  color: var(--sheet-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Auto-summary ---------- */
+
+.summary {
+  margin-top: 0.75rem;
+  padding: 0.75rem 0.8125rem;
+  background: var(--sheet-sunken);
+  border: 1px solid var(--sheet-line);
+  border-radius: 0.5625rem;
+}
+
+.summary p {
+  margin: 0;
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  color: var(--sheet-fg);
+}
+
+.summaryMeta {
+  margin-top: 0.4375rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sheet-muted);
+}
+
+/* Gray on purpose — the sheet's single accent is the badge / breach row, never
+   the live dot (the board never goes green either). Soft gray pulse. */
+.live {
+  width: 0.375rem;
+  height: 0.375rem;
+  flex: none;
+  border-radius: 50%;
+  background: var(--sheet-muted);
+  animation: sheetLivePulse 2.4s ease-out infinite;
+}
+
+@keyframes sheetLivePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.18);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.375rem rgba(0, 0, 0, 0);
+  }
+}
+
+/* ---------- Console ---------- */
+
+.query {
+  align-self: flex-end;
+  max-width: 82%;
+  margin: 0 0 0.75rem auto;
+  padding: 0.5rem 0.6875rem;
+  background: var(--sheet-sunken);
+  border: 1px solid var(--sheet-line);
+  border-radius: var(--sheet-r-md);
+  font-size: 0.78125rem;
+  color: var(--sheet-fg);
+}
+
+.answer {
+  color: var(--sheet-fg);
+  font-size: 0.78125rem;
+  line-height: 1.5;
+  margin-bottom: 0.625rem;
+}
+
+.answer b {
+  font-weight: var(--weight-semibold);
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1875rem 1rem;
+  margin-bottom: 0.875rem;
+  padding: 0.5625rem 0.6875rem;
+  background: var(--sheet-thead);
+  border: 1px solid var(--sheet-line);
+  border-radius: var(--sheet-r-md);
+  color: var(--sheet-muted);
+  font-size: 0.6875rem;
+}
+
+.stats b {
+  margin-left: 0.3125rem;
+  color: var(--sheet-fg);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Risk / exception rows (Console + Exceptions panes) ---------- */
+
+.riskList {
+  border: 1px solid var(--sheet-edge);
+  border-radius: var(--sheet-r-md);
+  overflow: hidden;
+}
+
+.risk {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  padding: 0.625rem 0.6875rem;
+  border-top: 1px solid var(--sheet-line);
+}
+
+.riskList .risk:first-child {
+  border-top: 0;
+}
+
+/* Exceptions pane renders rows outside a bordered list — give them the day
+   label gap and hairlines directly. */
+.dayLabel + .risk {
+  border-top: 0;
+}
+
+.riskMain {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.riskMeta {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+}
+
+.riskNums {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.1875rem;
+}
+
+.riskId {
+  font-family: var(--sheet-mono);
+  font-size: 0.75rem;
+  color: var(--sheet-fg);
+}
+
+.riskSub {
+  margin-top: 0.1875rem;
+  font-family: var(--sheet-mono);
+  font-size: 0.65625rem;
+  color: var(--sheet-muted);
+}
+
+.riskState {
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sheet-muted);
+}
+
+.lfd {
+  font-family: var(--sheet-mono);
+  font-size: 0.75rem;
+  color: var(--sheet-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Due today but not breaching — emphasized BLACK, never red. */
+.lfdToday {
+  color: var(--sheet-fg);
+  font-weight: var(--weight-medium);
+}
+
+/* THE one accent inside the pane: red last-free-day on the breaching row. */
+.lfdBreach {
+  color: var(--sheet-accent);
+  font-weight: var(--weight-semibold);
+}
+
+.dem {
+  font-family: var(--sheet-mono);
+  font-size: 0.71875rem;
+  color: var(--sheet-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The breaching row's 2px inset red left edge (matches the desktop board). */
+.flag {
+  box-shadow: inset 2px 0 0 var(--sheet-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live {
+    animation: none;
+    box-shadow: none;
+  }
+}

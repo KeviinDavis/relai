@@ -36,16 +36,16 @@ export default function Home() {
       {/* Hero candidates — swap by moving the comments; exactly ONE mounts.
           Both board heroes share content/dashboard.js. */}
       {/* <FluidHero content={fluidHero} tone="inherit" /> */}
-      {/* <StageHero content={stageHero} tone="light" /> */}
+      <StageHero content={stageHero} tone="light" />
       {/* <BoardHero content={boardHero} board={dashboard} /> */}
       {/* <ProductHero content={productHero} board={dashboard} /> */}
       {/* <CompositeHero content={compositeHero} board={dashboard} /> */}
-      <CompositeHero12
+      {/* <CompositeHero12
         content={compositeHero}
         board={dashboard}
         mobileTitle={mobileTitle}
         description={description}
-      />
+      /> */}
       <LogoWall content={logoWall} tone="inherit" />
       {/* <ThemeBreak /> */}
       <FluidCards scenarios={platformScenarios} cards={platformCards} tone="inherit" introPosition="top" />

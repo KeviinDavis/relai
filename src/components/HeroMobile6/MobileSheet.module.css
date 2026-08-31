@@ -1,0 +1,250 @@
+/* MobileSheet — Variant 6 frosted bottom sheet (SANDBOX).
+   The glass values below are the REAL board-glass set, pulled verbatim from
+   Dashboard.module.css `.board.glass` (NOT the attached HTML mock, whose
+   numbers are approximations): alpha 0.82, blur(24px) saturate(1.05), the
+   bright edge rgba(255,255,255,0.55), fg #141414, glass-context muted #6b6b6b,
+   the one accent #de4a3b, and the mono stack. Declared as scoped locals here —
+   the same idiom the board uses (its fixed product-UI palette is deliberately
+   NOT page-theme tokens; it renders identically on any theme). */
+
+.sheet {
+  --board-glass-alpha: 0.82;
+  --board-fg: #141414;
+  --board-muted: #6b6b6b;
+  --board-accent: #de4a3b;
+  --board-edge: rgba(0, 0, 0, 0.14);
+  --board-line: rgba(0, 0, 0, 0.09);
+  --board-inset: rgba(0, 0, 0, 0.045);
+  --board-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --glass-surface: 244, 244, 242; /* rgb — feeds the surface + the peek fade */
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-s) var(--space-l) 0;
+  color: var(--board-fg);
+  background: rgba(var(--glass-surface), var(--board-glass-alpha));
+  -webkit-backdrop-filter: blur(24px) saturate(1.05);
+  backdrop-filter: blur(24px) saturate(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.55); /* the bright glass edge */
+  border-bottom: 0;
+  border-radius: var(--space-l) var(--space-l) 0 0; /* top corners only */
+  overflow: hidden;
+}
+
+/* No backdrop-filter → no blur to carry the fine data; raise the glass to
+   near-opaque so it never renders see-through and unreadable (board's fallback). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .sheet {
+    --board-glass-alpha: 0.95;
+  }
+}
+
+/* ---------- Grab handle ---------- */
+
+.handle {
+  flex: none;
+  width: 2.5rem;
+  height: 0.25rem;
+  margin: 0 auto var(--space-m);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+/* ---------- Header row ---------- */
+
+.head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-s);
+}
+
+.headLabel {
+  font-size: 0.6875rem; /* 11px */
+  color: var(--board-muted);
+}
+
+/* The red beat — the ONLY accent on the screen. */
+.due {
+  margin-left: auto;
+  font-size: 0.625rem; /* 10px */
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: var(--weight-semibold);
+  color: var(--board-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Live dot stays GRAY here (the red lives only on .due); soft radial pulse. */
+.live {
+  flex: none;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background: var(--board-muted);
+}
+
+.pulse {
+  animation: sheetLivePulse 2.4s ease-out infinite;
+}
+
+@keyframes sheetLivePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.18);
+  }
+
+  70% {
+    box-shadow: 0 0 0 0.375rem rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse {
+    animation: none;
+  }
+}
+
+/* ---------- Feed list (scrolls; peeks past the sheet) ---------- */
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.dayLabel {
+  font-size: 0.625rem; /* 10px */
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+  padding: var(--space-2xs) 0;
+}
+
+.row {
+  display: flex;
+  gap: var(--space-s);
+  align-items: flex-start;
+  padding: var(--space-s) 0;
+  border-top: 1px solid var(--board-line);
+}
+
+/* First row (right after the day label) drops the divider. */
+.dayLabel + .row {
+  border-top: 0;
+}
+
+.mark {
+  flex: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--board-line);
+  border-radius: var(--space-2xs); /* 6px */
+  background: var(--board-inset);
+  font-family: var(--board-mono);
+  font-size: 0.5625rem; /* 9px */
+  color: var(--board-muted);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.rowId {
+  font-family: var(--board-mono);
+  font-size: 0.8125rem; /* 13px */
+  color: var(--board-fg);
+}
+
+.sub {
+  margin-top: var(--space-2xs);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* Micro-cap state — a real button (tappable/keyboard), dotted underline cue. */
+.state {
+  padding: 0 0 1px;
+  border: 0;
+  border-bottom: 1px dotted var(--board-edge);
+  background: none;
+  font-family: inherit;
+  font-size: 0.625rem; /* 10px */
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-weight: var(--weight-medium);
+  color: var(--board-muted);
+  cursor: pointer;
+}
+
+.state:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.sep {
+  color: var(--board-edge);
+  font-size: 0.75rem;
+}
+
+.loc {
+  color: var(--board-muted);
+  font-size: 0.75rem;
+}
+
+.age {
+  flex: none;
+  color: var(--board-muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inset source card revealed on tap (row 0 open by default). */
+.source {
+  margin: var(--space-xs) 0 var(--space-2xs);
+  padding: var(--space-xs) var(--space-s);
+  border: 1px solid var(--board-line);
+  border-radius: var(--space-xs); /* 8px */
+  background: var(--board-inset);
+}
+
+.sourceLabel {
+  font-size: 0.5rem; /* 8px */
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--board-muted);
+}
+
+.sourceValue {
+  margin-top: var(--space-2xs);
+  font-family: var(--board-mono);
+  font-size: 0.6875rem; /* 11px */
+  color: var(--board-fg);
+}
+
+/* Soft fade at the sheet's bottom edge — implies more below, invites swipe-up. */
+.peekFade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4.375rem; /* 70px */
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--glass-surface), 0),
+    rgba(var(--glass-surface), 0.9)
+  );
+}

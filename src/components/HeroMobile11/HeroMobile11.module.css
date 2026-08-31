@@ -1,0 +1,339 @@
+/* HeroMobile11 — VARIANT 11 (sandbox). Desktop is a VERBATIM copy of
+   CompositeHero.module.css (lines 1-140) so the composite renders byte-for-byte
+   identically; the ONLY divergence is the mobile branch at the bottom, which is
+   rewritten for variant 11 (full-bleed footage, white copy, a frosted segmented
+   bottom sheet) instead of CompositeHero's light-copy-over-contained-panel.
+   Keep the desktop block in sync with the source only if the source changes. */
+
+/* ---------- Desktop (verbatim from CompositeHero) ---------- */
+
+.stage {
+  /* Contained panel on the light page surface (the reference framing).
+     FULL-BLEED FLIP: zero these two knobs. */
+  --hero-inset: var(--space-xs);
+  --hero-frame-radius: 1rem;
+
+  padding: var(--hero-inset);
+  /* The surround IS the page background — the same surface the rest of the
+     light phase sits on (StageHero/BoardHero idiom); the global grain
+     (body::before) supplies the noise. */
+  background-color: var(--color-bg-primary);
+}
+
+/* Section's hero variant pins the first child to inset 0; pull it in by the
+   frame inset, round, and clip. (0,3,0) beats the primitive's (0,2,0). */
+.stage.stage > :first-child {
+  inset: var(--hero-inset);
+  border-radius: var(--hero-frame-radius);
+  overflow: hidden;
+  background-color: var(--color-bg-dark); /* pre-poster paint */
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay = the Container primitive (Section lifts it to z-index 2). Its
+   min-height gives the section its height and anchors the copy column. */
+.overlay {
+  min-height: calc(100vh - 2 * var(--hero-inset));
+}
+
+/* ---------- Copy column — locked bottom-left ---------- */
+
+.lead {
+  position: absolute;
+  z-index: 1;
+  left: var(--gutter);
+  bottom: clamp(var(--space-5xl), 5vw, var(--space-7xl));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* The reference breathes: tag, headline, and CTA sit far apart. */
+  gap: var(--space-8xl);
+  max-width: 31.875rem; /* 510px — never grows into the board's zone */
+}
+
+/* Frosted tag pill on footage. .lead scope (0,2,0) beats the Eyebrow variant
+   rule (0,1,0). 11px/0.16em are reference-local departures (BoardHero idiom:
+   this component reconstructs a specific artwork). */
+.lead .eyebrow {
+  color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+}
+
+.title {
+  margin: 0;
+  /* 44px at 390 → capped at the reference's 90px. */
+  font-size: clamp(2.75rem, 1.4rem + 5.4vw, 5.625rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  /* The specified legibility device over footage — no scrim. */
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Frosted-white CTA pill, dark text. Hover is (0,3,0) so it beats Button's
+   .solid:hover (0,2,0) regardless of bundle order. */
+.lead .cta {
+  height: 3.25rem;
+  gap: var(--space-xs);
+  padding: 0 var(--space-xl);
+  font-size: var(--font-body);
+  font-weight: var(--weight-medium);
+  letter-spacing: normal;
+  color: #141414;
+  background-color: rgba(244, 244, 242, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.5rem;
+}
+
+.lead .cta:hover {
+  color: #141414;
+  background-color: rgba(244, 244, 242, 0.95);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.arrow {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+}
+
+/* ---------- Board layer — clip box + bleeding mount ---------- */
+
+/* Same inset box as the frame, so the bleed crops on the frame's rounded
+   edge. Painted above the copy but pointer-dead; the mount re-enables, so
+   clicks fall through to the CTA and board hovers still work.
+   (0,3,0) beats the hero variant's `> :not(:first-child)` (0,2,0). */
+.stage.stage .boardLayer {
+  position: absolute;
+  inset: var(--hero-inset);
+  z-index: 2;
+  border-radius: var(--hero-frame-radius);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Bottom-right origin makes the negative offsets literal bleed distances
+   past the frame edge (the reference's right:-170px / bottom:-36px on a
+   ~980px board — 1360 × 0.72 ≈ 979). Scale + offsets tune as one group. */
+.boardMount {
+  position: absolute;
+  right: -1.625rem;
+  bottom: -2.25rem;
+  transform: scale(0.72);
+  transform-origin: bottom right;
+  pointer-events: auto;
+}
+
+/* ---------- Variant-11 additions (desktop) ---------- */
+
+/* The mobile sheet, the product description, and the bottom progressive blur
+   all exist in the DOM at every width but only paint below the breakpoint —
+   keep them out of the desktop composite entirely so desktop stays identical. */
+.mobileSheet {
+  display: none;
+}
+
+.subhead {
+  display: none;
+}
+
+.bottomBlur {
+  display: none;
+}
+
+/* Sandbox label — fixed, bottom-left so it never fouls the top-right menu
+   button. Frosted so it reads on either the dark footage or the light page. */
+.cornerTag {
+  position: fixed;
+  bottom: var(--space-m);
+  left: var(--space-m);
+  z-index: var(--z-modal);
+  padding: var(--space-2xs) var(--space-s);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: var(--weight-medium);
+  color: #141414;
+  background-color: rgba(244, 244, 242, 0.82);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+}
+
+/* ---------- Mobile — VARIANT 11 (segmented sheet) ----------
+   NOT CompositeHero's mobile branch. Here the footage stays FULL-BLEED behind
+   everything (only the sky moves), the copy stays WHITE over it (chip → headline
+   → frosted CTA, pinned to the bottom of the video zone), the desktop bleeding
+   board is dropped, and a frosted segmented BOTTOM SHEET takes its place. */
+
+@media (max-width: 767px) {
+  .stage.stage {
+    position: relative;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    /* Pin to exactly one viewport and CLIP: the sheet runs off the bottom edge
+       and its tail is never revealed (no page scroll to it). Clipping the hero
+       to a fixed box also drops the content-overflow scrollbar that was skewing
+       the sheet's left corner. */
+    height: 100svh;
+    /* Full-bleed: footage reaches every viewport edge, sheet bleeds to sides. */
+    padding: 0;
+    background-color: transparent;
+    overflow: hidden;
+  }
+
+  /* Footage = full-bleed background for the whole hero (z-0). Overrides the
+     desktop inset/round on the Section's first child; same (0,3,0) → source
+     order wins. */
+  .stage.stage > :first-child {
+    inset: 0;
+    border-radius: 0;
+    z-index: 0;
+  }
+
+  /* Copy zone — reserves the top ~half of the viewport (never shrinks, so the
+     centered copy can't be squeezed once the hero is a fixed, clipped box); the
+     copy is pinned to the BOTTOM of that zone (just above the sheet), white over
+     footage. Top padding clears the fixed global nav. */
+  .overlay {
+    min-height: 52svh;
+    min-width: 0;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-top: calc(var(--nav-height) + var(--space-m));
+    padding-bottom: var(--space-xl);
+    z-index: 1;
+  }
+
+  .lead {
+    position: static;
+    max-width: 100%;
+    gap: var(--space-m);
+    /* Centered stack (Quartr idiom): chip, headline, description, CTA all
+       centered. Eyebrow / title / CTA KEEP their desktop white-over-footage
+       styling — this variant does not flip to dark-on-light. */
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    /* ~50px, two lines ("Redefining" / "Freight"); stays white with the
+       legibility shadow. */
+    font-size: clamp(2.875rem, 1.6rem + 6.4vw, 3.375rem);
+    line-height: 0.9;
+  }
+
+  /* Product description beneath the headline — centered, white over footage. */
+  .subhead {
+    display: block;
+    margin: 0;
+    max-width: 22rem;
+    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+    line-height: 1.45;
+    font-weight: var(--weight-normal);
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.28);
+  }
+
+  /* Drop the desktop bleeding board; the sheet replaces it. */
+  .stage.stage .boardLayer {
+    display: none;
+  }
+
+  /* Reveal the sheet — Section lifts non-first children to z-index 2. The
+     min-height guarantees the sheet always runs past the bottom edge (even on
+     the shorter Console/Exceptions panes), so it's a surface that continues
+     below the fold rather than ending on-screen. Its tail is clipped by the
+     stage and softened by the bottom blur. */
+  .mobileSheet {
+    display: block;
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    min-height: 60svh;
+  }
+
+  /* Progressive blur over the sheet's clipped bottom edge — softens the hero's
+     hard stop (the frosted sheet dissolving off the bottom, the Quartr
+     product-shot idiom). MUST be fixed, not absolute: absolute inside the
+     stage's `overflow: hidden` clip box makes Chromium drop the layers'
+     backdrop-filter (a clipped stacking context stops it sampling the sheet
+     behind it) — fixed samples the viewport backdrop and renders reliably.
+     Above the sheet (z-2), below the corner tag (z-modal); pointer-transparent. */
+  .bottomBlur {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: clamp(6rem, 22vh, 11rem);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  /* Stacked layers: each starts lower and blurs harder, so the cumulative blur
+     ramps up toward the very bottom instead of switching on at a hard line.
+     A soft glass wash on the last layer finishes the fade. */
+  .blurLayer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .blurLayer:nth-child(1) {
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 20%, transparent 45%);
+    mask-image: linear-gradient(to top, #000 0%, #000 20%, transparent 45%);
+  }
+
+  .blurLayer:nth-child(2) {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 60%);
+    mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 60%);
+  }
+
+  .blurLayer:nth-child(3) {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 75%);
+    mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 75%);
+  }
+
+  .blurLayer:nth-child(4) {
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 65%, transparent 90%);
+    mask-image: linear-gradient(to top, #000 0%, #000 65%, transparent 90%);
+  }
+
+  /* Glass wash finishes the fade — the sheet's own tint, so the very bottom
+     dissolves into glass even where there's no content left to blur. */
+  .blurLayer:nth-child(5) {
+    background: linear-gradient(
+      to top,
+      rgba(244, 244, 242, 0.85),
+      rgba(244, 244, 242, 0)
+    );
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 90%);
+    mask-image: linear-gradient(to top, #000 0%, #000 35%, transparent 90%);
+  }
+}

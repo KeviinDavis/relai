@@ -1,0 +1,16 @@
+/* Fixed sandbox label — identifies this variant while previewing. Scoped to
+   this route so nothing leaks; token-only, no inline styles. */
+.cornerTag {
+  position: fixed;
+  right: var(--space-m);
+  bottom: var(--space-m);
+  z-index: var(--z-modal);
+  padding: var(--space-2xs) var(--space-s);
+  font-size: var(--font-tagline);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: var(--color-black);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+}

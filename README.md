@@ -56,6 +56,41 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-08-13 — Home hero footage: swap to `example7.mp4` (dusk harbor) + hero dim 60%→10%
+
+**What:** Repointed the live home hero (`CompositeHero12`, via `content/composite-hero.js`)
+from `example6.mp4` to `/exampleimages/example7.mp4` — anchored cargo ships on calm water at
+dusk, framed by silhouetted branches. Regenerated the frame-0 poster and updated the media
+`alt` + scene comments. Also dropped the hero's black dim from `rgba(0,0,0,0.6)` to `0.1` in
+`CompositeHero12.module.css` (per request) — legibility holds because this clip is already
+dark/low-key.
+
+**Why (encoding):** `example7.mp4` arrived as a raw **4K (3840×2160)** export with a dead AAC
+track and no faststart — exactly the shape the 08-11 payload work re-encodes. Downscaled to
+1080p H.264 (CRF 23, audio stripped, `+faststart`): **19.3 MB → 7.85 MB**. The pristine 4K
+master is preserved in-repo as `example7-source-4k.mp4` (the in-place overwrite was blocked to
+avoid destroying the original) — safe to delete if you don't want the ~19 MB in git.
+
+### 2026-08-13 — Home hero footage: swap to `example6.mp4` (aerial container ship)
+
+**What:** Pointed the live home hero (`CompositeHero12`, via `content/composite-hero.js`)
+at `/exampleimages/example6.mp4` — an aerial shot of a loaded container ship under way —
+replacing `about.mp4`. Regenerated the frame-0 poster (`composite-hero-poster.avif`, now
+1280×720 to match the 16:9 clip, ~30 KB) so the `prefers-reduced-motion` still stays
+pixel-consistent with the new footage, and updated the media `alt` + the file's scene
+comments. Remuxed the clip with `+faststart` (moov moved ahead of mdat) so it streams
+progressively, matching the 08-11 hero-clip standard.
+
+**Why:** Straight content swap the user requested. Kept the poster honest to its documented
+job (it's meant to be frame 0 of the clip). Did **not** re-encode for size: at CRF 24 the
+clip came out *larger*, so the original 4.2 Mbps encode is already efficient for 49 s of
+high-motion water — a lossless faststart remux was the only clean win. `stage-hero.js` and
+`about.js` still use `about.mp4`; only the composite hero moved.
+
+**Open item:** the clip is 25.9 MB / 49.5 s (vs `about.mp4`'s 3 MB / 20.6 s). If payload
+matters for the prod push, the levers are trimming the loop to ~15-20 s or accepting CRF 28
+(~19.8 MB, visible quality loss) — both are quality/length calls left to the user.
+
 ### 2026-08-11 — Home video payload: compress + lazy-load the two background clips
 
 **What:** Cut the home page's video weight ahead of the prod push. Both clips were
