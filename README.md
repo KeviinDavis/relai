@@ -56,6 +56,24 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-08-31 — StageHero: new footage, media-type flexibility, frame overflow fix
+
+**What:** The home hero (`StageHero`) got new background footage —
+`exampleimages/14298680_3840_2160_24fps.mp4`, an aerial night shot of a container
+ship at berth (4K/24fps, 55 MB — flagged for compression before a prod push).
+`StageHero` now reads the media type from content (`media.type`, defaulting to
+video) instead of hardcoding `type="video"`, so the same component can run a still
+image hero (with `priority` set for LCP); an image variant was trialed this way
+before landing on the new footage. The stage frame gutter widened from
+`--space-xs` (8px) to `--space-m` (16px) so the surround actually reads at a glance.
+
+**Bug fix:** the framed stage always overflowed the viewport horizontally.
+Media's wrapper sets `width: 100%`; combined with the frame's `left`/`right`
+insets the abspos box was over-constrained, CSS dropped `right`, and the video
+poked one gutter-width past the right edge — no right-side surround, plus
+sideways page scroll ("sliding"). `width: auto` on the frame rule lets the
+insets size the box.
+
 ### 2026-08-13 — Home hero footage: swap to `example7.mp4` (dusk harbor) + hero dim 60%→10%
 
 **What:** Repointed the live home hero (`CompositeHero12`, via `content/composite-hero.js`)

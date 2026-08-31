@@ -23,11 +23,11 @@ export const stageHero = {
   // "Book a demo", so the stage pill points at the platform.
   cta: { label: "See the Platform", href: "/product" },
 
-  // Full-bleed looping background — the live hero's media verbatim.
+  // Full-bleed looping background.
   media: {
     type: "video",
-    src: "/exampleimages/about.mp4",
-    alt: "Placeholder for the Relai hero background video, a port terminal at dusk.",
+    src: "/exampleimages/14298680_3840_2160_24fps.mp4",
+    alt: "Relai hero background video, a port terminal scene.",
   },
 
   // Top-left feature callout — the Terminal Orchestration capability

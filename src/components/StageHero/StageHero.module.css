@@ -17,7 +17,7 @@
   /* Framed stage: slim inset separating the video from the viewport edges,
      painted by the section itself (padding, not margin) so the tone owns the
      surround; plus the frame's own rounding — a larger tier than the cards. */
-  --stage-inset: var(--space-xs);
+  --stage-inset: var(--space-m);
   --stage-frame-radius: 1rem;
 
   padding: var(--stage-inset);
@@ -33,6 +33,11 @@
    video to the radius. */
 .stage.stage > :first-child {
   inset: var(--stage-inset);
+  /* Media's wrapper sets width: 100% — combined with left+right insets the box
+     is over-constrained and CSS drops `right`, so the wrapper pokes past the
+     viewport edge (horizontal scroll, no right gutter). Auto lets the insets
+     size it. */
+  width: auto;
   border-radius: var(--stage-frame-radius);
   /* Media's fill mode sets aspect-ratio (16/9 default) — on an abspos box the
      auto HEIGHT resolves from the ratio, not the bottom inset, so on any

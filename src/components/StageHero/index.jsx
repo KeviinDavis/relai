@@ -52,7 +52,13 @@ export default function StageHero({ content = {}, tone = "light" }) {
 
   return (
     <Section variant="hero" className={`${themeClass} ${styles.stage}`}>
-      <Media type="video" src={media.src} alt={media.alt} fill />
+      <Media
+        type={media.type || "video"}
+        src={media.src}
+        alt={media.alt}
+        fill
+        priority={media.type === "image"}
+      />
 
       <Container className={`theme-dark ${styles.overlay}`}>
         {/* Top-left feature callout */}
