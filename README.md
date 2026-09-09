@@ -56,6 +56,18 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-09-09 — Hero height: 100svh fix (CTA hidden behind phone URL bar)
+
+**What:** On real phones `100vh` measures the LARGEST viewport (URL bar
+collapsed), so on load — bar visible — the hero's bottom-anchored CTA and
+stat/notification zone hid behind the browser chrome. Added
+`min-height: 100svh` as a second declaration (progressive enhancement — old
+browsers keep the vh line) in two places: StageHero's `.overlay` (drives the
+hero's height on mobile) and the Section hero variant's ≥768px rule (covers
+tablets; desktop resolves svh == vh, unchanged). Chose svh over dvh so the
+hero never resizes mid-scroll as the bar hides/shows — the tradeoff is the
+next section peeking slightly earlier once the bar collapses.
+
 ### 2026-09-09 — StageHero: notification pill pair (MET reference placement)
 
 **What:** The live hero gained a two-pill notification stack below the nav,

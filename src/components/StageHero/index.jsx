@@ -130,8 +130,9 @@ export default function StageHero({ content = {}, board, tone = "light" }) {
         {/* Notification stack — below the nav, top-left (MET reference
             placement). Static data; the breach dot pulse is the only motion.
             Mobile-size width kept on desktop too (deliberately NOT shortened
-            like the reference's desktop card). */}
-        {board && (
+            like the reference's desktop card). Parked for now — restore by
+            uncommenting. */}
+        {/* {board && (
           <div className={styles.notifications}>
             <Pill
               className={styles.pillBack}
@@ -149,7 +150,7 @@ export default function StageHero({ content = {}, board, tone = "light" }) {
               metricRed
             />
           </div>
-        )}
+        )} */}
 
         {/* Bottom-left headline stack — sits directly on the footage */}
         <div className={styles.lead}>

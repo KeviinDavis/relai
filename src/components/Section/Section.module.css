@@ -21,6 +21,10 @@
 @media (min-width: 768px) {
   .hero {
     min-height: 100vh;
+    /* Tablets with collapsing URL bars: size to the small viewport so
+       bottom-anchored hero content stays visible on load. Desktop resolves
+       svh == vh; older browsers ignore this line. */
+    min-height: 100svh;
   }
 }
 
