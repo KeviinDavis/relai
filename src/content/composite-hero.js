@@ -18,8 +18,8 @@ export const compositeHero = {
   // Contained scene panel — the live hero's clip; the poster is its frame 0,
   // shown instead of motion under prefers-reduced-motion.
   media: {
-    src: "/exampleimages/example7.mp4",
-    poster: "/exampleimages/composite-hero-poster.avif",
+    src: "/RelaiImages/example7.mp4",
+    poster: "/RelaiImages/composite-hero-poster.avif",
     alt: "Cargo ships anchored on calm water at dusk, framed by silhouetted branches.",
   },
 };

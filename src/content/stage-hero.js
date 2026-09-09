@@ -4,10 +4,10 @@
 // headline stack sit OVER the footage (contrast with FluidHero, whose content
 // sits outside a contained image).
 // Copy is the LIVE Relai home hero (content/home.js): title/tag/media and the
-// leading action map straight across; the support card takes the hero text's
-// first sentence (the full paragraph outgrows the compact card); the feature
-// callout borrows the Terminal Orchestration capability — the closest Relai
-// analog to the reference's crane callout.
+// leading action map straight across; the bottom-right card is a network
+// throughput stat (2.4M containers) mirroring the reference's weather card;
+// the feature callout borrows the Terminal Orchestration capability — the
+// closest Relai analog to the reference's crane callout.
 
 export const meta = {
   title: "Stage Hero, Sandbox",
@@ -23,12 +23,20 @@ export const stageHero = {
   // "Book a demo", so the stage pill points at the platform.
   cta: { label: "See the Platform", href: "/product" },
 
-  // Full-bleed looping background.
+  // Full-bleed background — image pass, with a separate mobile crop.
+  // Video support stays in the component; switch back by restoring the
+  // commented block below.
   media: {
-    type: "video",
-    src: "/exampleimages/14298680_3840_2160_24fps.mp4",
-    alt: "Relai hero background video, a port terminal scene.",
+    type: "image",
+    src: "/RelaiImages/RelaiDesktop.png",
+    srcMobile: "/RelaiImages/RelaiMobile.png",
+    alt: "Relai hero background, a port terminal scene.",
   },
+  // media: {
+  //   type: "video",
+  //   src: "/RelaiImages/14298680_3840_2160_24fps.mp4",
+  //   alt: "Relai hero background video, a port terminal scene.",
+  // },
 
   // Top-left feature callout — the Terminal Orchestration capability
   // (content/home.js), standing in for the reference's "STS-07" crane card.
@@ -40,10 +48,14 @@ export const stageHero = {
     href: "/product",
   },
 
-  // Bottom-right support card — first sentence of the live hero text.
-  support: {
-    text: "Relai is the first unified platform for port and freight logistics, connecting vessel, terminal, yard, and truck into a single, real-time system.",
-    href: "/product",
+  // Bottom-right stat card — mirrors the reference weather-card anatomy
+  // (label row / dominant figure / caption / muted detail) with a network
+  // throughput stat in place of the temperature.
+  stat: {
+    label: "Containers",
+    value: "+2.4M",
+    caption: "Moved across the network",
+    detail: "Vessel, yard, and truck • Annually",
   },
 
   scrollHint: "Scroll to explore",

@@ -18,8 +18,8 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 // the section nears the viewport (IntersectionObserver), and reduced-motion
 // users never download it at all — the poster stands in.
 export default function VideoParallax({
-  src = "/exampleimages/Relai.mp4",
-  poster = "/exampleimages/parallax-poster.avif",
+  src = "/RelaiImages/Relai.mp4",
+  poster = "/RelaiImages/parallax-poster.avif",
 }) {
   const scope = useRef(null);
   const videoRef = useRef(null);

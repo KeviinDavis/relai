@@ -19,6 +19,6 @@ export const meta = {
 // Gray placeholder for now — swap `src` for real art or a clip later.
 export const media = {
   type: "video",
-  src: "/exampleimages/Relai.mp4",
+  src: "/RelaiImages/Relai.mp4",
   alt: "Mission impact overview",
 };

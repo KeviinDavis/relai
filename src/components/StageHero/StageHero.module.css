@@ -1,56 +1,52 @@
-/* StageHero — cinematic framed video hero. The footage is the stage
-   (Section's `hero` variant makes the <video> the absolute background); the
-   headline stack and the frosted-glass info cards float over it, always in
-   the fixed dark treatment (the overlay is scoped `theme-dark` in the markup;
-   card glass keeps the nav-pill token --color-nav-glass with a `theme-light`
-   rescope per card). The tone prop changes ONE thing: the surround behind the
-   video — the section paints its own padding frame from --color-bg-primary,
-   which the root's tone class scopes (light → white frame, dark → black,
-   inherit → tracks ThemeFadeZone). Cards round via local radius knobs — the
-   FluidHero/FluidCards family idiom — while the global card radius stays
-   SHARP. */
+/* StageHero — cinematic full-bleed video hero. The footage is the stage
+   (Section's `hero` variant makes the <video> the absolute background,
+   running edge-to-edge to the viewport); the headline stack and the
+   frosted-glass info cards float over it, always in the fixed dark treatment
+   (the overlay is scoped `theme-dark` in the markup; card glass keeps the
+   nav-pill token --color-nav-glass with a `theme-light` rescope per card).
+   The tone prop is inert on desktop now that no surround is painted; it stays
+   in the API for parity with the framed variant's callers. Cards round via a
+   local radius knob — the FluidHero/FluidCards family idiom — while the
+   global card radius stays SHARP. */
 
 .stage {
   /* Radius knob for the floating glass — mirrors the FluidCards family tier
      (--milk-radius = 0.75rem). Tune here. */
   --stage-radius: 0.75rem;
-  /* Framed stage: slim inset separating the video from the viewport edges,
-     painted by the section itself (padding, not margin) so the tone owns the
-     surround; plus the frame's own rounding — a larger tier than the cards. */
-  --stage-inset: var(--space-m);
-  --stage-frame-radius: 1rem;
-
-  padding: var(--stage-inset);
-  /* The ONE tone-driven surface. Section's border-box 100vh includes the
-     padding, so the framed hero is exactly one viewport. */
-  background-color: var(--color-bg-primary);
 }
 
-/* Section's hero variant pins the first child (the Media wrapper) to inset 0 —
-   the padding box. Pull it in by the frame inset and round it; the painted
-   padding shows as the surround. Compound (0,3,0) outranks the primitive's
-   `.hero > :first-child` (0,2,0); Media's own wrapper overflow clips the
-   video to the radius. */
-.stage.stage > :first-child {
-  inset: var(--stage-inset);
-  /* Media's wrapper sets width: 100% — combined with left+right insets the box
-     is over-constrained and CSS drops `right`, so the wrapper pokes past the
-     viewport edge (horizontal scroll, no right gutter). Auto lets the insets
-     size it. */
+/* Section's hero variant pins the first child (the backdrop div) to inset 0 —
+   already the full-bleed box we want. The desktop/mobile sides pin to it in
+   turn; only one is shown per breakpoint. */
+.mediaDesktop,
+.mediaMobile {
+  position: absolute;
+  inset: 0;
+}
+
+/* Media's wrapper sets width: 100% and fill mode sets aspect-ratio (16/9
+   default) — on an abspos box those over-constrain the insets (dropped
+   `right`, ratio-driven height poking below short viewports). Auto restores
+   pure inset-driven stretch inside the pinned sides. */
+.mediaDesktop > *,
+.mediaMobile > * {
+  position: absolute;
+  inset: 0;
   width: auto;
-  border-radius: var(--stage-frame-radius);
-  /* Media's fill mode sets aspect-ratio (16/9 default) — on an abspos box the
-     auto HEIGHT resolves from the ratio, not the bottom inset, so on any
-     viewport shorter than ~16:9 the wrapper pokes out below the section and
-     bleeds under the next component. Auto restores inset-driven stretch. */
   aspect-ratio: auto;
+}
+
+/* Mobile side only exists when content ships media.srcMobile — the desktop
+   side gets .hasMobile in that case so the swap is a pure CSS toggle. */
+.mediaMobile {
+  display: none;
 }
 
 /* Overlay = the Container primitive (Section lifts it to z-index 2). It holds
    the full-height positioning context for the corner regions and a bottom
    scrim that keeps the white headline legible over bright footage. */
 .overlay {
-  min-height: calc(100vh - 2 * var(--stage-inset));
+  min-height: 100vh;
 }
 
 .overlay::before {
@@ -59,9 +55,6 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* Rounded with the frame so the dark gradient never squares over the
-     light surround's corners. */
-  border-radius: var(--stage-frame-radius);
   background: linear-gradient(
     to top,
     color-mix(in srgb, var(--color-black) 55%, transparent),
@@ -141,19 +134,56 @@
   color: var(--color-text-secondary);
 }
 
-/* Bottom-right support card — the corner arrow floats so the copy wraps
-   around it (block, not flex, so the float takes). */
-.support {
+/* Bottom-right stat card — passive info card (no link), mirroring the
+   reference weather-card anatomy: dotted uppercase label, dominant figure,
+   caption, muted detail. Monochrome dot: the token system has no green
+   accent, and tokens aren't invented mid-build. */
+.stat {
   position: absolute;
   right: var(--gutter);
   bottom: clamp(var(--space-5xl), 9vw, var(--space-8xl));
-  display: block;
-  width: clamp(18rem, 26vw, 23rem);
+  gap: var(--space-xs);
+  width: clamp(15rem, 20vw, 17.5rem);
 }
 
-.support > .arrow {
-  float: right;
-  margin: 0 0 var(--space-xs) var(--space-m);
+.statLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-tagline);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.statDot {
+  width: 0.4rem;
+  height: 0.4rem;
+  flex: none;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+}
+
+.statValue {
+  /* h1 token scaled down — the scale has nothing between h2 (32) and h1 (78);
+     0.75 lands the figure near the reference card's ~58px. */
+  font-size: calc(var(--font-h1) * 0.75);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-display);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+}
+
+.statCaption {
+  font-size: var(--font-body);
+  line-height: var(--leading-body);
+  color: var(--color-text-primary);
+}
+
+.statDetail {
+  font-size: var(--font-body-sm);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
 }
 
 /* ---------- Headline stack (directly on the footage) ---------- */
@@ -256,9 +286,19 @@
 /* ---------- Mobile (system reference breakpoint) ----------
    The `hero` variant drops its 100vh below 768px, so the overlay keeps the
    full-screen stage and reflows the absolute corner regions into a single
-   stacked column: feature up top, headline + support pushed to the bottom. */
+   stacked column: feature up top, headline + stat pushed to the bottom. */
 
 @media (max-width: 768px) {
+  /* Swap to the mobile asset when one exists; otherwise the desktop side
+     stays on (no .hasMobile → never hidden). */
+  .hasMobile {
+    display: none;
+  }
+
+  .mediaMobile {
+    display: block;
+  }
+
   .overlay {
     display: flex;
     flex-direction: column;
@@ -269,14 +309,14 @@
 
   .feature,
   .lead,
-  .support {
+  .stat {
     position: static;
     inset: auto;
     width: auto;
     max-width: none;
   }
 
-  /* Absorbs the free space above so the headline + support sit at the bottom
+  /* Absorbs the free space above so the headline + stat sit at the bottom
      while the feature card stays up top. */
   .lead {
     margin-top: auto;

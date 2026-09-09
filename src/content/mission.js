@@ -21,7 +21,7 @@ export const hero = {
   mediaAspect: "56.25%",
   media: {
     type: "image",
-    src: "/exampleimages/portcontainers.png",
+    src: "/RelaiImages/portcontainers.png",
     alt: "Placeholder for the Relai mission background video, a port at dusk.",
   },
 };
@@ -61,8 +61,8 @@ export const stats = {
 // Component: ImageRow
 export const gallery = {
   images: [
-    { src: "/exampleimages/maybe.png", alt: "A container terminal at the waterfront." },
-    { src: "/exampleimages/example8.png", alt: "Stacked shipping containers in a port yard." },
+    { src: "/RelaiImages/maybe.png", alt: "A container terminal at the waterfront." },
+    { src: "/RelaiImages/example8.png", alt: "Stacked shipping containers in a port yard." },
     
   ],
 };

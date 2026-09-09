@@ -17,7 +17,7 @@ export const hero = {
   actions: [{ label: "Book a demo", href: "/book-a-demo", variant: "primary" }],
   media: {
     type: "image",
-    src: "/exampleimages/example4.png",
+    src: "/RelaiImages/example4.png",
     alt: "Relai platform architecture spanning vessel, terminal, yard, and road.",
   },
 };
@@ -75,7 +75,7 @@ export const deployFast = {
     "Relai handles the complexity, so your team doesn't have to. From terminal integrations to carrier APIs, every connection is configurable out of the box. No custom builds, no patchwork. One flexible platform that fits your network from day one.",
   ],
   media: {
-    src: "/exampleimages/designedtodeploy.jpg",
+    src: "/RelaiImages/designedtodeploy.jpg",
     alt: "Configurable integrations across terminal and carrier systems.",
   },
   aspectRatio: "4/3",
@@ -98,7 +98,7 @@ export const realtime = {
     "It fits into your existing stack, so you can finally stop working around your core systems.",
   ],
   media: {
-    src: "/exampleimages/realtimedesign.webp",
+    src: "/RelaiImages/realtimedesign.webp",
     alt: "Real-time network visibility ready for planning and reporting.",
   },
   aspectRatio: "4/3",

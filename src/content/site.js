@@ -67,7 +67,7 @@ export const footer = {
   card: {
     href: "/book-a-demo",
     image: {
-      src: "/exampleimages/footer.jpg",
+      src: "/RelaiImages/footer.jpg",
       alt: "A container terminal at the waterfront.",
     },
     eyebrow: "Get in touch",

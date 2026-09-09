@@ -13,7 +13,7 @@ export const hero = {
   ],
   media: {
     type: "video",
-    src: "/exampleimages/Relai.mp4",
+    src: "/RelaiImages/Relai.mp4",
     alt: "Placeholder for the Relai hero background video, a port terminal at dusk.",
   },
 };
@@ -43,7 +43,7 @@ export const customerStory = {
   tone: "inherit",
   reverse: true,
   media: {
-    src: "/exampleimages/footer.jpg",
+    src: "/RelaiImages/footer.jpg",
     alt: "APM Terminals' West Coast container terminal in operation.",
   },
 };
@@ -99,7 +99,7 @@ export const testimonials = {
   items: [
     {
       name: "Marcus Vance, VP of Terminal Operations, Pacific Gateway Lines",
-      image: "/exampleimages/testimonial.jpg",
+      image: "/RelaiImages/testimonial.jpg",
       alt: "Portrait of Marcus Vance, VP of Terminal Operations at Pacific Gateway Lines.",
       quote:
         "We'd spent years stitching together systems that were never meant to talk to each other. Relai is the first platform that treats the whole journey as one operation. We can see a vessel three days out and have the yard and drivers sequenced before it berths. The idle time we've cut goes straight to the bottom line and to our emissions targets.",
@@ -114,7 +114,7 @@ export const shortcuts = {
     "Relai is a venture-backed logistics-tech company, supported by leading climate-tech and supply-chain investors. Founded by terminal operators and engineers who watched global trade run on software older than the internet, Relai was built to be the coordination layer the modern supply chain never had.",
   cards: [
     {
-      image: "/exampleimages/missionhome.webp",
+      image: "/RelaiImages/missionhome.webp",
       alt: "A team reviewing operations together at a long table.",
       title: "About us",
       text:
@@ -122,7 +122,7 @@ export const shortcuts = {
       href: "/about",
     },
     {
-      image: "/exampleimages/abouthome.webp",
+      image: "/RelaiImages/abouthome.webp",
             alt: "An illustration of a connected global logistics network.",
       title: "Mission",
       text: "Moving the world's freight with less waste, less idle, and less carbon.",

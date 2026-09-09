@@ -14,7 +14,7 @@ export const fluidHero = {
   title: "Redefining Freight",
   support:
     "Relai is the first unified platform for port and freight logistics, connecting vessel, terminal, yard, and truck into a single, real-time system. Built for the modern supply chain, Relai turns the handoffs that slow freight down into one coordinated, intelligent flow.",
-  // Temporary neutral placeholder — restore /exampleimages/portcontainers.jpg
+  // Temporary neutral placeholder — restore /RelaiImages/portcontainers.jpg
   // (alt: "Stacked shipping containers at a port terminal") for the real image.
   media: {
     src: "/placeholders/fluid-hero.svg",

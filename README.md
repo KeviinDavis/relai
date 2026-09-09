@@ -56,6 +56,51 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-09-09 — Heros move to stills + `RelaiImages/` rename + hero iterations
+
+**What:** The home hero background switched from the night-harbor video to
+still images — `RelaiImages/RelaiDesktop.png` with a separate mobile crop
+(`RelaiMobile.png`) swapped in below 768px via a responsive media pair inside
+the hero's background slot (`media.srcMobile` in content). Video support is
+untouched — `media.type` still drives it, and the video block is kept
+commented in `content/stage-hero.js` for one-step restore. Alongside:
+`public/exampleimages/` was renamed to `public/RelaiImages/` (folder rename by
+hand), so all 22 `/exampleimages/` references across `src/content` and
+`VideoParallax` were repointed.
+
+**Hero iterations (same session):** stat figure now `+2.4M` and animated —
+the shared `CountUp` was extended to hold a non-numeric *prefix* static (it
+only supported suffixes, so "+2.4M" wouldn't tick); figure scaled to
+`calc(var(--font-h1) * 0.75)` (the type scale has nothing between 32 and
+78px); card narrowed to `clamp(15rem, 20vw, 17.5rem)` and row gap tightened
+to `--space-xs`; the Terminal Orchestration feature card is commented out
+(content/CSS/glyph kept for restore).
+
+**Flag:** both hero PNGs are ~3 MB and load eagerly regardless of viewport
+(both sides render; CSS only hides one) — worth compressing before a prod push.
+
+### 2026-09-09 — StageHero: full bleed + 2.4M stat card (desktop pass)
+
+**What:** The home hero dropped its framed treatment and now runs **full bleed** —
+the `--space-m` painted surround, the 1rem frame radius, and the inset media
+override are gone; Section's hero variant already pins the footage to `inset: 0`,
+so the frame CSS reduced to just the two standing fixes (`width: auto`,
+`aspect-ratio: auto`). The `tone` prop stays in the API but paints nothing now.
+The bottom-right support card (the "first unified platform…" paragraph link)
+was replaced with a **stat card** — `2.4M` containers — mirroring the MET
+(Montreal Airport) hero's weather card anatomy: dotted uppercase label, dominant
+figure (with the container glyph standing in for the rain icon), caption line,
+muted detail line. Same frosted `--color-nav-glass` treatment as the other
+cards (the reference's dark card background was explicitly not copied), and
+passive like the reference — no href/arrow.
+
+**Decisions:** the status dot is monochrome (`currentColor`) — the token system
+is mono with no green accent, and tokens aren't invented mid-build. Stat copy
+(`Containers / +2.4M / Moved across the network / Vessel, yard, and truck •
+Annually`) is a first-pass proposal. Mobile pass deferred to a follow-up; the
+≤768px selectors were renamed (`.support` → `.stat`) so the stacked layout
+doesn't break meanwhile.
+
 ### 2026-08-31 — StageHero: new footage, media-type flexibility, frame overflow fix
 
 **What:** The home hero (`StageHero`) got new background footage —
