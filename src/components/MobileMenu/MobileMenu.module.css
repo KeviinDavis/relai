@@ -25,16 +25,14 @@
 
 .menuBg {
   position: absolute;
-  top: var(--nav-height);
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: -1;
   background-color: var(--color-nav-glass);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   /* INITIAL = fully clipped from the bottom, so the panel unrolls downward
-     from the top (the nav) when it opens. */
+     from the very top of the viewport when it opens (the floating nav chips
+     stay visible above it — the Header z-lifts while the menu is open). */
   clip-path: inset(0% 0% 100% 0%);
   will-change: clip-path;
 }

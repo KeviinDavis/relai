@@ -82,7 +82,7 @@ export default function Header() {
       <header
         className={`${styles.header} ${light ? "theme-light" : "theme-dark"} ${
           scrolled ? styles.scrolled : ""
-        } ${hidden ? styles.hidden : ""}`}
+        } ${hidden ? styles.hidden : ""} ${menuOpen ? styles.aboveMenu : ""}`}
       >
         {/* Mobile/tablet: a full-width frosted glass bar (same treatment as the
             desktop pill) holding the wordmark; the hamburger nests over its
@@ -92,6 +92,7 @@ export default function Header() {
             href={nav.brand.href}
             className={`${styles.logo} theme-light`}
             aria-label={nav.brand.ariaLabel}
+            onClick={closeMenu}
           >
             <Logo height={22} />
           </Link>
@@ -138,9 +139,9 @@ export default function Header() {
         <MenuToggle open={menuOpen} onToggle={() => setMenuOpen((v) => !v)} />
       </div>
 
-      {/* No separate over-menu logo: the menu now unrolls BELOW the nav bar, so
-          the persistent mobile bar (with its own wordmark) stays visible as the
-          header over the open menu. */}
+      {/* No separate over-menu logo: the menu unrolls from the viewport top and
+          the header z-lifts while it's open (aboveMenu), so the floating logo
+          pill stays visible over the glass. */}
       <MobileMenu
         open={menuOpen}
         onClose={closeMenu}

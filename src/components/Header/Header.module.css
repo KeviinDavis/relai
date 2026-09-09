@@ -15,6 +15,13 @@
   transform: translateY(-100%);
 }
 
+/* While the mobile menu is open its panel covers the full viewport (modal
+   layer) — lift the header so the floating logo pill stays visible over the
+   glass, matching the toggle's own z-bump. */
+.header.aboveMenu {
+  z-index: calc(var(--z-modal) + 1);
+}
+
 .header a,
 .header button {
   pointer-events: auto;
@@ -29,26 +36,25 @@
   color: var(--color-text-primary);
 }
 
-/* Mobile/tablet frosted glass bar, full-bleed edge-to-edge across the top
-   (translucent white glass + blur, no radius) with the wordmark at the left
-   and the hamburger over the right. Hidden at >= 1024px where the centered
-   .navGroup pill takes over. Lives inside the fixed header so it leaves
-   upward with the smart-header on scroll-down. */
+/* Mobile/tablet logo pill — no full-width bar; the wordmark floats in its own
+   rounded glass chip at the top-left (the hamburger gets a matching glass
+   circle at the top-right, see .menuToggle). Hidden at >= 1024px where the
+   centered .navGroup pill takes over. Lives inside the fixed header so it
+   leaves upward with the smart-header on scroll-down. */
 .mobileBar {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--nav-height);
-  display: flex;
+  top: calc((var(--nav-height) - 2.5rem) / 2);
+  left: var(--gutter);
+  height: 2.5rem;
+  display: inline-flex;
   align-items: center;
-  padding: 0 var(--gutter);
+  padding: 0 var(--space-l);
   background-color: var(--color-nav-glass);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   color: var(--color-black);
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
-  border-radius: 0;
+  border-radius: var(--radius-full);
 }
 
 /* Frosted glass capsule — always horizontally centered on desktop, no movement
@@ -115,12 +121,18 @@
 
 /* Mobile menu toggle — the standalone hamburger, shown below 1024px. Pinned
    top-right above the MobileMenu's modal layer so it stays clickable while the
-   menu is open (the menu itself is the components/MobileMenu overlay). */
+   menu is open (the menu itself is the components/MobileMenu overlay). Wears
+   its own glass circle, the counterpart to the .mobileBar logo pill. */
 .menuToggle {
   position: fixed;
   top: calc((var(--nav-height) - 2.5rem) / 2);
-  right: var(--space-xl);
+  right: var(--gutter);
   z-index: calc(var(--z-modal) + 1);
+  background-color: var(--color-nav-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-full);
   transition: transform 0.7s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 

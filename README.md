@@ -56,6 +56,17 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-09-09 — Nav (mobile): glass bar → floating logo pill + hamburger circle
+
+**What:** The mobile/tablet nav dropped its full-bleed glass bar for the MET
+reference's floating-chip feel: the wordmark now sits in its own rounded
+`--color-nav-glass` pill at the top-left, and the standalone hamburger wears a
+matching glass circle at the top-right (`right` moved from `--space-xl` to
+`--gutter` to mirror the pill's inset). CSS-only — no markup or behavior
+change: smart-header hide, hamburger→X morph, the menu unrolling from the nav
+zone, and the toggle staying clickable over the open menu all carry over.
+Desktop (≥1024px) centered pill untouched.
+
 ### 2026-09-09 — Heros move to stills + `RelaiImages/` rename + hero iterations
 
 **What:** The home hero background switched from the night-harbor video to
