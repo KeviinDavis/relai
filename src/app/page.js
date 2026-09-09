@@ -36,7 +36,7 @@ export default function Home() {
       {/* Hero candidates — swap by moving the comments; exactly ONE mounts.
           Both board heroes share content/dashboard.js. */}
       {/* <FluidHero content={fluidHero} tone="inherit" /> */}
-      <StageHero content={stageHero} tone="light" />
+      <StageHero content={stageHero} board={dashboard} tone="light" />
       {/* <BoardHero content={boardHero} board={dashboard} /> */}
       {/* <ProductHero content={productHero} board={dashboard} /> */}
       {/* <CompositeHero content={compositeHero} board={dashboard} /> */}

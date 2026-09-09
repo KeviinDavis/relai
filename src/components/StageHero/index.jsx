@@ -20,6 +20,29 @@ function ArrowIcon({ className = "" }) {
   );
 }
 
+// One live-activity pill — same recipe as CompositeHero12's: a carrier mark
+// (or a red live dot on the breach), the mono id, a micro-cap substate, and a
+// right-aligned metric. Geometry (width / opacity / z) comes from the caller's
+// className. Local duplication is the hero-family idiom (see ArrowIcon).
+function Pill({ className = "", mark, flag = false, id, sub, metric, metricRed = false }) {
+  return (
+    <div className={`${styles.pill} ${className} ${flag ? styles.pillFlag : ""}`}>
+      {flag ? (
+        <span className={styles.redlive} aria-hidden="true" />
+      ) : (
+        <span className={styles.pillMark} aria-hidden="true">
+          {mark}
+        </span>
+      )}
+      <div className={styles.ptxt}>
+        <div className={styles.pid}>{id}</div>
+        <div className={styles.pst}>{sub}</div>
+      </div>
+      <span className={`${styles.prt} ${metricRed ? styles.prtRed : ""}`}>{metric}</span>
+    </div>
+  );
+}
+
 // Small shipping-container mark that leads the feature label.
 function FeatureMark() {
   return (
@@ -45,8 +68,15 @@ function FeatureMark() {
 // `theme-light` rescope). tone is kept for API parity but paints nothing
 // now that the frame inset is gone. Stays a Server Component — the only
 // client JS is the CountUp child ticking the stat figure.
-export default function StageHero({ content = {}, tone = "light" }) {
+export default function StageHero({ content = {}, board, tone = "light" }) {
   const { eyebrow, title, cta, media, feature, stat, scrollHint } = content;
+
+  // Notification pair — the same real board rows CompositeHero12 reflows
+  // (never re-authored): one routine feed row peeking behind the red breach.
+  // Optional: pages without a board prop simply skip the stack.
+  const notifBack = board?.feed.rows[0];
+  const notifFront =
+    board?.console.table.rows.find((r) => r.flag) ?? board?.console.table.rows[0];
   const themeClass =
     tone === "dark" ? "theme-dark" : tone === "inherit" ? "" : "theme-light";
 
@@ -96,6 +126,30 @@ export default function StageHero({ content = {}, tone = "light" }) {
             {feature.description && <p className={styles.cardBody}>{feature.description}</p>}
           </a>
         )} */}
+
+        {/* Notification stack — below the nav, top-left (MET reference
+            placement). Static data; the breach dot pulse is the only motion.
+            Mobile-size width kept on desktop too (deliberately NOT shortened
+            like the reference's desktop card). */}
+        {board && (
+          <div className={styles.notifications}>
+            <Pill
+              className={styles.pillBack}
+              mark={notifBack.mark}
+              id={notifBack.id}
+              sub={`${notifBack.state} · ${notifBack.loc}`}
+              metric={notifBack.age}
+            />
+            <Pill
+              className={styles.pillFront}
+              flag
+              id={notifFront.id}
+              sub={`Last free day · ${notifFront.loc}`}
+              metric={notifFront.dem}
+              metricRed
+            />
+          </div>
+        )}
 
         {/* Bottom-left headline stack — sits directly on the footage */}
         <div className={styles.lead}>

@@ -216,7 +216,7 @@
   font-size: var(--font-h1);
   line-height: var(--leading-h1);
   letter-spacing: var(--tracking-display);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-semibold);
   color: var(--color-text-primary);
 }
 
@@ -260,6 +260,147 @@
 .ctaArrow {
   width: 1.1rem;
   height: 1.1rem;
+}
+
+/* ---------- Notification pill stack ----------
+   The CompositeHero12 live-activity recipe, verbatim (its --v12-* values are
+   the REAL ops board's glass/red/mono, pinned locally so the pills read
+   exactly like the board over footage). Peek-fade pair: the routine row
+   faded behind the red breach. Positioned below the nav, top-left — the MET
+   reference placement — at the mobile width on every viewport. */
+
+.notifications {
+  --v12-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --v12-accent: #de4a3b; /* the board's single breach red */
+  --v12-glass-alpha: 0.82; /* .board.glass background alpha */
+  --v12-fg: #141414; /* glass-context foreground */
+  --v12-muted: #6b6b6b; /* glass-context muted (lifted from #737373) */
+  --v12-line: rgba(0, 0, 0, 0.09); /* --board-line */
+  --v12-inset: rgba(0, 0, 0, 0.045); /* --board-sunken */
+  --v12-edge: rgba(255, 255, 255, 0.55); /* the bright glass edge */
+
+  position: absolute;
+  top: calc(var(--nav-height) + var(--space-l));
+  left: var(--gutter);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: min(100% - 2 * var(--gutter), 24rem);
+}
+
+/* No backdrop-filter → raise the pill glass to near-opaque so the data never
+   renders see-through (mirrors the board's own fallback). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .notifications {
+    --v12-glass-alpha: 0.95;
+  }
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);
+  padding: 0.875rem 0.9375rem;
+  background-color: rgba(244, 244, 242, var(--v12-glass-alpha));
+  -webkit-backdrop-filter: blur(24px) saturate(1.05);
+  backdrop-filter: blur(24px) saturate(1.05);
+  border: 1px solid var(--v12-edge);
+  border-radius: 1rem;
+}
+
+/* Peek-fade geometry — the routine row narrower + faded behind the breach. */
+.pillBack {
+  width: 93%;
+  margin: 0 auto -0.5rem;
+  opacity: 0.72;
+  transform: scale(0.99);
+}
+
+.pillFront {
+  position: relative;
+  z-index: 2;
+}
+
+/* The single accent: 3px inset red left-edge on the breach. */
+.pillFlag {
+  box-shadow: inset 3px 0 0 var(--v12-accent);
+}
+
+/* Carrier mark chip (mono 3-char code). */
+.pillMark {
+  width: 1.875rem;
+  height: 1.875rem;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--v12-line);
+  border-radius: 0.375rem;
+  background-color: var(--v12-inset);
+  font-family: var(--v12-mono);
+  font-size: 0.5625rem;
+  color: var(--v12-muted);
+}
+
+/* Red live dot on the breach — pulses (real board's live-dot cue). */
+.redlive {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 50%;
+  background-color: var(--v12-accent);
+  animation: stagePulse 2.2s ease-out infinite;
+}
+
+.ptxt {
+  flex: 1;
+  min-width: 0;
+}
+
+.pid {
+  font-family: var(--v12-mono);
+  font-size: 0.8125rem;
+  color: var(--v12-fg);
+}
+
+.pst {
+  margin-top: 0.1875rem;
+  font-size: 0.5625rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--v12-muted);
+}
+
+/* Right-aligned metric — age or amount. */
+.prt {
+  font-size: 0.75rem;
+  color: var(--v12-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.prtRed {
+  color: var(--v12-accent);
+  font-weight: var(--weight-semibold);
+  font-family: var(--v12-mono);
+}
+
+/* Breach dot pulse — the real glassLivePulse ring, in the breach red. The ONLY
+   looping motion on the stack (the pills themselves do not animate). */
+@keyframes stagePulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--v12-accent) 45%, transparent);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.4375rem transparent;
+  }
+}
+
+/* Motion gating — kill the dot pulse. */
+@media (prefers-reduced-motion: reduce) {
+  .redlive {
+    animation: none;
+  }
 }
 
 /* ---------- Shared arrow glyph + right-edge scroll hint ---------- */
@@ -309,17 +450,31 @@
 
   .feature,
   .lead,
-  .stat {
+  .notifications {
     position: static;
     inset: auto;
     width: auto;
     max-width: none;
   }
 
+  /* Desktop-only: the stat card comes off on mobile — the notifications
+     carry the hero's data story there. */
+  .stat {
+    display: none;
+  }
+
   /* Absorbs the free space above so the headline + stat sit at the bottom
      while the feature card stays up top. */
   .lead {
     margin-top: auto;
+  }
+
+  /* The fluid h1 bottoms out too small on phones for a hero this cinematic —
+     scale the token up (same local-knob idiom as the stat figure). min-content
+     stacks the headline one word per line ("Redefining" / "Freight"). */
+  .title {
+    font-size: calc(var(--font-h1) * 1.3);
+    max-width: min-content;
   }
 
   .scrollHint {

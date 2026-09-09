@@ -56,6 +56,21 @@ Each component is a PascalCase folder with `index.jsx` (importable as
 
 _Newest first._
 
+### 2026-09-09 — StageHero: notification pill pair (MET reference placement)
+
+**What:** The live hero gained a two-pill notification stack below the nav,
+top-left — the MET reference's notification spot. Reuses CompositeHero12's
+live-activity pill recipe verbatim (glass row: carrier-mark chip / mono ID /
+uppercase substate / right metric; `--v12-*` locals pinned to the real ops
+board's glass/red/mono values) and the same real board rows from
+`content/dashboard.js`, passed as an optional `board` prop from page.js:
+MSCU 774918-5 (Discharged · Pier T · 4m) peek-faded behind the red breach
+TCLU 209844-1 (Last free day · $1,260, pulsing dot). Static data — the dot
+pulse is the only motion. Width is the mobile size (min(100% − gutters,
+24rem)) on every viewport — deliberately NOT shortened like the reference's
+desktop card, per request. Pill markup is duplicated locally in StageHero,
+the established hero-family idiom (ArrowIcon precedent).
+
 ### 2026-09-09 — Nav (mobile): glass bar → floating logo pill + hamburger circle
 
 **What:** The mobile/tablet nav dropped its full-bleed glass bar for the MET
